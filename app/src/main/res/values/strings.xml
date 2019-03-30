@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Is It Garbage Day?</string>
+    <string name="action_settings">Settings</string>
+    <string name="label_municipality">Municipality</string>
+    <string name="label_day_of_week">Day of week</string>
+    <string name="label_garbage_week">Garbage week</string>
+    <string name="label_recycling_week">Recycling week</string>
+    <string name="label_notifications">Notifications</string>
+    <string name="label_dates">Upcoming dates</string>
+</resources>
