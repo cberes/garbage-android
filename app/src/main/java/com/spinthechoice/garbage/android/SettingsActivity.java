@@ -29,7 +29,6 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class SettingsActivity extends AppCompatActivity {
-    private final GarbagePresetService presetService = new GarbagePresetService();
     private final PreferencesService prefsService = new PreferencesService();
     private final AtomicReference<GarbageOption> optionRef = new AtomicReference<>();
 
@@ -42,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // TODO set initial values
+        final GarbagePresetService presetService = new GarbagePresetService(this, R.raw.data);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
         final GarbageOption initialOption = presetService.findPresetById(prefs.getOptionId())
                 .orElseGet(presetService::getDefaultPreset);

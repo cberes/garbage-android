@@ -30,7 +30,6 @@ import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity {
     private final GarbageScheduleService scheduleService = new GarbageScheduleService();
-    private final GarbagePresetService presetService = new GarbagePresetService();
     private final PreferencesService prefsService = new PreferencesService();
 
     @Override
@@ -40,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final GarbagePreferences prefs = getPreferences();
+        final GarbagePresetService presetService = new GarbagePresetService(this, R.raw.data);
+        final GarbagePreferences prefs = getPreferences(presetService);
         final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
                 prefs.getDayOfWeek(), prefs.getGarbageWeek(), prefs.getRecyclingWeek());
         final GarbageOption option = presetService.findPresetById(prefs.getOptionId())
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private GarbagePreferences getPreferences() {
+    private GarbagePreferences getPreferences(final GarbagePresetService presetService) {
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
 
         if (prefs.getOptionId() == null) {

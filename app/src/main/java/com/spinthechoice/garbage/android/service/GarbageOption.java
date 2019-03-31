@@ -1,8 +1,12 @@
 package com.spinthechoice.garbage.android.service;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
+import com.spinthechoice.garbage.android.util.Jsonable;
 
-public class GarbageOption {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class GarbageOption implements Jsonable {
     public static class Builder {
         private String id;
         private String name;
@@ -48,6 +52,24 @@ public class GarbageOption {
 
     public GlobalGarbageConfiguration getConfiguration() {
         return configuration;
+    }
+
+    @Override
+    public JSONObject toJson() throws JSONException {
+        final JSONObject json = new JSONObject();
+        json.putOpt("id", id);
+        json.putOpt("name", name);
+        json.putOpt("configuration", GlobalGarbageConfigurationSerializer.toJson(configuration));
+        return json;
+    }
+
+    static GarbageOption fromJson(final JSONObject json) {
+        final Builder builder = builder();
+        builder.setId(json.optString("id", null));
+        builder.setName(json.optString("name", null));
+        builder.setConfiguration(GlobalGarbageConfigurationSerializer.fromJson(
+                json.optJSONObject("configuration")));
+        return builder.build();
     }
 
     public static Builder builder() {

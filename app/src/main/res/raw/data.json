@@ -1,0 +1,91 @@
+{
+  "default": "2b449a5d-244e-4a0c-bd82-562ad5340db1",
+  "presets": [
+    {
+      "id": "661a7325-e301-4c5e-8baa-ec37c17441df",
+      "name": "Amherst",
+      "configuration": {
+        "start": "2018-12-30",
+        "reset": "SUNDAY",
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "2b449a5d-244e-4a0c-bd82-562ad5340db1",
+      "name": "Buffalo",
+      "configuration": {
+        "start": "2018-12-30",
+        "reset": "SUNDAY",
+        "holidays": [
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "018fff06-5181-4421-802d-c0063f16e799",
+      "name": "Cheektowaga",
+      "configuration": {
+        "start": "2018-04-08",
+        "reset": "SUNDAY",
+        "recyclingWeeks": [
+          "A",
+          "B"
+        ],
+        "leapDays": [
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "1fe69b89-3523-4ab5-9ab5-5447e8566dfe",
+      "name": "Orchard Park",
+      "configuration": {
+        "start": "2018-12-30",
+        "reset": "SUNDAY",
+        "recyclingWeeks": [
+          "White",
+          "Shaded"
+        ],
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "1eea6061-63f4-462b-bf97-70e84141f405",
+      "name": "West Seneca",
+      "configuration": {
+        "start": "2019-05-01",
+        "reset": "SUNDAY",
+        "recyclingWeeks": [
+          "A",
+          "B"
+        ],
+        "leapDays": [
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    }
+  ]
+}
