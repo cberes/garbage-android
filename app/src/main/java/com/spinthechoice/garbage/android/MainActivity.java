@@ -3,7 +3,6 @@ package com.spinthechoice.garbage.android;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,44 +14,44 @@ import android.widget.TextView;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
-import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.UserGarbageConfiguration;
+import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
+import com.spinthechoice.garbage.android.service.GarbageOption;
+import com.spinthechoice.garbage.android.service.GarbagePresetService;
+import com.spinthechoice.garbage.android.service.GarbageScheduleService;
+import com.spinthechoice.garbage.android.service.PreferencesService;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity {
+    private final GarbageScheduleService scheduleService = new GarbageScheduleService();
+    private final GarbagePresetService presetService = new GarbagePresetService();
+    private final PreferencesService prefsService = new PreferencesService();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final GarbageConfiguration config = new GarbageConfiguration();
-        config.setOptionId(GarbagePresets.westSeneca().getId());
-        config.setDayOfWeek(DayOfWeek.THURSDAY);
-        config.setRecyclingWeek("A");
-        config.setNotificationEnabled(false);
+        final GarbagePreferences prefs = getPreferences();
         final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
-                config.getDayOfWeek(), config.getGarbageWeek(), config.getRecyclingWeek());
-        final GarbageOption option = GarbagePresets.allPresets().stream()
-                .filter(preset -> preset.getId().equals(config.getOptionId()))
-                .findAny()
-                .orElseGet(GarbagePresets::buffalo);
-        final Garbage garbage = new Garbage(option.getConfiguration(), userConfig);
-        final List<GarbageDay> garbageDays = getGarbageDays(garbage, LocalDate.now(), 15);
+                prefs.getDayOfWeek(), prefs.getGarbageWeek(), prefs.getRecyclingWeek());
+        final GarbageOption option = presetService.findPresetById(prefs.getOptionId())
+                .orElseGet(presetService::getDefaultPreset);
+        final Garbage garbage = scheduleService.createGarbage(option.getConfiguration(), userConfig);
+        final List<GarbageDay> garbageDays = scheduleService.getGarbageDays(garbage, LocalDate.now(), 15);
 
         final TextView header = findViewById(R.id.text_header);
         final String format = getResources().getString(R.string.label_dates);
         final Locale locale = getResources().getConfiguration().getLocales().get(0);
-        final String formatted = String.format(format, config.getDayOfWeek().getDisplayName(TextStyle.FULL, locale), option.getName());
+        final String formatted = String.format(format, prefs.getDayOfWeek().getDisplayName(TextStyle.FULL, locale), option.getName());
         header.setText(formatted);
 
         final RecyclerView dates = findViewById(R.id.list_dates);
@@ -69,12 +68,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private List<GarbageDay> getGarbageDays(final Garbage garbage, final LocalDate start, final int count) {
-        return Stream.iterate(start, date -> date.plusDays(1))
-                .map(garbage::compute)
-                .filter(day -> day.isGarbageDay() || day.isRecyclingDay())
-                .limit(count)
-                .collect(toList());
+    private GarbagePreferences getPreferences() {
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
+
+        if (prefs.getOptionId() == null) {
+            final GarbagePreferences defaultPrefs = prefsService.createDefaultPreferences(presetService.getDefaultPreset());
+            prefsService.writeGarbagePreferences(this, defaultPrefs);
+            return defaultPrefs;
+        } else {
+            return prefs;
+        }
     }
 
     private RecyclerView.Adapter datesAdapter(final List<GarbageDay> days) {

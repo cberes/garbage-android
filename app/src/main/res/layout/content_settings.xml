@@ -25,55 +25,59 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
+            android:text="@string/label_municipality"
             tools:text="@string/label_municipality" />
 
         <Spinner
             android:id="@+id/spinner_municipality"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
+            android:text="@string/label_day_of_week"
             tools:text="@string/label_day_of_week" />
 
         <Spinner
             android:id="@+id/spinner_day_of_week"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
+            android:text="@string/label_garbage_week"
             tools:text="@string/label_garbage_week" />
 
         <Spinner
             android:id="@+id/spinner_garbage_week"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
+            android:text="@string/label_recycling_week"
             tools:text="@string/label_recycling_week" />
 
         <Spinner
             android:id="@+id/spinner_recycling_week"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog" />
 
         <Switch
             android:id="@+id/switch_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/primary_text_light"
+            android:text="@string/label_notifications"
             tools:text="@string/label_notifications" />
     </LinearLayout>
 

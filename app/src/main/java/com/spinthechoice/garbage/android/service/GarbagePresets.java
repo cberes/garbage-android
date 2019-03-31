@@ -1,14 +1,11 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.service;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.List;
 
-import static java.util.Arrays.asList;
-
-public final class GarbagePresets {
+final class GarbagePresets {
     private GarbagePresets() {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
@@ -26,7 +23,7 @@ public final class GarbagePresets {
     static GlobalGarbageConfiguration amherstConfig() {
         return GlobalGarbageConfiguration.builder()
                 .setResetDay(DayOfWeek.SUNDAY)
-                .setStart(LocalDate.MIN)
+                .setStart(LocalDate.parse("2018-12-30"))
                 .setLeapDays(
                         LocalDate.parse("2019-01-01"),
                         LocalDate.parse("2019-05-27"),
@@ -49,7 +46,7 @@ public final class GarbagePresets {
     static GlobalGarbageConfiguration buffaloConfig() {
         return GlobalGarbageConfiguration.builder()
                 .setResetDay(DayOfWeek.SUNDAY)
-                .setStart(LocalDate.MIN)
+                .setStart(LocalDate.parse("2018-12-30"))
                 .setHolidays(LocalDate.parse("2019-12-25"), LocalDate.parse("2020-01-01"))
                 .build();
     }
@@ -116,9 +113,5 @@ public final class GarbagePresets {
                         LocalDate.parse("2019-12-25"),
                         LocalDate.parse("2020-01-01"))
                 .build();
-    }
-
-    public static List<GarbageOption> allPresets() {
-        return asList(amherst(), buffalo(), cheektowaga(), orchardPark(), westSeneca());
     }
 }

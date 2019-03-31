@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.service;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 

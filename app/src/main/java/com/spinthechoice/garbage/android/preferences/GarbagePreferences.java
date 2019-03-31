@@ -1,13 +1,12 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.preferences;
 
 import java.time.DayOfWeek;
 
-public class GarbageConfiguration {
+public class GarbagePreferences {
     private String optionId;
     private DayOfWeek dayOfWeek;
     private String garbageWeek;
     private String recyclingWeek;
-    private boolean notificationEnabled;
 
     public String getOptionId() {
         return optionId;
@@ -39,13 +38,5 @@ public class GarbageConfiguration {
 
     public void setRecyclingWeek(final String recyclingWeek) {
         this.recyclingWeek = recyclingWeek;
-    }
-
-    public boolean isNotificationEnabled() {
-        return notificationEnabled;
-    }
-
-    public void setNotificationEnabled(final boolean notificationEnabled) {
-        this.notificationEnabled = notificationEnabled;
     }
 }
