@@ -25,6 +25,7 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="@string/label_municipality"
             tools:text="@string/label_municipality" />
 
@@ -34,10 +35,18 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorPrimary"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="@string/label_day_of_week"
             tools:text="@string/label_day_of_week" />
 
@@ -47,10 +56,18 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorPrimary"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="@string/label_garbage_week"
             tools:text="@string/label_garbage_week" />
 
@@ -60,10 +77,18 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorPrimary"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
         <TextView
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="@string/label_recycling_week"
             tools:text="@string/label_recycling_week" />
 
@@ -72,6 +97,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?attr/colorPrimary"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
         <Switch
             android:id="@+id/switch_notifications"
