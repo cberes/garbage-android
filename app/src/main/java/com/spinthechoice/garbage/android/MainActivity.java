@@ -49,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
         final List<GarbageDay> garbageDays = scheduleService.getGarbageDays(garbage, LocalDate.now(), 15);
 
         final TextView header = findViewById(R.id.text_header);
-        final String format = getResources().getString(R.string.label_dates);
         final Locale locale = getResources().getConfiguration().getLocales().get(0);
-        final String formatted = String.format(format, prefs.getDayOfWeek().getDisplayName(TextStyle.FULL, locale), option.getName());
+        final String formatted = getString(R.string.label_dates, prefs.getDayOfWeek().getDisplayName(TextStyle.FULL, locale), option.getName());
         header.setText(formatted);
 
         final RecyclerView dates = findViewById(R.id.list_dates);
@@ -66,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 launchSettings();
             }
         });
+
+        GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
     }
 
     private GarbagePreferences getPreferences(final GarbagePresetService presetService) {

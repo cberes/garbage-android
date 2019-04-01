@@ -72,7 +72,7 @@ public class PreferencesService {
         final SharedPreferences sharedPref = getNotificationPreferences(context);
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("enabled", prefs.isNotificationEnabled());
-        editor.putInt("offset", (int) TimeUnit.HOURS.toSeconds(5));
+        editor.putInt("offset", (int) TimeUnit.HOURS.toSeconds(-5));
         editor.apply();
     }
 }

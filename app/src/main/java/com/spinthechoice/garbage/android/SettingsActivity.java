@@ -131,6 +131,9 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(final CompoundButton buttonView, final boolean checked) {
                 updateNotificationPreferences(prefs -> prefs.setNotificationEnabled(checked));
+                if (checked) {
+                    GarbageNotifier.startNotificationAlarmRepeating(buttonView.getContext());
+                }
             }
         });
     }
