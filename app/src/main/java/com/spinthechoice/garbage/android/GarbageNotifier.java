@@ -54,10 +54,7 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     static void startNotificationAlarmRepeatingIfEnabled(final Context context) {
         if (isNotificationEnabled(context)) {
-            final AlarmManager alarms = context.getSystemService(AlarmManager.class);
-            final Intent intent = new Intent(context, GarbageNotifier.class);
-            final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-            alarms.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), TimeUnit.DAYS.toMillis(1), pendingIntent);
+            startNotificationAlarmRepeating(context);
         }
     }
 
