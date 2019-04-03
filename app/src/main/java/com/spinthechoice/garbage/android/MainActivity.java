@@ -20,6 +20,7 @@ import com.spinthechoice.garbage.android.service.GarbageOption;
 import com.spinthechoice.garbage.android.service.GarbagePresetService;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.PreferencesService;
+import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -82,9 +83,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private RecyclerView.Adapter datesAdapter(final List<GarbageDay> days) {
-        return new SimpleListAdapter(days.stream()
-                .map(day -> day.getDate() + ": " + (day.isGarbageDay() ? "G " : "") + (day.isRecyclingDay() ? "R" : ""))
+        return new TwoLineListAdapter(days.stream()
+                .map(this::formatPickupDay)
                 .collect(toList()));
+    }
+
+    private String[] formatPickupDay(final GarbageDay day) {
+        return new String[] {TextUtils.formatDateMedium(this, day.getDate()), formatPickupItem(day)};
+    }
+
+    private String formatPickupItem(final GarbageDay day) {
+        final String garbage = getString(R.string.notification_item_garbage);
+        final String recycling = getString(R.string.notification_item_recycling);
+
+        if (day.isGarbageDay() && day.isRecyclingDay()) {
+            return TextUtils.capitalize(this, garbage) + ", " + recycling;
+        } else if (day.isGarbageDay()) {
+            return TextUtils.capitalize(this, garbage);
+        } else {
+            return TextUtils.capitalize(this, recycling);
+        }
     }
 
     private void launchSettings() {

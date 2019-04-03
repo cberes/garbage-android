@@ -10,24 +10,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.UserGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
+import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
 import com.spinthechoice.garbage.android.service.GarbageOption;
 import com.spinthechoice.garbage.android.service.GarbagePresetService;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.PreferencesService;
+import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
@@ -91,15 +89,15 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     private void handleGarbageCheckIntent(final Context context, final boolean sendRequested,
                                           final Garbage garbage) {
+        final NotificationPreferences prefs = new PreferencesService().readNotificationPreferences(context);
         Stream.iterate(LocalDate.now(), date -> date.plusDays(1))
                 .limit(3)
                 .map(garbage::compute)
                 .filter(day -> day.isGarbageDay() || day.isRecyclingDay())
+                .filter(day -> getNotificationId(day) != prefs.getLastNotificationId())
                 .forEachOrdered(day -> {
-                    final int offset = getNotificationOffset(context);
-                    final LocalDateTime notificationTime = day.getDate().atStartOfDay().plusSeconds(offset);
+                    final LocalDateTime notificationTime = getNotificationTime(day, prefs);
 
-                    // TODO make sure notifications aren't sent after the notification was already dismissed
                     // TODO remember that interval can be inexact
                     if (sendRequested || isWithinSendThreshold(notificationTime)) {
                         sendNotification(context, day);
@@ -115,8 +113,8 @@ public class GarbageNotifier extends BroadcastReceiver {
         return scheduleService.createGarbage(option.getConfiguration(), userConfig);
     }
 
-    private static int getNotificationOffset(final Context context) {
-        return new PreferencesService().readNotificationPreferences(context).getOffset();
+    private static LocalDateTime getNotificationTime(final GarbageDay day, final NotificationPreferences prefs) {
+        return day.getDate().atStartOfDay().plusSeconds(prefs.getOffset());
     }
 
     private static boolean isWithinSendThreshold(final LocalDateTime time) {
@@ -142,7 +140,7 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     private void createNotification(final Context context, final GarbageDay garbageDay) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.status_bar)
                 .setContentTitle(getNotificationTitle(context, garbageDay))
                 .setContentText(getNotificationBody(context, garbageDay))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -165,24 +163,13 @@ public class GarbageNotifier extends BroadcastReceiver {
     private static String getNotificationBody(final Context context, final GarbageDay day) {
         final String garbage = context.getString(R.string.notification_item_garbage);
         final String recycling = context.getString(R.string.notification_item_recycling);
-        final String date = formatDate(context, day.getDate());
+        final String date = TextUtils.formatDate(context, day.getDate());
 
         if (day.isGarbageDay() && day.isRecyclingDay()) {
-            return context.getString(R.string.notification_body_both, capitalize(context, garbage), recycling, date);
+            return context.getString(R.string.notification_body_both, TextUtils.capitalize(context, garbage), recycling, date);
         } else {
-            return context.getString(R.string.notification_body, capitalize(context, day.isGarbageDay() ? garbage : recycling), date);
+            return context.getString(R.string.notification_body, TextUtils.capitalize(context, day.isGarbageDay() ? garbage : recycling), date);
         }
-    }
-
-    private static String formatDate(final Context context, final LocalDate date) {
-        final java.text.DateFormat format = DateFormat.getDateFormat(context);
-        final Date legacyDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        return format.format(legacyDate);
-    }
-
-    private static String capitalize(final Context context, final String s) {
-        final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
-        return s.substring(0, 1).toUpperCase(locale) + s.substring(1);
     }
 
     private static int getNotificationId(final GarbageDay day) {
