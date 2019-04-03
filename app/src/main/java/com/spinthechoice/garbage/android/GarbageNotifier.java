@@ -119,7 +119,7 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     private static boolean isWithinSendThreshold(final LocalDateTime time) {
         final LocalDateTime now = LocalDateTime.now();
-        return time.isAfter(now.minusHours(2L)) && now.isBefore(now.plusHours(2L));
+        return time.isAfter(now.minusHours(2L)) && time.isBefore(now.plusHours(2L));
     }
 
     private void sendNotification(final Context context, final GarbageDay garbageDay) {
