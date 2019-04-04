@@ -1,5 +1,9 @@
 package com.spinthechoice.garbage.android.preferences;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class NotificationPreferences {
     private boolean notificationEnabled;
     private int offset;
@@ -19,6 +23,14 @@ public class NotificationPreferences {
 
     public void setOffset(final int offset) {
         this.offset = offset;
+    }
+
+    public LocalDateTime getNotificationDateTime() {
+        return LocalDate.now().atStartOfDay().plusSeconds(offset);
+    }
+
+    public LocalTime getNotificationTime() {
+        return getNotificationDateTime().toLocalTime();
     }
 
     public int getLastNotificationId() {

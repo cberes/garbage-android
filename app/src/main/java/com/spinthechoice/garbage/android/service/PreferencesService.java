@@ -60,7 +60,7 @@ public class PreferencesService {
         final NotificationPreferences prefs = new NotificationPreferences();
         final SharedPreferences sharedPref = getNotificationPreferences(context);
         prefs.setNotificationEnabled(sharedPref.getBoolean("enabled", false));
-        prefs.setOffset(sharedPref.getInt("offset", 0));
+        prefs.setOffset(sharedPref.getInt("offset", (int) TimeUnit.HOURS.toSeconds(-5)));
         prefs.setLastNotificationId(sharedPref.getInt("notificationId", 0));
         return prefs;
     }
@@ -73,7 +73,7 @@ public class PreferencesService {
         final SharedPreferences sharedPref = getNotificationPreferences(context);
         final SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("enabled", prefs.isNotificationEnabled());
-        editor.putInt("offset", (int) TimeUnit.HOURS.toSeconds(-5));
+        editor.putInt("offset", prefs.getOffset());
         editor.putInt("notificationId", prefs.getLastNotificationId());
         editor.apply();
     }

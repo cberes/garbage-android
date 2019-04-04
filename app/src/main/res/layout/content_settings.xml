@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:labelFor="@id/spinner_municipality"
                 android:text="@string/label_municipality"
                 tools:text="@string/label_municipality" />
 
@@ -46,6 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:labelFor="@id/spinner_day_of_week"
                 android:text="@string/label_day_of_week"
                 tools:text="@string/label_day_of_week" />
 
@@ -66,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:labelFor="@id/spinner_garbage_week"
                 android:text="@string/label_garbage_week"
                 tools:text="@string/label_garbage_week" />
 
@@ -94,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:labelFor="@id/spinner_recycling_week"
                 android:text="@string/label_recycling_week"
                 tools:text="@string/label_recycling_week" />
 
@@ -124,6 +128,50 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_notifications"
                 tools:text="@string/label_notifications" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_notify_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:labelFor="@id/time_notification"
+                    android:text="@string/label_notify_time"
+                    tools:text="@string/label_notify_time" />
+
+                <EditText
+                    android:id="@+id/time_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autofillHints="false"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="end"
+                    android:inputType="none" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spinner_notify_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog" />
 
         </LinearLayout>
 

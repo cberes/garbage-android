@@ -7,6 +7,9 @@
     <string name="label_garbage_week">Garbage week</string>
     <string name="label_recycling_week">Recycling week</string>
     <string name="label_notifications">Notifications</string>
+    <string name="label_notify_time">Notify me at</string>
+    <string name="notify_option_day_of">Day of pick-up</string>
+    <string name="notify_option_day_prior">Day before pick-up</string>
     <string name="label_dates">%s pick-up in %s</string>
     <string name="channel_name">Garbage reminders</string>
     <string name="channel_description">Reminders about garbage &amp; recycling pick-up</string>
