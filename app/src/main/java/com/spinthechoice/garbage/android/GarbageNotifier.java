@@ -56,6 +56,10 @@ public class GarbageNotifier extends BroadcastReceiver {
         }
     }
 
+    private static boolean isNotificationEnabled(final Context context) {
+        return new PreferencesService().readNotificationPreferences(context).isNotificationEnabled();
+    }
+
     static void startNotificationAlarmRepeating(final Context context) {
         final AlarmManager alarms = context.getSystemService(AlarmManager.class);
         final Intent intent = new Intent(context, GarbageNotifier.class);
@@ -72,10 +76,6 @@ public class GarbageNotifier extends BroadcastReceiver {
         alarms.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delayMillis, pendingIntent);
     }
 
-    private static boolean isNotificationEnabled(final Context context) {
-        return new PreferencesService().readNotificationPreferences(context).isNotificationEnabled();
-    }
-
     private void handleGarbageCheckIntent(final Context context, final Intent intent) {
         final GarbagePresetService presetService = new GarbagePresetService(context, R.raw.data);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
@@ -89,7 +89,7 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     private void handleGarbageCheckIntent(final Context context, final boolean sendRequested,
                                           final Garbage garbage) {
-        final NotificationPreferences prefs = new PreferencesService().readNotificationPreferences(context);
+        final NotificationPreferences prefs = prefsService.readNotificationPreferences(context);
         Stream.iterate(LocalDate.now(), date -> date.plusDays(1))
                 .limit(3)
                 .map(garbage::compute)
@@ -119,13 +119,14 @@ public class GarbageNotifier extends BroadcastReceiver {
 
     private static boolean isWithinSendThreshold(final LocalDateTime time) {
         final LocalDateTime now = LocalDateTime.now();
-        return time.isAfter(now.minusHours(2L)) && time.isBefore(now.plusHours(2L));
+        return time.isAfter(now.minusHours(2L)) && time.isBefore(now.plusHours(1L));
     }
 
     private void sendNotification(final Context context, final GarbageDay garbageDay) {
         final NotificationManager notifications = context.getSystemService(NotificationManager.class);
         createNotificationChannel(context, notifications);
-        createNotification(context, garbageDay);
+        final int id = createNotification(context, garbageDay);
+        saveNotificationId(context, id);
     }
 
     private void createNotificationChannel(final Context context, final NotificationManager notifications) {
@@ -138,15 +139,17 @@ public class GarbageNotifier extends BroadcastReceiver {
         }
     }
 
-    private void createNotification(final Context context, final GarbageDay garbageDay) {
+    private int createNotification(final Context context, final GarbageDay garbageDay) {
         final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.status_bar)
                 .setContentTitle(getNotificationTitle(context, garbageDay))
                 .setContentText(getNotificationBody(context, garbageDay))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        notificationManager.notify(getNotificationId(garbageDay), builder.build());
+        final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        final int notificationId = getNotificationId(garbageDay);
+        notificationManager.notify(notificationId, builder.build());
+        return notificationId;
     }
 
     private static String getNotificationTitle(final Context context, final GarbageDay day) {
@@ -175,5 +178,11 @@ public class GarbageNotifier extends BroadcastReceiver {
     private static int getNotificationId(final GarbageDay day) {
         final LocalDate date = day.getDate();
         return date.getYear() * (int) 10e4 + date.getMonthValue() * (int) 10e2 + date.getDayOfMonth();
+    }
+
+    private void saveNotificationId(final Context context, final int id) {
+        final NotificationPreferences preferences = prefsService.readNotificationPreferences(context);
+        preferences.setLastNotificationId(id);
+        prefsService.writeNotificationPreferences(context, preferences);
     }
 }

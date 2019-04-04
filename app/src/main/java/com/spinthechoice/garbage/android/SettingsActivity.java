@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
@@ -63,8 +64,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        final TextView garbageWeeklyText = findViewById(R.id.text_garbage_weekly);
         final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
-        updateWeekOptions(garbageWeek, initialConfig.getGarbageWeeks(), prefs.getGarbageWeek());
+        updateWeekOptions(garbageWeek, garbageWeeklyText,
+                initialConfig.getGarbageWeeks(), prefs.getGarbageWeek());
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -78,8 +81,10 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        final TextView recyclingWeeklyText = findViewById(R.id.text_recycling_weekly);
         final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
-        updateWeekOptions(recyclingWeek, initialConfig.getRecyclingWeeks(), prefs.getRecyclingWeek());
+        updateWeekOptions(recyclingWeek, recyclingWeeklyText,
+                initialConfig.getRecyclingWeeks(), prefs.getRecyclingWeek());
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -113,10 +118,12 @@ public class SettingsActivity extends AppCompatActivity {
 
                 final GlobalGarbageConfiguration config = preset.getConfiguration();
                 garbageWeek.setSelected(false);
-                updateWeekOptions(garbageWeek, config.getGarbageWeeks(), defaults.getGarbageWeek());
+                updateWeekOptions(garbageWeek, garbageWeeklyText,
+                        config.getGarbageWeeks(), defaults.getGarbageWeek());
 
                 recyclingWeek.setSelected(false);
-                updateWeekOptions(recyclingWeek, config.getRecyclingWeeks(), defaults.getRecyclingWeek());
+                updateWeekOptions(recyclingWeek, recyclingWeeklyText,
+                        config.getRecyclingWeeks(), defaults.getRecyclingWeek());
             }
 
             @Override
@@ -172,8 +179,11 @@ public class SettingsActivity extends AppCompatActivity {
         prefsService.writeNotificationPreferences(this, prefs);
     }
 
-    private void updateWeekOptions(final Spinner spinner, final List<String> nullableItems, final String selected) {
+    private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
+                                   final List<String> nullableItems, final String selected) {
         final List<String> items = defaultList(nullableItems);
+        weeklyLabel.setVisibility(items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
+        spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
         spinner.setEnabled(items.size() > 1);
         spinner.setAdapter(stringListAdapter(items));
         if (selected != null) {
