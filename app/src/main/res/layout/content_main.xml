@@ -21,9 +21,9 @@
             android:id="@+id/text_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:paddingTop="8dp"
+            android:layout_marginTop="@dimen/main_margin"
+            android:paddingStart="@dimen/main_padding"
+            android:paddingEnd="@dimen/main_padding"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:text="@string/label_loading"
@@ -32,7 +32,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_dates"
             android:scrollbars="vertical"
-            android:padding="8dp"
+            android:padding="@dimen/main_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
