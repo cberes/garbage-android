@@ -2,12 +2,10 @@ package com.spinthechoice.garbage.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -60,14 +58,6 @@ public class MainActivity extends AppCompatActivity {
         dates.setLayoutManager(layoutManager);
         dates.setAdapter(datesAdapter(garbageDays));
 
-        final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                launchSettings();
-            }
-        });
-
         GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
     }
 
@@ -102,11 +92,6 @@ public class MainActivity extends AppCompatActivity {
         return TextUtils.capitalize(this, items);
     }
 
-    private void launchSettings() {
-        final Intent settings = new Intent(this, SettingsActivity.class);
-        startActivity(settings);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -127,5 +112,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void launchSettings() {
+        final Intent settings = new Intent(this, SettingsActivity.class);
+        startActivity(settings);
     }
 }
