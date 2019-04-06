@@ -19,6 +19,7 @@ import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.service.GarbageOption;
 import com.spinthechoice.garbage.android.service.GarbagePresetService;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
+import com.spinthechoice.garbage.android.service.PickupItemFormatter;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.TextUtils;
 
@@ -93,16 +94,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String formatPickupItem(final GarbageDay day) {
-        final String garbage = getString(R.string.notification_item_garbage);
-        final String recycling = getString(R.string.notification_item_recycling);
-
-        if (day.isGarbageDay() && day.isRecyclingDay()) {
-            return TextUtils.capitalize(this, garbage) + ", " + recycling;
-        } else if (day.isGarbageDay()) {
-            return TextUtils.capitalize(this, garbage);
-        } else {
-            return TextUtils.capitalize(this, recycling);
-        }
+        final PickupItemFormatter formatter = new PickupItemFormatter(this,
+                R.string.notification_item_garbage,
+                R.string.notification_item_bulk,
+                R.string.notification_item_recycling);
+        final String items = formatter.format(day, ", ");
+        return TextUtils.capitalize(this, items);
     }
 
     private void launchSettings() {

@@ -37,6 +37,7 @@ final class GlobalGarbageConfigurationSerializer {
         json.put("start", configuration.getStart().toString());
         json.put("reset", configuration.getResetDay().name());
         json.put("items", toJson(toPickupItems(configuration)));
+        json.putOpt("bulkDays", datesToJson(configuration.getBulkDays()));
         json.putOpt("leapDays", datesToJson(configuration.getLeapDays()));
         json.putOpt("holidays", datesToJson(configuration.getHolidays()));
         return json;
@@ -87,6 +88,7 @@ final class GlobalGarbageConfigurationSerializer {
             builder.setRecyclingEnabled(item.isEnabled());
             builder.setRecyclingWeeks(item.getWeeks());
         }
+        builder.setBulkDays(datesFromJson(json.optJSONArray("bulkDays")));
         builder.setLeapDays(datesFromJson(json.optJSONArray("leapDays")));
         builder.setHolidays(datesFromJson(json.optJSONArray("holidays")));
         return builder.build();

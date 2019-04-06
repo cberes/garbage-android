@@ -77,6 +77,32 @@
       }
     },
     {
+      "id": "fcf318fa-e0bd-422f-9d1e-6e346ac339f0",
+      "name": "Lackawanna",
+      "configuration": {
+        "start": "2018-12-30",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true
+          }
+        ],
+        "bulkDays": [
+          "2019-04-08",
+          "2020-09-16"
+        ],
+        "leapDays": [
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
       "id": "1fe69b89-3523-4ab5-9ab5-5447e8566dfe",
       "name": "Orchard Park",
       "configuration": {

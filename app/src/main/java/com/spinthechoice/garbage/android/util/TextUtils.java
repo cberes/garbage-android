@@ -15,6 +15,14 @@ public final class TextUtils {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
 
+    public static boolean isEmpty(final String s) {
+        return s == null || s.isEmpty();
+    }
+
+    public static boolean isNotEmpty(final String s) {
+        return !isEmpty(s);
+    }
+
     public static String capitalize(final Context context, final String s) {
         final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
         return s.substring(0, 1).toUpperCase(locale) + s.substring(1);

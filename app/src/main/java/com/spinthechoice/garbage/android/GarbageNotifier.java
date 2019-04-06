@@ -20,6 +20,7 @@ import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
 import com.spinthechoice.garbage.android.service.GarbageOption;
 import com.spinthechoice.garbage.android.service.GarbagePresetService;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
+import com.spinthechoice.garbage.android.service.PickupItemFormatter;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.TextUtils;
 
@@ -98,7 +99,6 @@ public class GarbageNotifier extends BroadcastReceiver {
                 .forEachOrdered(day -> {
                     final LocalDateTime notificationTime = getNotificationTime(day, prefs);
 
-                    // TODO remember that interval can be inexact
                     if (sendRequested || isWithinSendThreshold(notificationTime)) {
                         sendNotification(context, day);
                     } else if (notificationTime.isBefore(LocalDateTime.now().plusDays(1L))) {
@@ -153,26 +153,22 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private static String getNotificationTitle(final Context context, final GarbageDay day) {
-        final String garbage = context.getString(R.string.notification_item_garbage);
-        final String recycling = context.getString(R.string.notification_item_recycling);
-
-        if (day.isGarbageDay() && day.isRecyclingDay()) {
-            return context.getString(R.string.notification_title_both, garbage, recycling);
-        } else {
-            return context.getString(R.string.notification_title, day.isGarbageDay() ? garbage : recycling);
-        }
+        final String items = joinItems(context, day);
+        return context.getString(R.string.notification_title, items);
     }
 
     private static String getNotificationBody(final Context context, final GarbageDay day) {
-        final String garbage = context.getString(R.string.notification_item_garbage);
-        final String recycling = context.getString(R.string.notification_item_recycling);
+        final String items = joinItems(context, day);
         final String date = TextUtils.formatDate(context, day.getDate());
+        return context.getString(R.string.notification_body, TextUtils.capitalize(context, items), date);
+    }
 
-        if (day.isGarbageDay() && day.isRecyclingDay()) {
-            return context.getString(R.string.notification_body_both, TextUtils.capitalize(context, garbage), recycling, date);
-        } else {
-            return context.getString(R.string.notification_body, TextUtils.capitalize(context, day.isGarbageDay() ? garbage : recycling), date);
-        }
+    private static String joinItems(final Context context, final GarbageDay day) {
+        final PickupItemFormatter formatter = new PickupItemFormatter(context,
+                R.string.notification_item_garbage,
+                R.string.notification_item_bulk,
+                R.string.notification_item_recycling);
+        return formatter.format(day, ", ", "& ");
     }
 
     private static int getNotificationId(final GarbageDay day) {
