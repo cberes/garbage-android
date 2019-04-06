@@ -19,5 +19,6 @@
     <string name="notification_body_both">%s &amp; %s pick-up on %s</string>
     <string name="notification_item_garbage">garbage</string>
     <string name="notification_item_recycling">recycling</string>
+    <string name="never">Never</string>
     <string name="weekly">Weekly</string>
 </resources>

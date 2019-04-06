@@ -15,27 +15,25 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
-
 public class GarbagePresetService {
     private static final String TAG = "garbage";
 
     private final GarbageData data;
 
     public GarbagePresetService(final Context context, final int res) {
-        this(readJsonSafely(context, res));
+        this(GarbageData.fromJson(readJsonSafely(context, res)));
     }
 
     GarbagePresetService(final GarbageData data) {
         this.data = data;
     }
 
-    private static GarbageData readJsonSafely(final Context context, final int res) {
+    private static JSONObject readJsonSafely(final Context context, final int res) {
         try {
-            return GarbageData.fromJson(readJson(context, res));
+            return readJson(context, res);
         } catch (Exception e) {
             Log.e(TAG, "Failed to read JSON data.", e);
-            return new GarbageData(null, emptyList());
+            return new JSONObject();
         }
     }
 

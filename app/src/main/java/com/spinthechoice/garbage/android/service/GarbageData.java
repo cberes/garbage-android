@@ -34,28 +34,18 @@ final class GarbageData implements Jsonable {
     public JSONObject toJson() throws JSONException {
         final JSONObject json = new JSONObject();
         json.putOpt("default", id);
-        json.putOpt("presets", toJson(presets));
+        json.putOpt("presets", GlobalGarbageConfigurationSerializer.toJson(presets));
         return json;
     }
 
-    private static JSONArray toJson(final List<? extends Jsonable> list) throws JSONException {
-        final JSONArray json = new JSONArray();
-        if (list != null) {
-            for (Jsonable elem : list) {
-                json.put(elem.toJson());
-            }
-        }
-        return json;
-    }
-
-    static GarbageData fromJson(final JSONObject json) throws JSONException {
+    static GarbageData fromJson(final JSONObject json) {
         return new GarbageData(
                 json.optString("default", null),
                 fromJson(json.optJSONArray("presets"))
         );
     }
 
-    static List<GarbageOption> fromJson(final JSONArray json) {
+    private static List<GarbageOption> fromJson(final JSONArray json) {
         return json == null ? emptyList() : range(0, json.length())
                 .mapToObj(json::optJSONObject)
                 .filter(Objects::nonNull)

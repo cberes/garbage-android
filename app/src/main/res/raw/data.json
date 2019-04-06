@@ -7,6 +7,16 @@
       "configuration": {
         "start": "2018-12-30",
         "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true
+          }
+        ],
         "leapDays": [
           "2019-01-01",
           "2019-05-27",
@@ -24,6 +34,16 @@
       "configuration": {
         "start": "2018-12-30",
         "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true
+          }
+        ],
         "holidays": [
           "2019-12-25",
           "2020-01-01"
@@ -36,9 +56,19 @@
       "configuration": {
         "start": "2018-04-08",
         "reset": "SUNDAY",
-        "recyclingWeeks": [
-          "A",
-          "B"
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "A",
+              "B"
+            ]
+          }
         ],
         "leapDays": [
           "2019-12-25",
@@ -52,9 +82,19 @@
       "configuration": {
         "start": "2018-12-30",
         "reset": "SUNDAY",
-        "recyclingWeeks": [
-          "White",
-          "Shaded"
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "White",
+              "Shaded"
+            ]
+          }
         ],
         "leapDays": [
           "2019-01-01",
@@ -73,9 +113,19 @@
       "configuration": {
         "start": "2019-05-01",
         "reset": "SUNDAY",
-        "recyclingWeeks": [
-          "A",
-          "B"
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "A",
+              "B"
+            ]
+          }
         ],
         "leapDays": [
           "2019-05-27",

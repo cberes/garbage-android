@@ -1,6 +1,7 @@
 package com.spinthechoice.garbage.android.service;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
+import com.spinthechoice.garbage.android.util.Jsonable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,12 +9,17 @@ import org.json.JSONObject;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.IntStream.range;
 
@@ -30,19 +36,32 @@ final class GlobalGarbageConfigurationSerializer {
         final JSONObject json = new JSONObject();
         json.put("start", configuration.getStart().toString());
         json.put("reset", configuration.getResetDay().name());
-        json.putOpt("garbageWeeks", toJson(configuration.getGarbageWeeks()));
-        json.putOpt("recyclingWeeks", toJson(configuration.getRecyclingWeeks()));
-        json.putOpt("leapDays", toJson(configuration.getLeapDays()));
-        json.putOpt("holidays", toJson(configuration.getHolidays()));
+        json.put("items", toJson(toPickupItems(configuration)));
+        json.putOpt("leapDays", datesToJson(configuration.getLeapDays()));
+        json.putOpt("holidays", datesToJson(configuration.getHolidays()));
         return json;
     }
 
-    private static JSONArray toJson(final List<String> list) {
-        return list == null ? null : list.stream()
-                .reduce(new JSONArray(), JSONArray::put, (acc, cur) -> acc);
+    private static List<PickupItemConfiguration> toPickupItems(final GlobalGarbageConfiguration configuration) {
+        final List<PickupItemConfiguration> items = new LinkedList<>();
+        items.add(new PickupItemConfiguration(PickupItem.GARBAGE,
+                configuration.isGarbageEnabled(), configuration.getGarbageWeeks()));
+        items.add(new PickupItemConfiguration(PickupItem.RECYCLING,
+                configuration.isRecyclingEnabled(), configuration.getRecyclingWeeks()));
+        return items;
     }
 
-    private static JSONArray toJson(final Set<LocalDate> dates) {
+    static JSONArray toJson(final Collection<? extends Jsonable> list) throws JSONException {
+        final JSONArray json = new JSONArray();
+        if (list != null) {
+            for (Jsonable elem : list) {
+                json.put(elem.toJson());
+            }
+        }
+        return json;
+    }
+
+    private static JSONArray datesToJson(final Collection<LocalDate> dates) {
         return dates == null ? null : dates.stream()
                 .map(LocalDate::toString)
                 .reduce(new JSONArray(), JSONArray::put, (acc, cur) -> acc);
@@ -56,8 +75,18 @@ final class GlobalGarbageConfigurationSerializer {
         final GlobalGarbageConfiguration.Builder builder = GlobalGarbageConfiguration.builder();
         builder.setStart(dateFromJson(json.optString("start")));
         builder.setResetDay(dayFromJson(json.optString("reset")));
-        builder.setGarbageWeeks(listFromJson(json.optJSONArray("garbageWeeks")));
-        builder.setRecyclingWeeks(listFromJson(json.optJSONArray("recyclingWeeks")));
+        final Map<PickupItem, PickupItemConfiguration> pickupItems =
+                pickupItemsFromJson(json.optJSONArray("items"));
+        if (pickupItems.containsKey(PickupItem.GARBAGE)) {
+            final PickupItemConfiguration item = pickupItems.get(PickupItem.GARBAGE);
+            builder.setGarbageEnabled(item.isEnabled());
+            builder.setGarbageWeeks(item.getWeeks());
+        }
+        if (pickupItems.containsKey(PickupItem.RECYCLING)) {
+            final PickupItemConfiguration item = pickupItems.get(PickupItem.RECYCLING);
+            builder.setRecyclingEnabled(item.isEnabled());
+            builder.setRecyclingWeeks(item.getWeeks());
+        }
         builder.setLeapDays(datesFromJson(json.optJSONArray("leapDays")));
         builder.setHolidays(datesFromJson(json.optJSONArray("holidays")));
         return builder.build();
@@ -71,11 +100,12 @@ final class GlobalGarbageConfigurationSerializer {
         return json.isEmpty() ? null : DayOfWeek.valueOf(json);
     }
 
-    private static List<String> listFromJson(final JSONArray json) {
-        return json == null ? emptyList() : range(0, json.length())
-                .mapToObj(json::optString)
-                .filter(s -> !s.isEmpty())
-                .collect(toList());
+    private static Map<PickupItem, PickupItemConfiguration> pickupItemsFromJson(final JSONArray json) {
+        return json == null ? emptyMap() : range(0, json.length())
+                .mapToObj(json::optJSONObject)
+                .filter(Objects::nonNull)
+                .map(PickupItemConfiguration::fromJson)
+                .collect(toMap(PickupItemConfiguration::getItem, Function.identity()));
     }
 
     private static Set<LocalDate> datesFromJson(final JSONArray json) {
