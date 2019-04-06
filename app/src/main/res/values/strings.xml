@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Is It Garbage Day?</string>
+    <string name="app_name">Garbo Clock</string>
     <string name="action_settings">Settings</string>
     <string name="label_loading">Loading&#8230;</string>
     <string name="label_municipality">Municipality</string>
