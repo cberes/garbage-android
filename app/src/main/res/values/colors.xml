@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="background">#F4F4F4</color>
     <color name="backgroundSecondary">#DDDDDD</color>
+    <color name="horizontalRule">#DDDDDD</color>
     <color name="colorTextPrimary">#000000</color>
     <color name="colorTextSecondary">#808080</color>
 </resources>

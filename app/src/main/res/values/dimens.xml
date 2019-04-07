@@ -2,5 +2,6 @@
     <dimen name="main_margin">8dp</dimen>
     <dimen name="main_padding">8dp</dimen>
     <dimen name="settings_margin">8dp</dimen>
+    <dimen name="settings_padding">8dp</dimen>
     <dimen name="rule_height">1dp</dimen>
 </resources>

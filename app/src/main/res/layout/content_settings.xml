@@ -11,7 +11,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,6 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/settings_padding"
             android:orientation="vertical">
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_height="@dimen/rule_height"
                 android:layout_marginTop="@dimen/settings_margin"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/horizontalRule" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:layout_height="@dimen/rule_height"
                 android:layout_marginTop="@dimen/settings_margin"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/horizontalRule" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                 android:layout_height="@dimen/rule_height"
                 android:layout_marginTop="@dimen/settings_margin"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/horizontalRule" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                 android:layout_height="@dimen/rule_height"
                 android:layout_marginTop="@dimen/settings_margin"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/horizontalRule" />
 
             <Switch
                 android:id="@+id/switch_notifications"
@@ -149,7 +149,7 @@
                 android:layout_height="@dimen/rule_height"
                 android:layout_marginTop="@dimen/settings_margin"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:background="?attr/colorPrimary" />
+                android:background="@color/horizontalRule" />
 
             <LinearLayout
                 android:layout_width="match_parent"

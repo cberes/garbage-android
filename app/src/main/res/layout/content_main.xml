@@ -32,6 +32,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_dates"
             android:scrollbars="vertical"
+            android:scrollbarStyle="outsideOverlay"
+            android:nestedScrollingEnabled="false"
             android:padding="@dimen/main_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
