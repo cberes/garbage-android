@@ -49,9 +49,14 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setupGarbageSettings();
+        setupNotificationSettings();
+    }
 
+    private void setupGarbageSettings() {
         final GarbagePresetService presetService = new GarbagePresetService(this, R.raw.data);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
+
         final GarbageOption initialOption = presetService.findPresetById(prefs.getOptionId())
                 .orElseGet(presetService::getDefaultPreset);
         final GlobalGarbageConfiguration initialConfig = initialOption.getConfiguration();
@@ -139,8 +144,11 @@ public class SettingsActivity extends AppCompatActivity {
                 // do nothing
             }
         });
+    }
 
+    private void setupNotificationSettings() {
         final NotificationPreferences notificationPrefs = prefsService.readNotificationPreferences(this);
+
         final Spinner notificationDay = findViewById(R.id.spinner_notify_time);
         notificationDay.setVisibility(notificationPrefs.isNotificationEnabled() ? Spinner.VISIBLE : Spinner.GONE);
         notificationDay.setAdapter(notificationDaysAdapter());
