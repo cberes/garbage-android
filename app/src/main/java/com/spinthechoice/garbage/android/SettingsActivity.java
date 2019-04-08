@@ -177,7 +177,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 final NotificationPreferences originalPrefs = prefsService.readNotificationPreferences(v.getContext());
                 final LocalTime originalTime = originalPrefs.getNotificationTime();
-                final TimePickerDialog timeDialog = new TimePickerDialog(v.getContext(), new TimePickerDialog.OnTimeSetListener() {
+                final TimePickerDialog timeDialog = new TimePickerDialog(v.getContext(),
+                        android.R.style.Theme_Material_Dialog_Alert, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(final TimePicker timePicker, final int selectedHour, final int selectedMinute) {
                         final NotificationDay day = NotificationDay.fromIndex(notificationDay.getSelectedItemPosition());

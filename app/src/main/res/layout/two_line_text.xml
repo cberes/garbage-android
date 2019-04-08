@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="@color/colorTextPrimary"
         tools:text="Line 1" />
 
     <TextView
         android:id="@+id/text_line_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?android:attr/textColorSecondary"
+        android:textColor="@color/colorTextSecondary"
         tools:text="Line 2" />
 
     <View

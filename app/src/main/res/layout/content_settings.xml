@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
                 android:labelFor="@id/spinner_municipality"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/colorTextSecondary"
                 android:text="@string/label_municipality"
                 tools:text="@string/label_municipality" />
 
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
                 android:labelFor="@id/spinner_day_of_week"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/colorTextSecondary"
                 android:text="@string/label_day_of_week"
                 tools:text="@string/label_day_of_week" />
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
                 android:labelFor="@id/spinner_garbage_week"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/colorTextSecondary"
                 android:text="@string/label_garbage_week"
                 tools:text="@string/label_garbage_week" />
 
@@ -91,7 +91,7 @@
                 android:layout_marginStart="@dimen/settings_margin"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/colorTextPrimary"
                 android:text="@string/weekly"
                 tools:text="@string/weekly" />
 
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
                 android:labelFor="@id/spinner_recycling_week"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/colorTextSecondary"
                 android:text="@string/label_recycling_week"
                 tools:text="@string/label_recycling_week" />
 
@@ -125,7 +125,7 @@
                 android:layout_marginStart="@dimen/settings_margin"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?android:attr/textColorPrimary"
+                android:textColor="@color/colorTextPrimary"
                 android:text="@string/weekly"
                 tools:text="@string/weekly" />
 
@@ -140,7 +140,7 @@
                 android:id="@+id/switch_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textColor="@color/colorTextSecondary"
                 android:text="@string/label_notifications"
                 tools:text="@string/label_notifications" />
 
@@ -164,7 +164,7 @@
                     android:layout_weight="2"
                     android:gravity="start"
                     android:labelFor="@id/time_notification"
-                    android:textColor="?android:attr/textColorSecondary"
+                    android:textColor="@color/colorTextSecondary"
                     android:text="@string/label_notify_time"
                     tools:text="@string/label_notify_time" />
 
