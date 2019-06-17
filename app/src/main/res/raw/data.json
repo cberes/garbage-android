@@ -162,6 +162,67 @@
           "2020-01-01"
         ]
       }
+    },
+    {
+      "id": "80a82401-bcef-44f6-937a-899969f3e610",
+      "name": "Lancaster",
+      "configuration": {
+        "start": "2019-02-04",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "Gold",
+              "Green"
+            ]
+          }
+        ],
+        "leapDays": [
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "08ff1376-d840-4e28-b1ab-51024500c07a",
+      "name": "Lockport",
+      "configuration": {
+        "start": "2019-01-06",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
     }
   ]
 }
