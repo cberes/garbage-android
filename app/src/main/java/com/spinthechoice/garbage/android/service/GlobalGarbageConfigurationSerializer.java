@@ -28,6 +28,18 @@ final class GlobalGarbageConfigurationSerializer {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
 
+    static JSONArray toJson(final Map<String, GlobalGarbageConfiguration> configurations) throws JSONException {
+        final JSONArray json = new JSONArray();
+        if (configurations != null) {
+            for (Map.Entry<String, GlobalGarbageConfiguration> entry : configurations.entrySet()) {
+                final JSONObject obj = toJson(entry.getValue());
+                obj.put("id", entry.getKey());
+                json.put(obj);
+            }
+        }
+        return json;
+    }
+
     static JSONObject toJson(final GlobalGarbageConfiguration configuration) throws JSONException {
         return configuration == null ? null : toJsonNonNull(configuration);
     }
@@ -68,8 +80,19 @@ final class GlobalGarbageConfigurationSerializer {
                 .reduce(new JSONArray(), JSONArray::put, (acc, cur) -> acc);
     }
 
+    static Map<String, GlobalGarbageConfiguration> fromJson(final JSONArray json) {
+        return json == null ? emptyMap() : fromJsonNonNull(json);
+    }
+
     static GlobalGarbageConfiguration fromJson(final JSONObject json) {
         return json == null ? null : fromJsonNonNull(json);
+    }
+
+    private static Map<String, GlobalGarbageConfiguration> fromJsonNonNull(final JSONArray json) {
+        return range(0, json.length())
+                .mapToObj(json::optJSONObject)
+                .filter(Objects::nonNull)
+                .collect(toMap(elem -> elem.optString("id"), GlobalGarbageConfigurationSerializer::fromJson));
     }
 
     private static GlobalGarbageConfiguration fromJsonNonNull(final JSONObject json) {

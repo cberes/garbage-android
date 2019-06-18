@@ -1,316 +1,338 @@
 {
   "default": "2b449a5d-244e-4a0c-bd82-562ad5340db1",
+  "configurations": [
+    {
+      "id": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd",
+      "note": "Amherst 2019",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "5f92025f-9342-4d21-b2ff-bf4fcd83e2e9",
+      "note": "Buffalo",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "d68c4c60-f161-4da0-85c3-160db481249b",
+      "note": "Cheektowaga",
+      "start": "2018-04-08",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "830b820c-1d08-46aa-a1ba-cd17e7e359b8",
+      "note": "Lackawanna",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "bulkDays": [
+        "2019-04-08",
+        "2020-09-16"
+      ],
+      "leapDays": [
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "4a69b6fb-4aae-4dba-86c4-fd26a7c13967",
+      "note": "Orchard Park 2019",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "White",
+            "Shaded"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "1ec13de9-fa73-420a-a3c8-ca3d219626cd",
+      "note": "West Seneca 2019",
+      "start": "2019-05-01",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "bc1baf11-51be-47b8-a54b-870d04d5ffbc",
+      "note": "Lancaster 2019",
+      "start": "2019-02-04",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "Gold",
+            "Green"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "f0713e74-734f-4f1f-8ce8-e82518553dcc",
+      "note": "Angola",
+      "start": "2019-01-06",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "fca02d72-45ac-4721-9364-0a004719622c",
+      "note": "Towns that have alternate recycling that starts 2019 on B",
+      "start": "2019-01-06",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5",
+      "note": "Towns that have alternate recycling that start 2019 on A",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    }
+  ],
   "presets": [
     {
       "id": "661a7325-e301-4c5e-8baa-ec37c17441df",
       "name": "Amherst",
-      "configuration": {
-        "start": "2018-12-30",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "http://www.amherst.ny.us/content/departments.php?dept_id=dept_11&div_id=div_33&menu_id=menu_30",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
     },
     {
       "id": "2b449a5d-244e-4a0c-bd82-562ad5340db1",
       "name": "Buffalo",
-      "configuration": {
-        "start": "2018-12-30",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true
-          }
-        ],
-        "holidays": [
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://www.buffalony.gov/382/Streets-Sanitation",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
     },
     {
       "id": "018fff06-5181-4421-802d-c0063f16e799",
       "name": "Cheektowaga",
-      "configuration": {
-        "start": "2018-04-08",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "A",
-              "B"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "http://www.tocny.org/Departments/SanitationRecycling.aspx",
+      "configurationId": "d68c4c60-f161-4da0-85c3-160db481249b"
     },
     {
       "id": "fcf318fa-e0bd-422f-9d1e-6e346ac339f0",
       "name": "Lackawanna",
-      "configuration": {
-        "start": "2018-12-30",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true
-          }
-        ],
-        "bulkDays": [
-          "2019-04-08",
-          "2020-09-16"
-        ],
-        "leapDays": [
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "http://lackawannany.gov/public-works/",
+      "configurationId": "830b820c-1d08-46aa-a1ba-cd17e7e359b8"
     },
     {
       "id": "1fe69b89-3523-4ab5-9ab5-5447e8566dfe",
       "name": "Orchard Park",
-      "configuration": {
-        "start": "2018-12-30",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "White",
-              "Shaded"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://www.orchardparkny.org/departments/garbage-recycling/",
+      "configurationId": "4a69b6fb-4aae-4dba-86c4-fd26a7c13967"
     },
     {
       "id": "1eea6061-63f4-462b-bf97-70e84141f405",
       "name": "West Seneca",
-      "configuration": {
-        "start": "2019-05-01",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "A",
-              "B"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "http://www.westseneca.net/departments-and-services/public-works/sanitation-department#gsc.tab=0",
+      "configurationId": "1ec13de9-fa73-420a-a3c8-ca3d219626cd"
     },
     {
       "id": "80a82401-bcef-44f6-937a-899969f3e610",
       "name": "Lancaster",
-      "configuration": {
-        "start": "2019-02-04",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "Gold",
-              "Green"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://lancasterny.gov/index.php/residents/refuse-recycling",
+      "configurationId": "bc1baf11-51be-47b8-a54b-870d04d5ffbc"
     },
     {
       "id": "08ff1376-d840-4e28-b1ab-51024500c07a",
       "name": "Lockport",
-      "configuration": {
-        "start": "2019-01-06",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "A",
-              "B"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://lockportny.gov/refuse-recycling/",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
     },
     {
       "id": "80120493-76ac-4c13-ab31-beccae633bf8",
       "name": "Akron",
-      "configuration": {
-        "start": "2019-01-06",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "A",
-              "B"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "http://www2.erie.gov/akron/index.php?q=solid-waste-refuse-recycling",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
     },
     {
       "id": "cac4b43c-abd9-48fc-a4ad-ae44632f85ff",
       "name": "Evans",
-      "configuration": {
-        "start": "2019-01-13",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true,
-            "weeks": [
-              "A",
-              "B"
-            ]
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-11-28",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://www.townofevans.org/garbage-recycling.html",
+      "configurationId": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5"
     },
     {
       "id": "239c1383-9978-402a-8938-2f5221f7cc9a",
       "name": "Angola",
-      "configuration": {
-        "start": "2019-01-06",
-        "reset": "SUNDAY",
-        "items": [
-          {
-            "item": "GARBAGE",
-            "enabled": true
-          },
-          {
-            "item": "RECYCLING",
-            "enabled": true
-          }
-        ],
-        "leapDays": [
-          "2019-01-01",
-          "2019-05-27",
-          "2019-07-04",
-          "2019-09-02",
-          "2019-12-25",
-          "2020-01-01"
-        ]
-      }
+      "url": "https://villageofangola.org/garbagerecycling.html",
+      "configurationId": "f0713e74-734f-4f1f-8ce8-e82518553dcc"
     }
   ]
 }
