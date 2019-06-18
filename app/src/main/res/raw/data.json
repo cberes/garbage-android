@@ -223,6 +223,94 @@
           "2020-01-01"
         ]
       }
+    },
+    {
+      "id": "80120493-76ac-4c13-ab31-beccae633bf8",
+      "name": "Akron",
+      "configuration": {
+        "start": "2019-01-06",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "cac4b43c-abd9-48fc-a4ad-ae44632f85ff",
+      "name": "Evans",
+      "configuration": {
+        "start": "2019-01-13",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true,
+            "weeks": [
+              "A",
+              "B"
+            ]
+          }
+        ],
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-11-28",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
+    },
+    {
+      "id": "239c1383-9978-402a-8938-2f5221f7cc9a",
+      "name": "Angola",
+      "configuration": {
+        "start": "2019-01-06",
+        "reset": "SUNDAY",
+        "items": [
+          {
+            "item": "GARBAGE",
+            "enabled": true
+          },
+          {
+            "item": "RECYCLING",
+            "enabled": true
+          }
+        ],
+        "leapDays": [
+          "2019-01-01",
+          "2019-05-27",
+          "2019-07-04",
+          "2019-09-02",
+          "2019-12-25",
+          "2020-01-01"
+        ]
+      }
     }
   ]
 }
