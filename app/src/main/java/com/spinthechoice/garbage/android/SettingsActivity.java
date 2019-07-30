@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
@@ -248,7 +249,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
                                    final List<String> nullableItems, final boolean enabled,
                                    final String selected) {
-        final List<String> items = defaultList(nullableItems);
+        final List<String> items = removeEmpty(defaultList(nullableItems));
         weeklyLabel.setVisibility(!enabled || items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
         weeklyLabel.setText(getString(enabled ? R.string.weekly : R.string.never));
         spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
@@ -257,6 +258,12 @@ public class SettingsActivity extends AppCompatActivity {
         if (selected != null) {
             spinner.setSelection(items.indexOf(selected));
         }
+    }
+
+    private static List<String> removeEmpty(final Collection<String> items) {
+        return items.stream()
+                .filter(s -> s != null && !s.isEmpty())
+                .collect(toList());
     }
 
     private SpinnerAdapter notificationDaysAdapter() {

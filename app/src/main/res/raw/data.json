@@ -3,7 +3,7 @@
   "configurations": [
     {
       "id": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd",
-      "note": "Amherst 2019",
+      "note": "Towns that have weekly garbage and recycling collection",
       "start": "2018-12-30",
       "reset": "SUNDAY",
       "items": [
@@ -27,8 +27,8 @@
       ]
     },
     {
-      "id": "5f92025f-9342-4d21-b2ff-bf4fcd83e2e9",
-      "note": "Buffalo",
+      "id": "1676e394-db55-4f8a-a560-4a4f4e2af9ce",
+      "note": "Towns with weekly garbage/recycling that don't honor Memorial & Labor Days",
       "start": "2018-12-30",
       "reset": "SUNDAY",
       "items": [
@@ -39,6 +39,138 @@
         {
           "item": "RECYCLING",
           "enabled": true
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-07-04",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "4b5002e2-d3c1-4341-b33d-a334fb81218c",
+      "note": "Weekly garbage/recycling with no holidays",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "leapDays": [
+      ]
+    },
+    {
+      "id": "fca02d72-45ac-4721-9364-0a004719622c",
+      "note": "Towns that have alternate recycling that starts 2019 on B",
+      "start": "2019-01-06",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5",
+      "note": "Towns that have alternate recycling that start 2019 on A",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "A",
+            "B"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "4e3b2d31-84f6-462a-9363-f8b642f271c0",
+      "note": "Biweekly recycling in which everyone has the same week",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "Biweekly",
+            ""
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "e1e626e8-baa2-4d81-ae18-02314dfb6878",
+      "note": "Alden town 2019",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "Green",
+            "Gold"
+          ]
         }
       ],
       "leapDays": [
@@ -101,7 +233,7 @@
     },
     {
       "id": "4a69b6fb-4aae-4dba-86c4-fd26a7c13967",
-      "note": "Orchard Park 2019",
+      "note": "Orchard Park town 2019",
       "start": "2018-12-30",
       "reset": "SUNDAY",
       "items": [
@@ -113,8 +245,8 @@
           "item": "RECYCLING",
           "enabled": true,
           "weeks": [
-            "White",
-            "Shaded"
+            "Gold/White",
+            "Green"
           ]
         }
       ],
@@ -123,6 +255,63 @@
         "2019-05-27",
         "2019-07-04",
         "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "6ddb96d5-9cc5-4bb9-bbae-a0fe5e3dd507",
+      "note": "Tonawanda city 2019",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true,
+          "weeks": [
+            "Red",
+            "Blue"
+          ]
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-11-28",
+        "2019-12-25",
+        "2020-01-01"
+      ]
+    },
+    {
+      "id": "c56ca609-809b-4231-8fea-122d91b8c2de",
+      "note": "Tonawanda town 2019",
+      "start": "2018-12-30",
+      "reset": "SUNDAY",
+      "items": [
+        {
+          "item": "GARBAGE",
+          "enabled": true
+        },
+        {
+          "item": "RECYCLING",
+          "enabled": true
+        }
+      ],
+      "leapDays": [
+        "2019-01-01",
+        "2019-02-18",
+        "2019-05-27",
+        "2019-07-04",
+        "2019-09-02",
+        "2019-10-14",
+        "2019-11-11",
         "2019-11-28",
         "2019-12-25",
         "2020-01-01"
@@ -209,37 +398,8 @@
       ]
     },
     {
-      "id": "fca02d72-45ac-4721-9364-0a004719622c",
-      "note": "Towns that have alternate recycling that starts 2019 on B",
-      "start": "2019-01-06",
-      "reset": "SUNDAY",
-      "items": [
-        {
-          "item": "GARBAGE",
-          "enabled": true
-        },
-        {
-          "item": "RECYCLING",
-          "enabled": true,
-          "weeks": [
-            "A",
-            "B"
-          ]
-        }
-      ],
-      "leapDays": [
-        "2019-01-01",
-        "2019-05-27",
-        "2019-07-04",
-        "2019-09-02",
-        "2019-11-28",
-        "2019-12-25",
-        "2020-01-01"
-      ]
-    },
-    {
-      "id": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5",
-      "note": "Towns that have alternate recycling that start 2019 on A",
+      "id": "b2f4e7fe-a138-49af-85cc-884de2664926",
+      "note": "Wales (Wednesdays)",
       "start": "2018-12-30",
       "reset": "SUNDAY",
       "items": [
@@ -249,19 +409,12 @@
         },
         {
           "item": "RECYCLING",
-          "enabled": true,
-          "weeks": [
-            "A",
-            "B"
-          ]
+          "enabled": true
         }
       ],
       "leapDays": [
-        "2019-01-01",
         "2019-05-27",
-        "2019-07-04",
         "2019-09-02",
-        "2019-11-28",
         "2019-12-25",
         "2020-01-01"
       ]
@@ -269,9 +422,57 @@
   ],
   "presets": [
     {
+      "id": "80120493-76ac-4c13-ab31-beccae633bf8",
+      "name": "Akron",
+      "url": "http://www2.erie.gov/akron/index.php?q=solid-waste-refuse-recycling",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
+    },
+    {
+      "id": "48a61a90-71e7-4e29-934e-e48c057ac784",
+      "name": "Alden (town)",
+      "url": "http://www2.erie.gov/alden/index.php?q=recycling-e-cycling-information",
+      "configurationId": "e1e626e8-baa2-4d81-ae18-02314dfb6878"
+    },
+    {
+      "id": "83c64c1e-18b0-4ba2-85b7-44e5bf23deb6",
+      "name": "Alden (village)",
+      "url": "http://www2.erie.gov/village_alden/index.php?q=solid-waste-garbage-recycling-yard-waste",
+      "configurationId": "4b5002e2-d3c1-4341-b33d-a334fb81218c"
+    },
+    {
       "id": "661a7325-e301-4c5e-8baa-ec37c17441df",
       "name": "Amherst",
       "url": "http://www.amherst.ny.us/content/departments.php?dept_id=dept_11&div_id=div_33&menu_id=menu_30",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "239c1383-9978-402a-8938-2f5221f7cc9a",
+      "name": "Angola",
+      "url": "https://villageofangola.org/garbagerecycling.html",
+      "configurationId": "f0713e74-734f-4f1f-8ce8-e82518553dcc"
+    },
+    {
+      "id": "d6c4d6f8-33bb-4144-800d-d92515ab7382",
+      "name": "Aurora",
+      "url": "http://www.townofaurora.com/departments/trash-recycling/",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "55bf0c08-14aa-48f4-b7a2-1c85779d79ff",
+      "name": "Blasdell",
+      "url": "https://www.blasdell.org/vertical/sites/%7B771476E3-1A3B-473E-934A-F72086321C6A%7D/uploads/2019_EOW_Mailer.pdf",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
+    },
+    {
+      "id": "0586a346-75be-4cd9-8bbe-d45837a6c2dc",
+      "name": "Boston",
+      "url": "http://www.townofboston.com/services/garbage-and-recycling/",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "aa454264-8154-45f8-85d0-6727bd59a2c9",
+      "name": "Brant",
+      "url": "https://brantny.com/ViewPosting.php?PostID=854",
       "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
     },
     {
@@ -287,15 +488,93 @@
       "configurationId": "d68c4c60-f161-4da0-85c3-160db481249b"
     },
     {
+      "id": "76df704c-652a-4e41-b52a-6afdb1de7137",
+      "name": "Colden",
+      "url": "http://www.townofcolden.com/trash-refuse/",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "47153fc0-3ed2-4e11-a57a-0aaa5caec521",
+      "name": "Depew",
+      "url": "https://villageofdepew.org/departments/department-of-public-works",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
+    },
+    {
+      "id": "d6ba087d-edf6-4da1-993f-7ac982a5a2e9",
+      "name": "East Aurora",
+      "url": "http://www.east-aurora.ny.us/government/trash-and-recycling/",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "89fb40b4-0f4b-426c-9f2b-7846fd09b270",
+      "name": "Eden",
+      "url": "http://edenny.gov/garbage-management/",
+      "configurationId": "1676e394-db55-4f8a-a560-4a4f4e2af9ce"
+    },
+    {
+      "id": "cac4b43c-abd9-48fc-a4ad-ae44632f85ff",
+      "name": "Evans",
+      "url": "https://www.townofevans.org/garbage-recycling.html",
+      "configurationId": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5"
+    },
+    {
+      "id": "b5f6e6fb-4ef4-4914-a4ff-3b50fa55b6a6",
+      "name": "Farnham",
+      "url": "https://brantny.com/ViewPosting.php?PostID=854",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "b44ae6c9-b9b3-475a-90f1-65af8955c6cd",
+      "name": "Grand Island",
+      "url": "http://www.grandislandny.us/departments/engineering_department/garbage_and_recycling/index.php",
+      "configurationId": "4b5002e2-d3c1-4341-b33d-a334fb81218c"
+    },
+    {
+      "id": "cb64cf0c-0c1b-4219-b413-b50b6d99f8be",
+      "name": "Hamburg (village)",
+      "url": "https://www.villagehamburg.com/trashrecycling",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
+      "id": "5719ac78-1a6f-4843-85e5-efca136a3d7d",
+      "name": "Holland",
+      "url": "http://townofhollandny.com/departments/garbage-and-refuse/",
+      "configurationId": "4b5002e2-d3c1-4341-b33d-a334fb81218c"
+    },
+    {
+      "id": "a6822f23-8079-4e0f-b8d9-7084838e480b",
+      "name": "Kenmore",
+      "url": "https://www.villageofkenmore.org/index.php/public-works/garbage-schedule",
+      "configurationId": "4e3b2d31-84f6-462a-9363-f8b642f271c0"
+    },
+    {
       "id": "fcf318fa-e0bd-422f-9d1e-6e346ac339f0",
       "name": "Lackawanna",
       "url": "http://lackawannany.gov/public-works/",
       "configurationId": "830b820c-1d08-46aa-a1ba-cd17e7e359b8"
     },
     {
+      "id": "31c63f38-e967-400c-ab31-dad99a25480a",
+      "name": "Newstead",
+      "url": "http://www2.erie.gov/newstead/index.php?q=refuse-and-recycling-programs",
+      "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
+    },
+    {
+      "id": "512a444f-f992-49a3-a528-bc8db69cd6e9",
+      "name": "North Collins",
+      "url": "http://www.northcollinsny.org/html/garbage.html",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
+    },
+    {
       "id": "1fe69b89-3523-4ab5-9ab5-5447e8566dfe",
-      "name": "Orchard Park",
+      "name": "Orchard Park (town)",
       "url": "https://www.orchardparkny.org/departments/garbage-recycling/",
+      "configurationId": "4a69b6fb-4aae-4dba-86c4-fd26a7c13967"
+    },
+    {
+      "id": "f3c28f23-8f09-4abb-8a33-dea991c1fd3a",
+      "name": "Orchard Park (village)",
+      "url": "https://orchardparkvillage.org/village-departments/waste-disposal-and-recycling/",
       "configurationId": "4a69b6fb-4aae-4dba-86c4-fd26a7c13967"
     },
     {
@@ -317,22 +596,40 @@
       "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
     },
     {
-      "id": "80120493-76ac-4c13-ab31-beccae633bf8",
-      "name": "Akron",
-      "url": "http://www2.erie.gov/akron/index.php?q=solid-waste-refuse-recycling",
+      "id": "722c5644-dbad-4621-93fa-dc25c7d2b468",
+      "name": "Sloan",
+      "url": "http://ns.villageofsloan.org/mdmsg.htm",
       "configurationId": "fca02d72-45ac-4721-9364-0a004719622c"
     },
     {
-      "id": "cac4b43c-abd9-48fc-a4ad-ae44632f85ff",
-      "name": "Evans",
-      "url": "https://www.townofevans.org/garbage-recycling.html",
-      "configurationId": "b87cb3a7-b9b9-462a-8d45-ebd6eb056aa5"
+      "id": "adf4f4f8-1bba-42d8-a584-d013cd0651e1",
+      "name": "Springville",
+      "url": "https://www.villageofspringvilleny.com/garbage",
+      "configurationId": "4e3b2d31-84f6-462a-9363-f8b642f271c0"
     },
     {
-      "id": "239c1383-9978-402a-8938-2f5221f7cc9a",
-      "name": "Angola",
-      "url": "https://villageofangola.org/garbagerecycling.html",
-      "configurationId": "f0713e74-734f-4f1f-8ce8-e82518553dcc"
+      "id": "786d55f1-629a-470b-b531-1de7679b6fe0",
+      "name": "Tonawanda (city)",
+      "url": "https://www.tonawandacity.com/residents/public_works.php",
+      "configurationId": "6ddb96d5-9cc5-4bb9-bbae-a0fe5e3dd507"
+    },
+    {
+      "id": "bd3effee-dfe2-4a0e-a94c-95fe697136ba",
+      "name": "Tonawanda (town)",
+      "url": "https://www.tonawanda.ny.us/garbage-recycling/173-recycling-waste-collection-info",
+      "configurationId": "c56ca609-809b-4231-8fea-122d91b8c2de"
+    },
+    {
+      "id": "632afca3-d9c6-465e-bf06-0ed15155bc90",
+      "name": "Wales",
+      "url": "http://townofwales.com/government/departments/refuse-trash/",
+      "configurationId": "b2f4e7fe-a138-49af-85cc-884de2664926"
+    },
+    {
+      "id": "69ce52ec-0530-40a7-9db2-a30033f84220",
+      "name": "Williamsville",
+      "url": "http://walkablewilliamsville.com/departments/department-of-public-works/#garbage-recycling",
+      "configurationId": "138ffe14-20ac-4152-b0a6-cfbc54c33dcd"
     }
   ]
 }
