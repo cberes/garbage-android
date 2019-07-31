@@ -140,7 +140,7 @@
           "enabled": true,
           "weeks": [
             "Biweekly",
-            ""
+            "(disabled)"
           ]
         }
       ],

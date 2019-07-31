@@ -249,7 +249,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
                                    final List<String> nullableItems, final boolean enabled,
                                    final String selected) {
-        final List<String> items = removeEmpty(defaultList(nullableItems));
+        final List<String> items = removeDisabled(defaultList(nullableItems));
         weeklyLabel.setVisibility(!enabled || items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
         weeklyLabel.setText(getString(enabled ? R.string.weekly : R.string.never));
         spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
@@ -260,9 +260,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    private static List<String> removeEmpty(final Collection<String> items) {
+    private static List<String> removeDisabled(final Collection<String> items) {
         return items.stream()
-                .filter(s -> s != null && !s.isEmpty())
+                .filter(s -> !"(disabled)".equals(s))
                 .collect(toList());
     }
 

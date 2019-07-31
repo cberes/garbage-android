@@ -111,11 +111,21 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
+        if (id == R.id.action_about) {
+            launchAbout();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     private void launchSettings() {
         final Intent settings = new Intent(this, SettingsActivity.class);
         startActivity(settings);
+    }
+
+    private void launchAbout() {
+        final Intent about = new Intent(this, AboutActivity.class);
+        startActivity(about);
     }
 }
