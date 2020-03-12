@@ -71,7 +71,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (prefs.isRecyclingEnabled()) {
                     final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
                     final LocalDate now = LocalDate.now();
-                    return range(0, prefs.getGarbageWeeks())
+                    return range(0, prefs.getRecyclingWeeks())
                             .mapToObj(week -> {
                                 prefs.setRecyclingWeekIndex(week);
                                 Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
