@@ -14,11 +14,8 @@ import android.util.Log;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
-import com.spinthechoice.garbage.GlobalGarbageConfiguration;
-import com.spinthechoice.garbage.UserGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
-import com.spinthechoice.garbage.android.service.AppGlobalGarbageConfiguration;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.PickupItemFormatter;
@@ -80,7 +77,8 @@ public class GarbageNotifier extends BroadcastReceiver {
     private void handleGarbageCheckIntent(final Context context, final Intent intent) {
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
         final boolean sendRequested = ACTION_SEND.equals(intent.getAction());
-        final Garbage garbage = createGarbage(prefs, new HolidayService(context, R.raw.holidays));
+        final HolidayService holidays = new HolidayService(context, R.raw.holidays);
+        final Garbage garbage = scheduleService.createGarbage(prefs, holidays);
         handleGarbageCheckIntent(context, sendRequested, garbage);
     }
 
@@ -101,14 +99,6 @@ public class GarbageNotifier extends BroadcastReceiver {
                         startNotificationAlarm(context, ChronoUnit.MILLIS.between(LocalDateTime.now(), notificationTime));
                     }
                 });
-    }
-
-    private Garbage createGarbage(final GarbagePreferences prefs, final HolidayService holidayService) {
-        final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
-                prefs.getDayOfWeek(), prefs.getGarbageWeekIndex(), prefs.getRecyclingWeekIndex());
-        final AppGlobalGarbageConfiguration appConfig = AppGlobalGarbageConfiguration.fromPreferences(prefs);
-        final GlobalGarbageConfiguration configuration = appConfig.toConfig(holidayService);
-        return scheduleService.createGarbage(configuration, userConfig);
     }
 
     private static LocalDateTime getNotificationTime(final GarbageDay day, final NotificationPreferences prefs) {

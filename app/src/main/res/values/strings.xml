@@ -5,9 +5,9 @@
     <string name="label_loading">Loading&#8230;</string>
     <string name="label_day_of_week">Day of week</string>
     <string name="label_garbage_weeks">Garbage is collected</string>
-    <string name="label_garbage_week">Garbage week</string>
+    <string name="label_garbage_week">Next garbage date is</string>
     <string name="label_recycling_weeks">Recycling is collected</string>
-    <string name="label_recycling_week">Recycling week</string>
+    <string name="label_recycling_week">Next recycling date is</string>
     <string name="label_notifications">Notifications</string>
     <string name="label_notify_time">Notify me at</string>
     <string name="notify_option_day_of">Day of pick-up</string>

@@ -12,10 +12,7 @@ import android.widget.TextView;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
-import com.spinthechoice.garbage.GlobalGarbageConfiguration;
-import com.spinthechoice.garbage.UserGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
-import com.spinthechoice.garbage.android.service.AppGlobalGarbageConfiguration;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.PickupItemFormatter;
@@ -30,8 +27,8 @@ import java.util.Locale;
 import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity {
-    private final GarbageScheduleService scheduleService = new GarbageScheduleService();
     private final PreferencesService prefsService = new PreferencesService();
+    private final GarbageScheduleService scheduleService = new GarbageScheduleService();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -42,11 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         final HolidayService holidayService = new HolidayService(this, R.raw.holidays);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
-        final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
-                prefs.getDayOfWeek(), prefs.getGarbageWeekIndex(), prefs.getRecyclingWeekIndex());
-        final AppGlobalGarbageConfiguration appConfig = AppGlobalGarbageConfiguration.fromPreferences(prefs);
-        final GlobalGarbageConfiguration configuration = appConfig.toConfig(holidayService);
-        final Garbage garbage = scheduleService.createGarbage(configuration, userConfig);
+        final Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
         final List<GarbageDay> garbageDays = scheduleService.getGarbageDays(garbage, LocalDate.now(), 15);
 
         final TextView header = findViewById(R.id.text_header);
