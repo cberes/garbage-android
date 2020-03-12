@@ -1,0 +1,102 @@
+{
+  "holidays": [
+    {
+      "id": "07b41e3d-5850-4b1e-8024-c9aaa25cc052",
+      "name": "New Year's Day",
+      "holiday": {
+        "type": "STATIC_DATE",
+        "month": "JANUARY",
+        "date": 1
+      }
+    },
+    {
+      "id": "c623929e-0f38-4727-b104-5cbcb70a8751",
+      "name": "Martin Luther King Jr. Day",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "JANUARY",
+        "dayOfWeek": "MONDAY",
+        "weekIndex": -1
+      }
+    },
+    {
+      "id": "fc5433a4-f7ea-4c12-ad1c-34d0a7807963",
+      "name": "Memorial Day",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "MAY",
+        "dayOfWeek": "MONDAY",
+        "weekIndex": -1
+      }
+    },
+    {
+      "id": "25183fc3-b584-416b-aa9a-0390adb2a1f1",
+      "name": "Independence Day",
+      "holiday": {
+        "type": "STATIC_DATE",
+        "month": "JULY",
+        "date": 4
+      }
+    },
+    {
+      "id": "7370f5d1-9c49-4634-a3cc-ba7ddd303ebf",
+      "name": "Labor Day",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "SEPTEMBER",
+        "dayOfWeek": "MONDAY",
+        "weekIndex": 0
+      }
+    },
+    {
+      "id": "2e42c329-aeae-47b4-863e-b261b8d830a1",
+      "name": "Columbus Day",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "OCTOBER",
+        "dayOfWeek": "MONDAY",
+        "weekIndex": 1
+      }
+    },
+    {
+      "id": "3d6c76f8-6dae-4a71-857f-067b0ebd36e2",
+      "name": "Thanksgiving",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "NOVEMBER",
+        "dayOfWeek": "THURSDAY",
+        "weekIndex": 3
+      }
+    },
+    {
+      "id": "602d3df3-5efa-4e5c-a0cf-995c4428bbd1",
+      "name": "Thanksgiving, day after",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "NOVEMBER",
+        "dayOfWeek": "THURSDAY",
+        "weekIndex": 3,
+        "offset": "DAY_AFTER"
+      }
+    },
+    {
+      "id": "cca96848-cbcf-40ca-bb3a-c5eac75a16a4",
+      "name": "Christmas",
+      "holiday": {
+        "type": "STATIC_DATE",
+        "month": "DECEMBER",
+        "date": 25
+      }
+    },
+    {
+      "id": "e0686786-3f1c-46f5-ab93-a08cf82289cc",
+      "name": "New Year's Eve",
+      "holiday": {
+        "type": "STATIC_DATE",
+        "month": "JANUARY",
+        "date": 1,
+        "offset": "DAY_BEFORE"
+      }
+    }
+  ]
+}

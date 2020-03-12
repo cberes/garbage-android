@@ -14,12 +14,13 @@ import android.util.Log;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
+import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.UserGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
-import com.spinthechoice.garbage.android.service.GarbageOption;
-import com.spinthechoice.garbage.android.service.GarbagePresetService;
+import com.spinthechoice.garbage.android.service.AppGlobalGarbageConfiguration;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
+import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.PickupItemFormatter;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.TextUtils;
@@ -27,7 +28,6 @@ import com.spinthechoice.garbage.android.util.TextUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -78,14 +78,10 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private void handleGarbageCheckIntent(final Context context, final Intent intent) {
-        final GarbagePresetService presetService = new GarbagePresetService(context, R.raw.data);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
-        final Optional<GarbageOption> option = presetService.findPresetById(prefs.getOptionId());
-        if (option.isPresent()) {
-            final boolean sendRequested = ACTION_SEND.equals(intent.getAction());
-            final Garbage garbage = createGarbage(prefs, option.get());
-            handleGarbageCheckIntent(context, sendRequested, garbage);
-        }
+        final boolean sendRequested = ACTION_SEND.equals(intent.getAction());
+        final Garbage garbage = createGarbage(prefs, new HolidayService(context, R.raw.holidays));
+        handleGarbageCheckIntent(context, sendRequested, garbage);
     }
 
     private void handleGarbageCheckIntent(final Context context, final boolean sendRequested,
@@ -107,10 +103,12 @@ public class GarbageNotifier extends BroadcastReceiver {
                 });
     }
 
-    private Garbage createGarbage(final GarbagePreferences prefs, final GarbageOption option) {
+    private Garbage createGarbage(final GarbagePreferences prefs, final HolidayService holidayService) {
         final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
-                prefs.getDayOfWeek(), prefs.getGarbageWeek(), prefs.getRecyclingWeek());
-        return scheduleService.createGarbage(option.getConfiguration(), userConfig);
+                prefs.getDayOfWeek(), prefs.getGarbageWeekIndex(), prefs.getRecyclingWeekIndex());
+        final AppGlobalGarbageConfiguration appConfig = AppGlobalGarbageConfiguration.fromPreferences(prefs);
+        final GlobalGarbageConfiguration configuration = appConfig.toConfig(holidayService);
+        return scheduleService.createGarbage(configuration, userConfig);
     }
 
     private static LocalDateTime getNotificationTime(final GarbageDay day, final NotificationPreferences prefs) {

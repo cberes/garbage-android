@@ -26,13 +26,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:labelFor="@id/spinner_municipality"
+                android:labelFor="@id/spinner_day_of_week"
                 android:textColor="@color/colorTextSecondary"
-                android:text="@string/label_municipality"
-                tools:text="@string/label_municipality" />
+                android:text="@string/label_day_of_week"
+                tools:text="@string/label_day_of_week" />
 
             <Spinner
-                android:id="@+id/spinner_municipality"
+                android:id="@+id/spinner_day_of_week"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:popupBackground="@color/backgroundSecondary"
@@ -49,15 +49,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/settings_margin"
-                android:labelFor="@id/spinner_day_of_week"
+                android:labelFor="@id/spinner_garbage_weeks"
                 android:textColor="@color/colorTextSecondary"
-                android:text="@string/label_day_of_week"
-                tools:text="@string/label_day_of_week" />
+                android:text="@string/label_garbage_weeks"
+                tools:text="@string/label_garbage_weeks" />
 
             <Spinner
-                android:id="@+id/spinner_day_of_week"
+                android:id="@+id/spinner_garbage_weeks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:entries="@array/garbage_frequencies"
                 android:popupBackground="@color/backgroundSecondary"
                 android:spinnerMode="dropdown" />
 
@@ -94,6 +95,30 @@
                 android:textColor="@color/colorTextPrimary"
                 android:text="@string/weekly"
                 tools:text="@string/weekly" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_recycling_weeks"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_recycling_weeks"
+                tools:text="@string/label_recycling_weeks" />
+
+            <Spinner
+                android:id="@+id/spinner_recycling_weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/garbage_frequencies"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
 
             <View
                 android:layout_width="match_parent"

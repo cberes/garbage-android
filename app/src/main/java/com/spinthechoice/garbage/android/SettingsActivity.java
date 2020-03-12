@@ -16,11 +16,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
-import com.spinthechoice.garbage.android.service.GarbageOption;
-import com.spinthechoice.garbage.android.service.GarbagePresetService;
+import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.TextUtils;
 
@@ -29,18 +27,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.TextStyle;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 
 public class SettingsActivity extends AppCompatActivity {
     private final PreferencesService prefsService = new PreferencesService();
-    private final AtomicReference<GarbageOption> optionRef = new AtomicReference<>();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,12 +50,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void setupGarbageSettings() {
-        final GarbagePresetService presetService = new GarbagePresetService(this, R.raw.data);
+        final HolidayService holidayService = new HolidayService(this, R.raw.holidays);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
-
-        final GarbageOption initialOption = presetService.findPresetById(prefs.getOptionId())
-                .orElseGet(presetService::getDefaultPreset);
-        final GlobalGarbageConfiguration initialConfig = initialOption.getConfiguration();
 
         final List<DayOfWeek> daysOfWeek = asList(DayOfWeek.values());
         final Spinner dayOfWeek = findViewById(R.id.spinner_day_of_week);
@@ -80,13 +71,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         final TextView garbageWeeklyText = findViewById(R.id.text_garbage_weekly);
         final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
-        updateWeekOptions(garbageWeek, garbageWeeklyText, initialConfig.getGarbageWeeks(),
-                initialConfig.isGarbageEnabled(), prefs.getGarbageWeek());
+        updateWeekOptions(garbageWeek, garbageWeeklyText, prefs.getGarbageWeeks(),
+                prefs.isGarbageEnabled(), prefs.getGarbageWeekIndex());
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final List<String> items = optionRef.get().getConfiguration().getGarbageWeeks();
-                updateGarbagePreferences(prefs -> prefs.setGarbageWeek(items.get(position)));
+                updateGarbagePreferences(prefs -> prefs.setGarbageWeekIndex(position));
             }
 
             @Override
@@ -97,13 +87,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         final TextView recyclingWeeklyText = findViewById(R.id.text_recycling_weekly);
         final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
-        updateWeekOptions(recyclingWeek, recyclingWeeklyText, initialConfig.getRecyclingWeeks(),
-                initialConfig.isRecyclingEnabled(), prefs.getRecyclingWeek());
+        updateWeekOptions(recyclingWeek, recyclingWeeklyText, prefs.getRecyclingWeeks(),
+                prefs.isRecyclingEnabled(), prefs.getRecyclingWeekIndex());
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final List<String> items = optionRef.get().getConfiguration().getRecyclingWeeks();
-                updateGarbagePreferences(prefs -> prefs.setRecyclingWeek(items.get(position)));
+                updateGarbagePreferences(prefs -> prefs.setRecyclingWeekIndex(position));
             }
 
             @Override
@@ -112,32 +101,42 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        final Spinner municipality = findViewById(R.id.spinner_municipality);
-        final List<GarbageOption> presets = presetService.getAllPresets();
-        final List<String> presetIds = presets.stream().map(GarbageOption::getId).collect(toList());
-        municipality.setAdapter(municipalityAdapter(presets));
-        municipality.setSelection(presetIds.indexOf(prefs.getOptionId()));
-        municipality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        final Spinner garbageWeeks = findViewById(R.id.spinner_garbage_weeks);
+        garbageWeeks.setSelection(prefs.getGarbageWeeks() + 1);
+        garbageWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final GarbageOption preset = presets.get(position);
-                optionRef.set(preset);
+                final int value = position;
 
-                final GarbagePreferences defaults = prefsService.createDefaultPreferences(preset);
                 updateGarbagePreferences(prefs -> {
-                    prefs.setOptionId(defaults.getOptionId());
-                    prefs.setGarbageWeek(defaults.getGarbageWeek());
-                    prefs.setRecyclingWeek(defaults.getRecyclingWeek());
+                    prefs.setGarbageWeeks(value);
+                    prefs.setGarbageWeekIndex(0);
                 });
 
-                final GlobalGarbageConfiguration config = preset.getConfiguration();
                 garbageWeek.setSelected(false);
-                updateWeekOptions(garbageWeek, garbageWeeklyText, config.getGarbageWeeks(),
-                        config.isGarbageEnabled(), defaults.getGarbageWeek());
+                updateWeekOptions(garbageWeek, garbageWeeklyText, value, value > 0, 0);
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+                // do nothing
+            }
+        });
+
+        final Spinner recyclingWeeks = findViewById(R.id.spinner_recycling_weeks);
+        recyclingWeeks.setSelection(prefs.getRecyclingWeeks() + 1);
+        recyclingWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
+                final int value = position;
+
+                updateGarbagePreferences(prefs -> {
+                    prefs.setRecyclingWeeks(value);
+                    prefs.setRecyclingWeekIndex(0);
+                });
 
                 recyclingWeek.setSelected(false);
-                updateWeekOptions(recyclingWeek, recyclingWeeklyText, config.getRecyclingWeeks(),
-                        config.isRecyclingEnabled(), defaults.getRecyclingWeek());
+                updateWeekOptions(recyclingWeek, recyclingWeeklyText, value, value > 0, 0);
             }
 
             @Override
@@ -212,17 +211,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private static <E> List<E> defaultList(final List<E> list) {
-        return list == null ? emptyList() : list;
-    }
-
-    private SpinnerAdapter municipalityAdapter(final List<GarbageOption> presets) {
-        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                presets.stream()
-                        .map(GarbageOption::getName)
-                        .collect(toList()));
-    }
-
     private SpinnerAdapter stringListAdapter(final List<String> strings) {
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, strings);
     }
@@ -247,23 +235,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
-                                   final List<String> nullableItems, final boolean enabled,
-                                   final String selected) {
-        final List<String> items = removeDisabled(defaultList(nullableItems));
+                                   final int weeks, final boolean enabled,
+                                   final int weekIndex) {
+        final List<String> items = range(0, weeks).mapToObj(i -> ('A' + i) + "").collect(toList());
         weeklyLabel.setVisibility(!enabled || items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
         weeklyLabel.setText(getString(enabled ? R.string.weekly : R.string.never));
         spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
         spinner.setEnabled(items.size() > 1);
         spinner.setAdapter(stringListAdapter(items));
-        if (selected != null) {
-            spinner.setSelection(items.indexOf(selected));
-        }
-    }
-
-    private static List<String> removeDisabled(final Collection<String> items) {
-        return items.stream()
-                .filter(s -> !"(disabled)".equals(s))
-                .collect(toList());
+        spinner.setSelection(weekIndex);
     }
 
     private SpinnerAdapter notificationDaysAdapter() {
