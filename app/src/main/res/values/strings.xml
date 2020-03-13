@@ -20,8 +20,8 @@
         cancel (delay until the next week) your service.
     </string>
     <string name="label_holiday">Holiday</string>
-    <string name="label_postponed">Postponed</string>
-    <string name="label_canceled">Canceled</string>
+    <string name="label_postponed">Postpones</string>
+    <string name="label_canceled">Cancels</string>
     <string name="channel_name">Garbage reminders</string>
     <string name="channel_description">Reminders about garbage &amp; recycling pick-up</string>
     <string name="notification_title">Prepare %s</string>
