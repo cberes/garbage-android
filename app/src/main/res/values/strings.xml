@@ -25,13 +25,12 @@
     <string name="channel_name">Garbage reminders</string>
     <string name="channel_description">Reminders about garbage &amp; recycling pick-up</string>
     <string name="notification_title">Prepare %s</string>
-    <string name="notification_body">%s pick-up on %s</string>
+    <string name="notification_body">%1$s pick-up on %2$s</string>
     <string name="notification_item_bulk">bulk</string>
     <string name="notification_item_garbage">garbage</string>
     <string name="notification_item_recycling">recycling</string>
     <string name="never">Never</string>
     <string name="weekly">Weekly</string>
-    <string name="biweekly">Every other week</string>
     <string name="open_source">Garbo Clock is an open-source project.</string>
     <string name="contribute_prompt">Add your town or contribute at GitHub.</string>
 
