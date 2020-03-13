@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Garbo Clock</string>
     <string name="action_about">About</string>
+    <string name="action_holidays">Holidays</string>
     <string name="action_settings">Settings</string>
     <string name="label_loading">Loading&#8230;</string>
     <string name="label_day_of_week">Day of week</string>
@@ -13,6 +14,14 @@
     <string name="notify_option_day_of">Day of pick-up</string>
     <string name="notify_option_day_prior">Day before pick-up</string>
     <string name="label_dates">%s pick-up</string>
+    <string name="button_holiday_picker">Configure holidays</string>
+    <string name="label_holiday_picker">
+        Select the holidays that postpone (delay by 1 day) or
+        cancel (delay until the next week) your service.
+    </string>
+    <string name="label_holiday">Holiday</string>
+    <string name="label_postponed">Postponed</string>
+    <string name="label_canceled">Canceled</string>
     <string name="channel_name">Garbage reminders</string>
     <string name="channel_description">Reminders about garbage &amp; recycling pick-up</string>
     <string name="notification_title">Prepare %s</string>

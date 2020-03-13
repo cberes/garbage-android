@@ -161,6 +161,28 @@
                 android:layout_marginBottom="@dimen/settings_margin"
                 android:background="@color/horizontalRule" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/button_holiday_picker"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/action_holidays"
+                tools:text="@string/action_holidays" />
+
+            <Button
+                android:id="@+id/button_holiday_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_holiday_picker" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
             <Switch
                 android:id="@+id/switch_notifications"
                 android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.spinthechoice.garbage.android;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,6 +9,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -109,6 +111,14 @@ public class SettingsActivity extends AppCompatActivity {
         final HolidayService holidayService = new HolidayService(this, R.raw.holidays);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
 
+        final Button holidayPicker = findViewById(R.id.button_holiday_picker);
+        holidayPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                launchHolidayPicker();
+            }
+        });
+
         final List<DayOfWeek> daysOfWeek = asList(DayOfWeek.values());
         final Spinner dayOfWeek = findViewById(R.id.spinner_day_of_week);
         dayOfWeek.setAdapter(dayOfWeekAdapter(daysOfWeek));
@@ -200,6 +210,11 @@ public class SettingsActivity extends AppCompatActivity {
                 // do nothing
             }
         });
+    }
+
+    private void launchHolidayPicker() {
+        final Intent holidayPicker = new Intent(this, HolidayPickerActivity.class);
+        startActivity(holidayPicker);
     }
 
     private void setupNotificationSettings() {

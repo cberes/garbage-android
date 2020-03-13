@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/text_holiday_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:text="@string/label_holiday"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextPrimary"
+        android:textStyle="bold"
+        tools:text="@string/label_holiday" />
+
+    <TextView
+        android:id="@+id/text_postpone_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/text_cancel_header"
+        android:text="@string/label_postponed"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextPrimary"
+        android:textStyle="bold"
+        tools:text="@string/label_postponed" />
+
+    <TextView
+        android:id="@+id/text_cancel_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/main_margin"
+        android:text="@string/label_canceled"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextPrimary"
+        android:textStyle="bold"
+        tools:text="@string/label_canceled" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rule_height"
+        android:background="@color/horizontalRule"
+        android:layout_marginTop="@dimen/main_margin"
+        android:layout_marginBottom="@dimen/main_margin"
+        android:layout_below="@id/text_holiday_header" />
+
+</RelativeLayout>
