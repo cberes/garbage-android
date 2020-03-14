@@ -20,6 +20,16 @@
       }
     },
     {
+      "id": "2bd8066a-9f49-4b68-91cf-d32d460064b1",
+      "name": "Presidents' Day",
+      "holiday": {
+        "type": "NTH_DAY_OF_WEEK",
+        "month": "FEBRUARY",
+        "dayOfWeek": "MONDAY",
+        "weekIndex": 2
+      }
+    },
+    {
       "id": "fc5433a4-f7ea-4c12-ad1c-34d0a7807963",
       "name": "Memorial Day",
       "holiday": {
@@ -50,12 +60,21 @@
     },
     {
       "id": "2e42c329-aeae-47b4-863e-b261b8d830a1",
-      "name": "Columbus Day",
+      "name": "Columbus/Indig. Peoples' Day",
       "holiday": {
         "type": "NTH_DAY_OF_WEEK",
         "month": "OCTOBER",
         "dayOfWeek": "MONDAY",
         "weekIndex": 1
+      }
+    },
+    {
+      "id": "c9fa2d0a-f1e0-4fa1-be32-f03371e812cd",
+      "name": "Veterans Day",
+      "holiday": {
+        "type": "STATIC_DATE",
+        "month": "NOVEMBER",
+        "date": 11
       }
     },
     {

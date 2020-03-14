@@ -21,12 +21,12 @@
     <string name="notify_option_day_prior">Day before pick-up</string>
     <string name="label_dates">%s pick-up</string>
     <string name="button_holiday_picker">Configure holidays</string>
-    <string name="label_holiday_picker">Select the holidays that affect your service.</string>
+    <string name="label_holiday_picker">Select the holidays that affect pick-up.</string>
     <string name="tooltip_holiday_postpones">
         Select if the holiday delays pick-up by 1 day for the rest of the week.
     </string>
     <string name="tooltip_holiday_cancels">
-        Select if there is no service on this day, but the rest of the week is unaffected.
+        Select if there is no pick-up on this day, but the rest of the week is unaffected.
     </string>
     <string name="label_holiday">Holiday</string>
     <string name="label_postponed">Postpones</string>
