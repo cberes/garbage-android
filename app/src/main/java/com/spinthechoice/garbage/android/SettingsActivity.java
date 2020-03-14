@@ -170,7 +170,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         final Spinner garbageWeeks = findViewById(R.id.spinner_garbage_weeks);
-        garbageWeeks.setSelection(prefs.getGarbageWeeks() + 1);
+        garbageWeeks.setSelection(prefs.getGarbageWeeks());
         garbageWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -191,7 +191,7 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         final Spinner recyclingWeeks = findViewById(R.id.spinner_recycling_weeks);
-        recyclingWeeks.setSelection(prefs.getRecyclingWeeks() + 1);
+        recyclingWeeks.setSelection(prefs.getRecyclingWeeks());
         recyclingWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {

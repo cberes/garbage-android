@@ -56,7 +56,7 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(final int position) {
-        return super.getItemViewType(position) == HEADER_INDEX ? HEADER_TYPE : ITEM_TYPE;
+        return position == HEADER_INDEX ? HEADER_TYPE : ITEM_TYPE;
     }
 
     @Override
