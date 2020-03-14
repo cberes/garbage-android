@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".SettingsActivity"
+    tools:showIn="@layout/activity_garbage_settings">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/settings_padding"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_day_of_week"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_day_of_week"
+                tools:text="@string/label_day_of_week" />
+
+            <Spinner
+                android:id="@+id/spinner_day_of_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_garbage_weeks"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_garbage_weeks"
+                tools:text="@string/label_garbage_weeks" />
+
+            <Spinner
+                android:id="@+id/spinner_garbage_weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/garbage_frequencies"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_garbage_week"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_garbage_week"
+                tools:text="@string/label_garbage_week" />
+
+            <Spinner
+                android:id="@+id/spinner_garbage_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/text_garbage_weekly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_margin"
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/weekly"
+                tools:text="@string/weekly" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_recycling_weeks"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_recycling_weeks"
+                tools:text="@string/label_recycling_weeks" />
+
+            <Spinner
+                android:id="@+id/spinner_recycling_weeks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/garbage_frequencies"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/spinner_recycling_week"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_recycling_week"
+                tools:text="@string/label_recycling_week" />
+
+            <Spinner
+                android:id="@+id/spinner_recycling_week"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+            <TextView
+                android:id="@+id/text_recycling_weekly"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_margin"
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorTextPrimary"
+                android:text="@string/weekly"
+                tools:text="@string/weekly" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:labelFor="@id/button_holiday_picker"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/action_holidays"
+                tools:text="@string/action_holidays" />
+
+            <Button
+                android:id="@+id/button_holiday_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_holiday_picker" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

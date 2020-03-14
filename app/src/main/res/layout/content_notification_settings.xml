@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".NotificationSettingsActivity"
+    tools:showIn="@layout/activity_notification_settings">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/settings_padding"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/switch_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTextSecondary"
+                android:text="@string/label_notifications"
+                tools:text="@string/label_notifications" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/rule_height"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="@color/horizontalRule" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_notify_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:labelFor="@id/time_notification"
+                    android:textColor="@color/colorTextSecondary"
+                    android:text="@string/label_notify_time"
+                    tools:text="@string/label_notify_time" />
+
+                <EditText
+                    android:id="@+id/time_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:autofillHints="false"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="end"
+                    android:inputType="none" />
+
+            </LinearLayout>
+
+            <Spinner
+                android:id="@+id/spinner_notify_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:popupBackground="@color/backgroundSecondary"
+                android:spinnerMode="dropdown" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

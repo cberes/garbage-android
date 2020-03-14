@@ -21,14 +21,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsActivity"
-            android:label="@string/action_settings"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
             android:name=".AboutActivity"
             android:label="@string/action_about"
             android:theme="@style/AppTheme.NoActionBar">
@@ -37,12 +29,36 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/action_settings"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".NotificationSettingsActivity"
+            android:label="@string/action_notification_settings"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
+        </activity>
+        <activity
+            android:name=".GarbageSettingsActivity"
+            android:label="@string/action_garbage_settings"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SettingsActivity" />
+        </activity>
+        <activity
             android:name=".HolidayPickerActivity"
             android:label="@string/action_holidays"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".GarbageSettingsActivity" />
         </activity>
         <receiver
             android:name=".GarbageNotifier"
