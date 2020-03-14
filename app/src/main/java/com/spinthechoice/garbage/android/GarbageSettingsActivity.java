@@ -24,7 +24,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import static java.util.Arrays.asList;
@@ -33,22 +35,47 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
 public class GarbageSettingsActivity extends AppCompatActivity {
+    private static class WeekOption {
+        private static final DateTimeFormatter FORMAT =
+                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
+
+        private final int id;
+        private final LocalDate date;
+
+        WeekOption(final int id, final LocalDate date) {
+            this.id = id;
+            this.date = date;
+        }
+
+        int getId() {
+            return id;
+        }
+
+        LocalDate getDate() {
+            return date;
+        }
+
+        @Override
+        public String toString() {
+            return date.format(FORMAT);
+        }
+    }
+
     private enum PickupItem {
         GARBAGE {
             @Override
-            List<String> weekOptions(final GarbagePreferences prefs, final HolidayService holidayService,
+            List<WeekOption> weekOptions(final GarbagePreferences prefs, final HolidayService holidayService,
                                      final GarbageScheduleService scheduleService) {
                 if (prefs.isGarbageEnabled()) {
-                    final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
                     final LocalDate now = LocalDate.now();
                     return range(0, prefs.getGarbageWeeks())
                             .mapToObj(week -> {
                                 prefs.setGarbageWeekIndex(week);
                                 Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
-                                return scheduleService.nextPickup(garbage, now, GarbageDay::isGarbageDay);
+                                Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isGarbageDay);
+                                return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
                             })
-                            .map(day -> day.map(GarbageDay::getDate).orElse(now))
-                            .map(date -> date.format(formatter))
+                            .sorted(Comparator.comparing(WeekOption::getDate))
                             .collect(toList());
                 } else {
                     return emptyList();
@@ -57,19 +84,18 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         },
         RECYCLING {
             @Override
-            List<String> weekOptions(final GarbagePreferences prefs, final HolidayService holidayService,
+            List<WeekOption> weekOptions(final GarbagePreferences prefs, final HolidayService holidayService,
                                      final GarbageScheduleService scheduleService) {
                 if (prefs.isRecyclingEnabled()) {
-                    final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
                     final LocalDate now = LocalDate.now();
                     return range(0, prefs.getRecyclingWeeks())
                             .mapToObj(week -> {
                                 prefs.setRecyclingWeekIndex(week);
                                 Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
-                                return scheduleService.nextPickup(garbage, now, GarbageDay::isRecyclingDay);
+                                Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isRecyclingDay);
+                                return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
                             })
-                            .map(day -> day.map(GarbageDay::getDate).orElse(now))
-                            .map(date -> date.format(formatter))
+                            .sorted(Comparator.comparing(WeekOption::getDate))
                             .collect(toList());
                 } else {
                     return emptyList();
@@ -77,12 +103,14 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         };
 
-        abstract List<String> weekOptions(GarbagePreferences prefs, HolidayService holidayService,
-                                          GarbageScheduleService scheduleService);
+        abstract List<WeekOption> weekOptions(GarbagePreferences prefs, HolidayService holidayService,
+                                                GarbageScheduleService scheduleService);
     }
 
     private final PreferencesService prefsService = new PreferencesService();
     private final GarbageScheduleService scheduleService = new GarbageScheduleService();
+    private List<WeekOption> garbageOptions;
+    private List<WeekOption> recyclingOptions;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -125,13 +153,13 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
         final TextView garbageWeeklyText = findViewById(R.id.text_garbage_weekly);
         final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
+        garbageOptions = PickupItem.GARBAGE.weekOptions(prefs, holidayService, scheduleService);
         updateWeekOptions(garbageWeek, garbageWeeklyText,
-                prefs.isGarbageEnabled(), prefs.getGarbageWeekIndex(),
-                PickupItem.GARBAGE.weekOptions(prefs, holidayService, scheduleService));
+                prefs.isGarbageEnabled(), prefs.getGarbageWeekIndex(), garbageOptions);
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                updateGarbagePreferences(prefs -> prefs.setGarbageWeekIndex(position));
+                updateGarbagePreferences(prefs -> prefs.setGarbageWeekIndex(garbageOptions.get(position).getId()));
             }
 
             @Override
@@ -142,13 +170,13 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
         final TextView recyclingWeeklyText = findViewById(R.id.text_recycling_weekly);
         final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
+        recyclingOptions = PickupItem.RECYCLING.weekOptions(prefs, holidayService, scheduleService);
         updateWeekOptions(recyclingWeek, recyclingWeeklyText,
-                prefs.isRecyclingEnabled(), prefs.getRecyclingWeekIndex(),
-                PickupItem.RECYCLING.weekOptions(prefs, holidayService, scheduleService));
+                prefs.isRecyclingEnabled(), prefs.getRecyclingWeekIndex(), recyclingOptions);
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                updateGarbagePreferences(prefs -> prefs.setRecyclingWeekIndex(position));
+                updateGarbagePreferences(prefs -> prefs.setRecyclingWeekIndex(recyclingOptions.get(position).getId()));
             }
 
             @Override
@@ -168,8 +196,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                 });
 
                 garbageWeek.setSelected(false);
-                updateWeekOptions(garbageWeek, garbageWeeklyText, position > 0, 0,
-                        PickupItem.GARBAGE.weekOptions(newPrefs, holidayService, scheduleService));
+                garbageOptions = PickupItem.GARBAGE.weekOptions(newPrefs, holidayService, scheduleService);
+                updateWeekOptions(garbageWeek, garbageWeeklyText, position > 0, 0, garbageOptions);
             }
 
             @Override
@@ -189,8 +217,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                 });
 
                 recyclingWeek.setSelected(false);
-                updateWeekOptions(recyclingWeek, recyclingWeeklyText, position > 0, 0,
-                        PickupItem.RECYCLING.weekOptions(newPrefs, holidayService, scheduleService));
+                recyclingOptions = PickupItem.RECYCLING.weekOptions(newPrefs, holidayService, scheduleService);
+                updateWeekOptions(recyclingWeek, recyclingWeeklyText, position > 0, 0, recyclingOptions);
             }
 
             @Override
@@ -225,12 +253,12 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
     private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
                                    final boolean enabled, final int weekIndex,
-                                   final List<String> items) {
+                                   final List<WeekOption> items) {
         weeklyLabel.setVisibility(!enabled || items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
         weeklyLabel.setText(getString(enabled ? R.string.weekly : R.string.never));
         spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
         spinner.setEnabled(items.size() > 1);
-        spinner.setAdapter(stringListAdapter(items));
-        spinner.setSelection(weekIndex);
+        spinner.setAdapter(stringListAdapter(items.stream().map(WeekOption::toString).collect(toList())));
+        spinner.setSelection(range(0, items.size()).filter(i -> items.get(i).getId() == weekIndex).findFirst().orElse(0));
     }
 }
