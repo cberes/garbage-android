@@ -29,6 +29,69 @@
             android:text="@string/label_loading"
             tools:text="@string/label_loading" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_margin"
+            android:paddingStart="@dimen/main_padding"
+            android:paddingEnd="@dimen/main_padding">
+
+            <TextView
+                android:id="@+id/text_holiday_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/label_holiday"
+                android:textAllCaps="true"
+                android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
+                tools:text="@string/label_holiday" />
+
+            <TextView
+                android:id="@+id/text_postpone_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/icon_postpone_header"
+                android:text="@string/label_postponed"
+                android:textAllCaps="true"
+                android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
+                android:tooltipText="@string/tooltip_holiday_postpones"
+                tools:text="@string/label_postponed" />
+
+            <ImageView
+                android:id="@+id/icon_postpone_header"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_toStartOf="@id/text_cancel_header"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/ic_info"
+                android:tooltipText="@string/tooltip_holiday_postpones" />
+
+            <TextView
+                android:id="@+id/text_cancel_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@id/icon_cancel_header"
+                android:layout_marginStart="@dimen/main_margin"
+                android:text="@string/label_canceled"
+                android:textAllCaps="true"
+                android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
+                android:tooltipText="@string/tooltip_holiday_cancels"
+                tools:text="@string/label_canceled" />
+
+            <ImageView
+                android:id="@+id/icon_cancel_header"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="2dp"
+                android:src="@drawable/ic_info"
+                android:tooltipText="@string/tooltip_holiday_postpones" />
+
+        </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list_holiday_picker"
             android:scrollbars="vertical"
