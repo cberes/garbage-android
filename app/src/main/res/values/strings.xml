@@ -41,7 +41,7 @@
     <string name="never">Never</string>
     <string name="weekly">Weekly</string>
     <string name="open_source">Garbo Clock is an open-source project.</string>
-    <string name="contribute_prompt">Submit a bug or contribute at GitHub.</string>
+    <string name="contribute_prompt">Report a bug, add a translation, or contribute at GitHub.</string>
 
     <string-array name="garbage_frequencies">
         <item>Never</item>
