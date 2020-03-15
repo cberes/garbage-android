@@ -44,11 +44,11 @@ public class AppGlobalGarbageConfiguration implements Jsonable {
                 .findFirst()
                 .get());
         final HashMap<PickupItem, PickupItemConfiguration> items = new HashMap<>();
-        if (prefs.getGarbageWeeks() >= 0) {
+        if (prefs.isGarbageEnabled()) {
             items.put(PickupItem.GARBAGE,
                     new PickupItemConfiguration(PickupItem.GARBAGE, true, prefs.getGarbageWeeks()));
         }
-        if (prefs.getRecyclingWeeks() >= 0) {
+        if (prefs.isRecyclingEnabled()) {
             items.put(PickupItem.RECYCLING,
                     new PickupItemConfiguration(PickupItem.RECYCLING, true, prefs.getRecyclingWeeks()));
         }

@@ -151,10 +151,10 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         });
 
-        final TextView garbageWeeklyText = findViewById(R.id.text_garbage_weekly);
+        final TextView garbageNoChoicesText = findViewById(R.id.text_garbage_no_choices);
         final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
         garbageOptions = PickupItem.GARBAGE.weekOptions(prefs, holidayService, scheduleService);
-        updateWeekOptions(garbageWeek, garbageWeeklyText,
+        updateWeekOptions(garbageWeek, garbageNoChoicesText,
                 prefs.isGarbageEnabled(), prefs.getGarbageWeekIndex(), garbageOptions);
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -168,10 +168,10 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         });
 
-        final TextView recyclingWeeklyText = findViewById(R.id.text_recycling_weekly);
+        final TextView recyclingNoChoicesText = findViewById(R.id.text_recycling_no_choices);
         final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
         recyclingOptions = PickupItem.RECYCLING.weekOptions(prefs, holidayService, scheduleService);
-        updateWeekOptions(recyclingWeek, recyclingWeeklyText,
+        updateWeekOptions(recyclingWeek, recyclingNoChoicesText,
                 prefs.isRecyclingEnabled(), prefs.getRecyclingWeekIndex(), recyclingOptions);
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -197,7 +197,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
                 garbageWeek.setSelected(false);
                 garbageOptions = PickupItem.GARBAGE.weekOptions(newPrefs, holidayService, scheduleService);
-                updateWeekOptions(garbageWeek, garbageWeeklyText, position > 0, 0, garbageOptions);
+                updateWeekOptions(garbageWeek, garbageNoChoicesText, position > 0, 0, garbageOptions);
             }
 
             @Override
@@ -218,7 +218,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
                 recyclingWeek.setSelected(false);
                 recyclingOptions = PickupItem.RECYCLING.weekOptions(newPrefs, holidayService, scheduleService);
-                updateWeekOptions(recyclingWeek, recyclingWeeklyText, position > 0, 0, recyclingOptions);
+                updateWeekOptions(recyclingWeek, recyclingNoChoicesText, position > 0, 0, recyclingOptions);
             }
 
             @Override
@@ -251,13 +251,14 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         return prefs;
     }
 
-    private void updateWeekOptions(final Spinner spinner, final TextView weeklyLabel,
+    private void updateWeekOptions(final Spinner spinner, final TextView noChoicesLabel,
                                    final boolean enabled, final int weekIndex,
                                    final List<WeekOption> items) {
-        weeklyLabel.setVisibility(!enabled || items.isEmpty() ? Spinner.VISIBLE : Spinner.GONE);
-        weeklyLabel.setText(getString(enabled ? R.string.weekly : R.string.never));
-        spinner.setVisibility(items.isEmpty() ? Spinner.GONE : Spinner.VISIBLE);
-        spinner.setEnabled(items.size() > 1);
+        final boolean choicesAvailable = enabled && items.size() > 1;
+        noChoicesLabel.setVisibility(!choicesAvailable ? Spinner.VISIBLE : Spinner.GONE);
+        noChoicesLabel.setText(enabled ? items.get(0).toString() : getString(R.string.never));
+        spinner.setVisibility(choicesAvailable ? Spinner.VISIBLE : Spinner.GONE);
+        spinner.setEnabled(choicesAvailable);
         spinner.setAdapter(stringListAdapter(items.stream().map(WeekOption::toString).collect(toList())));
         spinner.setSelection(range(0, items.size()).filter(i -> items.get(i).getId() == weekIndex).findFirst().orElse(0));
     }

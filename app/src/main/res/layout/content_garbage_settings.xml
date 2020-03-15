@@ -86,15 +86,15 @@
                 android:spinnerMode="dropdown" />
 
             <TextView
-                android:id="@+id/text_garbage_weekly"
+                android:id="@+id/text_garbage_no_choices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
-                android:text="@string/weekly"
-                tools:text="@string/weekly" />
+                android:text="@string/never"
+                tools:text="@string/never" />
 
             <View
                 android:layout_width="match_parent"
@@ -144,15 +144,15 @@
                 android:spinnerMode="dropdown" />
 
             <TextView
-                android:id="@+id/text_recycling_weekly"
+                android:id="@+id/text_recycling_no_choices"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
-                android:text="@string/weekly"
-                tools:text="@string/weekly" />
+                android:text="@string/never"
+                tools:text="@string/never" />
 
             <View
                 android:layout_width="match_parent"

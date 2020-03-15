@@ -40,7 +40,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/settings_margin"
                     android:textColor="@color/colorTextSecondary"
                     android:text="@string/label_garbage_settings_sub"
                     tools:text="@string/label_garbage_settings_sub" />
@@ -72,7 +71,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/settings_margin"
                     android:textColor="@color/colorTextSecondary"
                     android:text="@string/label_notifications_settings_sub"
                     tools:text="@string/label_notifications_settings_sub" />
