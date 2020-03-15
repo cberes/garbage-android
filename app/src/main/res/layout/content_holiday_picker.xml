@@ -66,6 +66,7 @@
                 android:layout_toStartOf="@id/text_cancel_header"
                 android:layout_marginStart="2dp"
                 android:src="@drawable/ic_info"
+                android:contentDescription="@string/desc_more_info"
                 android:tooltipText="@string/tooltip_holiday_postpones" />
 
             <TextView
@@ -88,6 +89,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="2dp"
                 android:src="@drawable/ic_info"
+                android:contentDescription="@string/desc_more_info"
                 android:tooltipText="@string/tooltip_holiday_postpones" />
 
         </RelativeLayout>

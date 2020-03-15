@@ -28,6 +28,7 @@
     <string name="tooltip_holiday_cancels">
         Select if there is no pick-up on this day, but the rest of the week is unaffected.
     </string>
+    <string name="desc_more_info">More info</string>
     <string name="label_holiday">Holiday</string>
     <string name="label_postponed">Postpones</string>
     <string name="label_canceled">Cancels</string>
