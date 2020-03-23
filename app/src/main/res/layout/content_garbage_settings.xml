@@ -90,9 +90,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
                 android:text="@string/never"
                 tools:text="@string/never" />
 
@@ -148,9 +151,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
+                android:textSize="16sp"
                 android:text="@string/never"
                 tools:text="@string/never" />
 
