@@ -29,6 +29,20 @@
             android:text="@string/label_loading"
             tools:text="@string/label_loading" />
 
+        <TextView
+            android:id="@+id/text_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/main_margin"
+            android:paddingStart="@dimen/main_padding"
+            android:paddingEnd="@dimen/main_padding"
+            android:visibility="gone"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/colorHighlight"
+            android:backgroundTint="@color/backgroundHighlight"
+            android:text="@string/help_holidays"
+            tools:text="@string/help_holidays" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

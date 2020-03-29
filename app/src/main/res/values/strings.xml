@@ -42,6 +42,8 @@
     <string name="never">Never</string>
     <string name="open_source">Garbo Clock is an open-source project.</string>
     <string name="contribute_prompt">Report a bug, add a translation, or contribute at GitHub.</string>
+    <string name="help_settings">To configure your schedule, select Settings from the Action Bar, then select Garbage Settings.</string>
+    <string name="help_holidays">Long-press the table headers for more information.</string>
 
     <string-array name="garbage_frequencies">
         <item>Never</item>

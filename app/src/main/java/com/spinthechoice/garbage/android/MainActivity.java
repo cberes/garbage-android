@@ -13,8 +13,10 @@ import android.widget.TextView;
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
+import com.spinthechoice.garbage.android.preferences.NavigationPreferences;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.HolidayService;
+import com.spinthechoice.garbage.android.service.NavigationService;
 import com.spinthechoice.garbage.android.service.PickupItemFormatter;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.TextUtils;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         dates.setLayoutManager(layoutManager);
         dates.setAdapter(datesAdapter(garbageDays));
 
+        setupHelpText();
+
         GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
     }
 
@@ -72,6 +76,19 @@ public class MainActivity extends AppCompatActivity {
                 R.string.notification_item_recycling);
         final String items = formatter.format(day, ", ");
         return TextUtils.capitalize(this, items);
+    }
+
+    private void setupHelpText() {
+        final NavigationService service = new NavigationService();
+        final NavigationPreferences prefs = service.readNavigationPreferences(this);
+
+        if (!prefs.hasNavigatedToSettings()) {
+            final TextView help = findViewById(R.id.text_help);
+            help.setVisibility(TextView.VISIBLE);
+
+            prefs.setNavigatedToSettings(true);
+            service.writeNavigationPreferences(this, prefs);
+        }
     }
 
     @Override

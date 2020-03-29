@@ -9,4 +9,6 @@
     <color name="horizontalRule">#212121</color>
     <color name="colorTextPrimary">#FFFFFF</color>
     <color name="colorTextSecondary">#909090</color>
+    <color name="colorHighlight">#FFFF00</color>
+    <color name="backgroundHighlight">#000000</color>
 </resources>

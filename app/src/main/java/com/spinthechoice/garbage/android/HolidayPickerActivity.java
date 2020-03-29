@@ -8,9 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
+import com.spinthechoice.garbage.android.preferences.NavigationPreferences;
 import com.spinthechoice.garbage.android.service.HolidayRef;
 import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.NamedHoliday;
+import com.spinthechoice.garbage.android.service.NavigationService;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 
 import java.time.LocalDate;
@@ -56,6 +58,8 @@ public class HolidayPickerActivity extends AppCompatActivity {
             }
         });
         dates.setAdapter(adapter);
+
+        setupHelpText();
     }
 
     private List<HolidayPickerItem> buildPickerItems(final List<NamedHoliday> holidays,
@@ -89,5 +93,18 @@ public class HolidayPickerActivity extends AppCompatActivity {
         }
         prefs.setHolidays(holidays);
         prefsService.writeGarbagePreferences(this, prefs);
+    }
+
+    private void setupHelpText() {
+        final NavigationService service = new NavigationService();
+        final NavigationPreferences prefs = service.readNavigationPreferences(this);
+
+        if (!prefs.hasNavigatedToHolidayPicker()) {
+            final TextView help = findViewById(R.id.text_help);
+            help.setVisibility(TextView.VISIBLE);
+
+            prefs.setNavigatedToHolidayPicker(true);
+            service.writeNavigationPreferences(this, prefs);
+        }
     }
 }
