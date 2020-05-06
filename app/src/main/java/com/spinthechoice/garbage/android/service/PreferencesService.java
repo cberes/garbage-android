@@ -25,9 +25,9 @@ public class PreferencesService {
         prefs.setHolidays(new HashSet<>(JsonableListSerializer.fromJson(holidayArray, HolidayRef::fromJson)));
         prefs.setDayOfWeek(DayOfWeek.valueOf(sharedPref.getString("dayOfWeek", DayOfWeek.MONDAY.name())));
         prefs.setGarbageWeekIndex(sharedPref.getInt("garbageWeekIndex", 0));
-        prefs.setGarbageWeeks(sharedPref.getInt("garbageWeeks", 0));
+        prefs.setGarbageWeeks(sharedPref.getInt("garbageWeeks", 1));
         prefs.setRecyclingWeekIndex(sharedPref.getInt("recyclingWeekIndex", 0));
-        prefs.setRecyclingWeeks(sharedPref.getInt("recyclingWeeks", 0));
+        prefs.setRecyclingWeeks(sharedPref.getInt("recyclingWeeks", 1));
         return prefs;
     }
 

@@ -26,6 +26,7 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
         final HolidayService holidayService = new HolidayService(this, R.raw.holidays);
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
         final Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
-        final List<GarbageDay> garbageDays = scheduleService.getGarbageDays(garbage, LocalDate.now(), 15);
+        final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
+                scheduleService.getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
 
         final TextView header = findViewById(R.id.text_header);
         final Locale locale = getResources().getConfiguration().getLocales().get(0);
