@@ -136,6 +136,12 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         });
 
+        final TextView garbageNoChoicesText = findViewById(R.id.text_garbage_no_choices);
+        final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
+
+        final TextView recyclingNoChoicesText = findViewById(R.id.text_recycling_no_choices);
+        final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
+
         final List<DayOfWeek> daysOfWeek = asList(DayOfWeek.values());
         final Spinner dayOfWeek = findViewById(R.id.spinner_day_of_week);
         dayOfWeek.setAdapter(dayOfWeekAdapter(daysOfWeek));
@@ -143,7 +149,10 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         dayOfWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                updatePreferences(prefs -> prefs.setDayOfWeek(daysOfWeek.get(position)));
+                final GarbagePreferences newPrefs =
+                        updatePreferences(prefs -> prefs.setDayOfWeek(daysOfWeek.get(position)));
+                updateGarbageWeekOptions(newPrefs, garbageWeek, garbageNoChoicesText);
+                updateRecyclingWeekOptions(newPrefs, recyclingWeek, recyclingNoChoicesText);
             }
 
             @Override
@@ -152,8 +161,6 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         });
 
-        final TextView garbageNoChoicesText = findViewById(R.id.text_garbage_no_choices);
-        final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
         updateGarbageWeekOptions(prefs, garbageWeek, garbageNoChoicesText);
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -167,8 +174,6 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             }
         });
 
-        final TextView recyclingNoChoicesText = findViewById(R.id.text_recycling_no_choices);
-        final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
         updateRecyclingWeekOptions(prefs, recyclingWeek, recyclingNoChoicesText);
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
