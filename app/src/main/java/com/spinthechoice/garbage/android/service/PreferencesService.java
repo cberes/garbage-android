@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
+import com.spinthechoice.garbage.android.util.Jsonable;
 
 import org.json.JSONArray;
 
@@ -17,12 +18,19 @@ import java.util.concurrent.TimeUnit;
 public class PreferencesService {
     private static final String TAG = "garbage";
 
-    public GarbagePreferences readGarbagePreferences(final Context context) {
+    public GarbagePreferences readGarbagePreferences(final Context context, final int holidaysRes) {
         final GarbagePreferences prefs = new GarbagePreferences();
         final SharedPreferences sharedPref = getGarbagePreferences(context);
-        final String holidayJson = sharedPref.getString("holidays", "[]");
-        final JSONArray holidayArray = JsonService.readJsonArraySafely(holidayJson);
-        prefs.setHolidays(new HashSet<>(JsonableListSerializer.fromJson(holidayArray, HolidayRef::fromJson)));
+
+        final String defaultHolidaysJson = JsonService.readJsonArraySafely(context, holidaysRes).toString();
+        final String holidaysJson = sharedPref.getString("allHolidays", defaultHolidaysJson);
+        final JSONArray holidaysArray = JsonService.readJsonArraySafely(holidaysJson);
+        prefs.setHolidays(JsonableListSerializer.fromJson(holidaysArray, NamedHoliday::fromJson));
+
+        final String selectedHolidaysJson = sharedPref.getString("holidays", "[]");
+        final JSONArray selectedHolidaysArray = JsonService.readJsonArraySafely(selectedHolidaysJson);
+        prefs.setSelectedHolidays(new HashSet<>(JsonableListSerializer.fromJson(selectedHolidaysArray, HolidayRef::fromJson)));
+
         prefs.setDayOfWeek(DayOfWeek.valueOf(sharedPref.getString("dayOfWeek", DayOfWeek.MONDAY.name())));
         prefs.setGarbageWeekIndex(sharedPref.getInt("garbageWeekIndex", 0));
         prefs.setGarbageWeeks(sharedPref.getInt("garbageWeeks", 1));
@@ -42,7 +50,8 @@ public class PreferencesService {
     public void writeGarbagePreferences(final Context context, final GarbagePreferences prefs) {
         final SharedPreferences sharedPref = getGarbagePreferences(context);
         final SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("holidays", serializeHolidaysSafely(prefs.getHolidays()).toString());
+        editor.putString("allHolidays", serializeHolidaysSafely(prefs.getHolidays()).toString());
+        editor.putString("holidays", serializeHolidaysSafely(prefs.getSelectedHolidays()).toString());
         editor.putString("dayOfWeek", prefs.getDayOfWeek().name());
         editor.putInt("garbageWeekIndex", prefs.getGarbageWeekIndex());
         editor.putInt("garbageWeeks", prefs.getGarbageWeeks());
@@ -51,7 +60,7 @@ public class PreferencesService {
         editor.apply();
     }
 
-    private JSONArray serializeHolidaysSafely(final Collection<HolidayRef> holidays) {
+    private JSONArray serializeHolidaysSafely(final Collection<? extends Jsonable> holidays) {
         try {
             return JsonableListSerializer.toJson(holidays);
         } catch (Exception e) {

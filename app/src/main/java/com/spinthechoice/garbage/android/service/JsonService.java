@@ -56,7 +56,7 @@ public class JsonService {
         }
     }
 
-    private static String resource(final Context context, final int res) throws IOException, JSONException {
+    private static String resource(final Context context, final int res) throws IOException {
         final InputStream input = context.getResources().openRawResource(res);
         final StringBuilder builder = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {

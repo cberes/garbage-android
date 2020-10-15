@@ -60,6 +60,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".GarbageSettingsActivity" />
         </activity>
+        <activity
+            android:name=".HolidayEditorActivity"
+            android:label="@string/action_holidays"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HolidayPickerActivity" />
+        </activity>
         <receiver
             android:name=".GarbageNotifier"
             android:exported="true">

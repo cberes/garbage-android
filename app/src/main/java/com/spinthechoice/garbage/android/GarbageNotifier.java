@@ -75,9 +75,9 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private void handleGarbageCheckIntent(final Context context, final Intent intent) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context, R.raw.holidays);
         final boolean sendRequested = ACTION_SEND.equals(intent.getAction());
-        final HolidayService holidays = new HolidayService(context, R.raw.holidays);
+        final HolidayService holidays = new HolidayService(prefsService, context);
         final Garbage garbage = scheduleService.createGarbage(prefs, holidays);
         handleGarbageCheckIntent(context, sendRequested, garbage);
     }

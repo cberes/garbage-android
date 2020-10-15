@@ -1,8 +1,10 @@
 package com.spinthechoice.garbage.android.preferences;
 
 import com.spinthechoice.garbage.android.service.HolidayRef;
+import com.spinthechoice.garbage.android.service.NamedHoliday;
 
 import java.time.DayOfWeek;
+import java.util.List;
 import java.util.Set;
 
 public class GarbagePreferences {
@@ -11,7 +13,8 @@ public class GarbagePreferences {
     private int garbageWeekIndex = 0;
     private int recyclingWeekIndex = 0;
     private DayOfWeek dayOfWeek;
-    private Set<HolidayRef> holidays;
+    private Set<HolidayRef> selectedHolidays;
+    private List<NamedHoliday> holidays;
 
     public boolean isGarbageEnabled() {
         return garbageWeeks > 0;
@@ -61,11 +64,19 @@ public class GarbagePreferences {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Set<HolidayRef> getHolidays() {
+    public Set<HolidayRef> getSelectedHolidays() {
+        return selectedHolidays;
+    }
+
+    public void setSelectedHolidays(final Set<HolidayRef> selectedHolidays) {
+        this.selectedHolidays = selectedHolidays;
+    }
+
+    public List<NamedHoliday> getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(final Set<HolidayRef> holidays) {
+    public void setHolidays(final List<NamedHoliday> holidays) {
         this.holidays = holidays;
     }
 }

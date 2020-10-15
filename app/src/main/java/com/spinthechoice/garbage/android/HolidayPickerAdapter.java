@@ -2,13 +2,14 @@ package com.spinthechoice.garbage.android;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.List;
+import com.spinthechoice.garbage.android.service.HolidayService;
 
 class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.ItemViewHolder> {
     @FunctionalInterface
@@ -16,7 +17,13 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.Ite
         void changed(String id, boolean postpone, boolean cancel);
     }
 
+    @FunctionalInterface
+    interface OnItemSelectedListener {
+        boolean selected(String id);
+    }
+
     static class ItemViewHolder extends RecyclerView.ViewHolder {
+        private final View itemView;
         private final TextView holiday;
         private final TextView date;
         private final CheckBox postpone;
@@ -25,22 +32,35 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.Ite
         ItemViewHolder(final RelativeLayout layout, final TextView holiday, final TextView date,
                        final CheckBox postpone, final CheckBox cancel) {
             super(layout);
+            this.itemView = layout;
             this.holiday = holiday;
             this.date = date;
             this.postpone = postpone;
             this.cancel = cancel;
         }
+
+        public View getItemView() {
+            return itemView;
+        }
     }
 
-    private final List<HolidayPickerItem> holidays;
-    private OnChangeListener listener;
+    private final HolidayService holidayService;
+    private final HolidayPickerItemFactory viewHolderFactory;
+    private OnChangeListener changeListener;
+    private OnItemSelectedListener selectedListener;
 
-    HolidayPickerAdapter(final List<HolidayPickerItem> holidays) {
-        this.holidays = holidays;
+    HolidayPickerAdapter(final HolidayService holidayService,
+                         final HolidayPickerItemFactory viewHolderFactory) {
+        this.holidayService = holidayService;
+        this.viewHolderFactory = viewHolderFactory;
     }
 
     public void setOnChangeListener(final OnChangeListener listener) {
-        this.listener = listener;
+        this.changeListener = listener;
+    }
+
+    public void setOnItemSelectedListener(final OnItemSelectedListener listener) {
+        this.selectedListener = listener;
     }
 
     @Override
@@ -56,7 +76,8 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.Ite
 
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
-        final HolidayPickerItem item = holidays.get(position);
+        final String id = holidayService.findAll().get(position).getId();
+        final HolidayPickerItem item = viewHolderFactory.create(id);
         holder.holiday.setText(item.getName());
         holder.date.setText(item.getDateText());
         holder.postpone.setChecked(item.isPostpone());
@@ -72,7 +93,7 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.Ite
 
                 item.setPostpone(checked);
 
-                invokeListener(item);
+                invokeChangeListener(item);
             }
         });
 
@@ -86,19 +107,31 @@ class HolidayPickerAdapter extends RecyclerView.Adapter<HolidayPickerAdapter.Ite
 
                 item.setCancel(checked);
 
-                invokeListener(item);
+                invokeChangeListener(item);
+            }
+        });
+
+        holder.getItemView().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View v) {
+                return invokeSelectedListener(item);
             }
         });
     }
 
-    private void invokeListener(final HolidayPickerItem item) {
-        if (listener != null) {
-            listener.changed(item.getId(), item.isPostpone(), item.isCancel());
+    private void invokeChangeListener(final HolidayPickerItem item) {
+        if (changeListener != null) {
+            changeListener.changed(item.getId(), item.isPostpone(), item.isCancel());
         }
+    }
+
+    private boolean invokeSelectedListener(final HolidayPickerItem item) {
+        return selectedListener != null &&
+                selectedListener.selected(item.getId());
     }
 
     @Override
     public int getItemCount() {
-        return holidays.size();
+        return holidayService.holidayCount();
     }
 }

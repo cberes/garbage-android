@@ -18,12 +18,12 @@ import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.service.GarbageScheduleService;
 import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.PreferencesService;
+import com.spinthechoice.garbage.android.util.AdapterUtils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.format.TextStyle;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +68,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                                      final GarbageScheduleService scheduleService) {
                 if (prefs.isGarbageEnabled()) {
                     final LocalDate now = LocalDate.now();
-                    return range(0, prefs.getGarbageWeeks())
+                    final int weekIndex = prefs.getGarbageWeekIndex();
+                    final List<WeekOption> options = range(0, prefs.getGarbageWeeks())
                             .mapToObj(week -> {
                                 prefs.setGarbageWeekIndex(week);
                                 Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
@@ -77,6 +78,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                             })
                             .sorted(Comparator.comparing(WeekOption::getDate))
                             .collect(toList());
+                    prefs.setGarbageWeekIndex(weekIndex);
+                    return options;
                 } else {
                     return emptyList();
                 }
@@ -88,7 +91,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                                      final GarbageScheduleService scheduleService) {
                 if (prefs.isRecyclingEnabled()) {
                     final LocalDate now = LocalDate.now();
-                    return range(0, prefs.getRecyclingWeeks())
+                    final int weekIndex = prefs.getRecyclingWeekIndex();
+                    final List<WeekOption> options = range(0, prefs.getRecyclingWeeks())
                             .mapToObj(week -> {
                                 prefs.setRecyclingWeekIndex(week);
                                 Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
@@ -97,6 +101,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
                             })
                             .sorted(Comparator.comparing(WeekOption::getDate))
                             .collect(toList());
+                    prefs.setRecyclingWeekIndex(weekIndex);
+                    return options;
                 } else {
                     return emptyList();
                 }
@@ -125,8 +131,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
     }
 
     private void setupGarbageSettings() {
-        holidayService = new HolidayService(this, R.raw.holidays);
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
+        holidayService = new HolidayService(prefsService, this);
 
         final Button holidayPicker = findViewById(R.id.button_holiday_picker);
         holidayPicker.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +150,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
 
         final List<DayOfWeek> daysOfWeek = asList(DayOfWeek.values());
         final Spinner dayOfWeek = findViewById(R.id.spinner_day_of_week);
-        dayOfWeek.setAdapter(dayOfWeekAdapter(daysOfWeek));
+        dayOfWeek.setAdapter(AdapterUtils.dayOfWeekAdapter(this, daysOfWeek));
         dayOfWeek.setSelection(daysOfWeek.indexOf(prefs.getDayOfWeek()));
         dayOfWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -194,7 +200,9 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final GarbagePreferences newPrefs = updatePreferences(prefs -> {
                     prefs.setGarbageWeeks(position);
-                    prefs.setGarbageWeekIndex(0);
+                    if (prefs.getGarbageWeekIndex() >= position) {
+                        prefs.setGarbageWeekIndex(0);
+                    }
                 });
 
                 garbageWeek.setSelected(false);
@@ -214,7 +222,9 @@ public class GarbageSettingsActivity extends AppCompatActivity {
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final GarbagePreferences newPrefs = updatePreferences(prefs -> {
                     prefs.setRecyclingWeeks(position);
-                    prefs.setRecyclingWeekIndex(0);
+                    if (prefs.getRecyclingWeekIndex() >= position) {
+                        prefs.setRecyclingWeekIndex(0);
+                    }
                 });
 
                 recyclingWeek.setSelected(false);
@@ -237,15 +247,8 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, strings);
     }
 
-    private SpinnerAdapter dayOfWeekAdapter(final List<DayOfWeek> daysOfWeek) {
-        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
-                daysOfWeek.stream()
-                        .map(day -> day.getDisplayName(TextStyle.FULL, getResources().getConfiguration().getLocales().get(0)))
-                        .collect(toList()));
-    }
-
     private GarbagePreferences updatePreferences(final Consumer<GarbagePreferences> updateFunc) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
         updateFunc.accept(prefs);
         prefsService.writeGarbagePreferences(this, prefs);
         return prefs;

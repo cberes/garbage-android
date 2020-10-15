@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final HolidayService holidayService = new HolidayService(this, R.raw.holidays);
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
+        final HolidayService holidayService = new HolidayService(prefsService, this);
         final Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
         final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
                 scheduleService.getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();

@@ -53,7 +53,7 @@ public class AppGlobalGarbageConfiguration implements Jsonable {
                     new PickupItemConfiguration(PickupItem.RECYCLING, true, prefs.getRecyclingWeeks()));
         }
         config.setPickupItems(items);
-        config.setHolidays(prefs.getHolidays());
+        config.setHolidays(prefs.getSelectedHolidays());
         config.setBulkDays(emptySet());
         return config;
     }
@@ -65,13 +65,13 @@ public class AppGlobalGarbageConfiguration implements Jsonable {
                 .setBulkDays(bulkDays)
                 .setHolidays(holidays.stream()
                         .filter(h -> !h.isLeap())
-                        .map(h -> holidayService.findById(h.getId()))
+                        .map(h -> holidayService.findHolidaySettingById(h.getId()))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(toSet()))
                 .setLeapDays(holidays.stream()
                         .filter(h -> h.isLeap())
-                        .map(h -> holidayService.findById(h.getId()))
+                        .map(h -> holidayService.findHolidaySettingById(h.getId()))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(toSet()));
