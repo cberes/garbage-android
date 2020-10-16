@@ -2,8 +2,6 @@ package com.spinthechoice.garbage.android;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,9 +10,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.appcompat.widget.Toolbar;
 
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
 import com.spinthechoice.garbage.android.service.PreferencesService;
@@ -90,7 +91,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         final TextView notifyTimeLabel = findViewById(R.id.text_notify_time);
         notifyTimeLabel.setVisibility(notificationPrefs.isNotificationEnabled() ? TextView.VISIBLE : TextView.GONE);
 
-        final Switch notificationsEnabled = findViewById(R.id.switch_notifications);
+        final SwitchCompat notificationsEnabled = findViewById(R.id.switch_notifications);
         notificationsEnabled.setChecked(notificationPrefs.isNotificationEnabled());
         notificationsEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
