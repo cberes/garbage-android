@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.spinthechoice.garbage.Holiday;
 import com.spinthechoice.garbage.HolidayOffset;
@@ -18,6 +19,7 @@ import com.spinthechoice.garbage.android.service.HolidayService;
 import com.spinthechoice.garbage.android.service.NamedHoliday;
 import com.spinthechoice.garbage.android.service.PreferencesService;
 import com.spinthechoice.garbage.android.util.AdapterUtils;
+import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -38,6 +40,8 @@ public class HolidayEditorActivity extends AppCompatActivity {
     private Spinner weekIndex;
     private LinearLayout dateLayout;
     private LinearLayout dayAndWeekLayout;
+    private TextView errorHolidayDate;
+    private TextView errorHolidayName;
 
     private List<DayOfWeek> daysOfWeek;
     private List<Month> months;
@@ -64,6 +68,8 @@ public class HolidayEditorActivity extends AppCompatActivity {
         weekIndex = findViewById(R.id.spinner_holiday_week);
         dateLayout = findViewById(R.id.layout_holiday_date);
         dayAndWeekLayout = findViewById(R.id.layout_holiday_day_and_week);
+        errorHolidayDate = findViewById(R.id.error_holiday_date);
+        errorHolidayName = findViewById(R.id.error_holiday_name);
     }
 
     private void setupForm() {
@@ -118,7 +124,7 @@ public class HolidayEditorActivity extends AppCompatActivity {
 
     private void populateForm(final NamedHoliday holiday) {
         holidayName.setText(holiday.getName());
-        date.setText(Integer.toString(holiday.getHoliday().getDate()));
+        date.setText(TextUtils.intToString(this, holiday.getHoliday().getDate()));
         dayOfWeek.setSelection(daysOfWeek.indexOf(holiday.getHoliday().getDayOfWeek()));
         month.setSelection(holiday.getHoliday().getMonth().ordinal());
         offset.setSelection(holiday.getHoliday().getOffset().ordinal());
@@ -141,26 +147,61 @@ public class HolidayEditorActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_save_holiday) {
-            saveHoliday(buildHoliday());
-            setResult(RESULT_OK);
-            finish();
+        if (id == R.id.action_cancel_holiday) {
+            handleCancel();
             return true;
         }
 
-        if (id == R.id.action_cancel_holiday) {
-            setResult(RESULT_CANCELED);
-            finish();
+        if (id == R.id.action_save_holiday) {
+            handleDone();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void handleCancel() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    private void handleDone() {
+        resetErrors();
+        final NamedHoliday holiday = buildHoliday();
+        if (validate(holiday)) {
+            saveHoliday(holiday);
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    private void resetErrors() {
+        errorHolidayDate.setVisibility(TextView.GONE);
+        errorHolidayName.setVisibility(TextView.GONE);
+    }
+
+    private boolean validate(final NamedHoliday holiday) {
+        boolean valid = true;
+
+        if (holiday.getHoliday().getType() == HolidayType.STATIC_DATE) {
+            if (holiday.getHoliday().getDate() < 1 || holiday.getHoliday().getDate() > 31) {
+                errorHolidayDate.setVisibility(TextView.VISIBLE);
+                valid = false;
+            }
+        }
+
+        if (holiday.getName() == null || holiday.getName().isEmpty()) {
+            errorHolidayName.setVisibility(TextView.VISIBLE);
+            valid = false;
+        }
+
+        return valid;
+    }
+
     private NamedHoliday buildHoliday() {
         final String name = holidayName.getText().toString();
         final Holiday holiday = Holiday.builder()
-                .setDate(Integer.parseInt(date.getText().toString()))
+                .setDate(tryParseInt(date.getText().toString(), -1))
                 .setDayOfWeek(daysOfWeek.get(dayOfWeek.getSelectedItemPosition()))
                 .setMonth(months.get(month.getSelectedItemPosition()))
                 .setOffset(HolidayOffset.values()[offset.getSelectedItemPosition()])
@@ -169,6 +210,14 @@ public class HolidayEditorActivity extends AppCompatActivity {
                         -1 : weekIndex.getSelectedItemPosition())
                 .build();
         return new NamedHoliday(getHolidayId(), name, holiday);
+    }
+
+    private static int tryParseInt(final String s, final int defaultValue) {
+        try {
+            return Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     private void saveHoliday(final NamedHoliday holiday) {

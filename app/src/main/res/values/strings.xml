@@ -50,14 +50,16 @@
     <string name="help_settings">To configure your schedule, select Settings from the Action Bar, then select Garbage Settings.</string>
     <string name="help_holidays">Long-press the table headers for more information.</string>
 
-    <string name="label_holiday_name">Name</string>
+    <string name="label_holiday_name">Holiday name</string>
     <string name="label_holiday_type">Type</string>
     <string name="label_holiday_month">Month</string>
     <string name="label_holiday_date">Date</string>
-    <string name="label_holiday_day_of_week">Day of Week</string>
-    <string name="label_holiday_week">Week</string>
+    <string name="label_holiday_day_of_week">Day of week</string>
+    <string name="label_holiday_week">Week of month</string>
     <string name="label_holiday_offset">Offset</string>
-    <string name="example_holiday">Memorial Day</string>
+    <string name="default_holiday_date">1</string>
+    <string name="error_holiday_name">Holiday name is required</string>
+    <string name="error_holiday_date">Date must be between 1 and 31</string>
 
     <string-array name="garbage_frequencies">
         <item>Never</item>
@@ -68,9 +70,9 @@
 
     <!-- this array's order must match HolidayOffset -->
     <string-array name="holiday_offsets">
-        <item>Day of</item>
-        <item>Day after</item>
-        <item>Day before</item>
+        <item>Exact day (no offset)</item>
+        <item>Next day</item>
+        <item>Prior day (eve)</item>
     </string-array>
 
     <!-- this array's order must match HolidayType -->

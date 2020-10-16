@@ -46,4 +46,9 @@ public final class TextUtils {
         final Date legacyDate = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
         return format.format(legacyDate);
     }
+
+    public static String intToString(final Context context, final int i) {
+        final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
+        return String.format(locale, "%d", i);
+    }
 }

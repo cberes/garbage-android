@@ -39,11 +39,25 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
                 android:ems="10"
-                android:hint="@string/example_holiday"
+                android:autofillHints="false"
                 android:inputType="textCapWords"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
                 android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/error_holiday_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/settings_margin"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:visibility="gone"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/colorError"
+                android:textSize="12sp"
+                android:text="@string/error_holiday_name"
+                tools:text="@string/error_holiday_name" />
 
             <View
                 android:layout_width="match_parent"
@@ -125,8 +139,23 @@
                     android:textColor="@color/colorTextPrimary"
                     android:textSize="16sp"
                     android:ems="10"
+                    android:autofillHints="false"
                     android:inputType="number"
-                    android:text="1" />
+                    android:text="@string/default_holiday_date" />
+
+                <TextView
+                    android:id="@+id/error_holiday_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/settings_margin"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:visibility="gone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/colorError"
+                    android:textSize="12sp"
+                    android:text="@string/error_holiday_date"
+                    tools:text="@string/error_holiday_date" />
 
                 <View
                     android:layout_width="match_parent"
