@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -79,6 +80,7 @@ public class HolidayEditorActivity extends AppCompatActivity {
         months = asList(Month.values());
         month.setAdapter(AdapterUtils.monthAdapter(this, months));
 
+        ((ArrayAdapter<?>) type.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -91,6 +93,10 @@ public class HolidayEditorActivity extends AppCompatActivity {
                 // do nothing
             }
         });
+
+        ((ArrayAdapter<?>) offset.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
+
+        ((ArrayAdapter<?>) weekIndex.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
     }
 
     private void toggleFormElements(final HolidayType type) {

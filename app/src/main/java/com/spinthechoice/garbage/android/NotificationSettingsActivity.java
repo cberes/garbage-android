@@ -113,7 +113,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     }
 
     private SpinnerAdapter notificationDaysAdapter() {
-        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item,
+        return new ArrayAdapter<>(this, R.layout.spinner_item,
                 Arrays.stream(NotificationDay.values())
                         .map(day -> day.getText(this))
                         .collect(toList()));

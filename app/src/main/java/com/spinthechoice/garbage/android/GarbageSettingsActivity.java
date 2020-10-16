@@ -194,6 +194,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         });
 
         final Spinner garbageWeeks = findViewById(R.id.spinner_garbage_weeks);
+        ((ArrayAdapter<?>) garbageWeeks.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         garbageWeeks.setSelection(prefs.getGarbageWeeks());
         garbageWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -216,6 +217,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
         });
 
         final Spinner recyclingWeeks = findViewById(R.id.spinner_recycling_weeks);
+        ((ArrayAdapter<?>) recyclingWeeks.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         recyclingWeeks.setSelection(prefs.getRecyclingWeeks());
         recyclingWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -244,7 +246,7 @@ public class GarbageSettingsActivity extends AppCompatActivity {
     }
 
     private SpinnerAdapter stringListAdapter(final List<String> strings) {
-        return new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, strings);
+        return new ArrayAdapter<>(this, R.layout.spinner_item, strings);
     }
 
     private GarbagePreferences updatePreferences(final Consumer<GarbagePreferences> updateFunc) {
