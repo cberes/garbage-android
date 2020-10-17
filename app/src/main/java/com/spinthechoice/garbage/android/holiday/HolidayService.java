@@ -7,6 +7,7 @@ import com.spinthechoice.garbage.Holidays;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NamedHoliday;
 import com.spinthechoice.garbage.android.preferences.PreferencesService;
+import com.spinthechoice.garbage.android.text.Text;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class HolidayService {
     private final List<NamedHoliday> holidays;
     private final Map<String, NamedHoliday> holidaysById;
 
-    public HolidayService(final PreferencesService prefsService, final Context context) {
+    public HolidayService(final Context context, final PreferencesService prefsService) {
         this.prefsService = prefsService;
         final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
         this.holidays = new CopyOnWriteArrayList<>(prefs.getHolidays());
@@ -51,7 +52,7 @@ public class HolidayService {
         return holidayFinder.dates(year).stream().findFirst();
     }
 
-    public void save(final Context context, final NamedHoliday holiday) {
+    public String save(final Context context, final NamedHoliday holiday) {
         final NamedHoliday holidayWithId = assignId(holiday);
 
         synchronized (this) {
@@ -64,10 +65,11 @@ public class HolidayService {
         }
 
         updatePreferences(context);
+        return holidayWithId.getId();
     }
 
     private NamedHoliday assignId(final NamedHoliday holiday) {
-        if (holiday.getId() == null || holiday.getId().isEmpty()) {
+        if (Text.isEmpty(holiday.getId())) {
             return new NamedHoliday(UUID.randomUUID().toString(), holiday.getName(), holiday.getHoliday());
         } else {
             return holiday;

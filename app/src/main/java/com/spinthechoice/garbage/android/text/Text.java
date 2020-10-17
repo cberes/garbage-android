@@ -25,6 +25,10 @@ public final class Text {
 
     public static String capitalize(final Context context, final String s) {
         final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
+        return capitalize(locale, s);
+    }
+
+    public static String capitalize(final Locale locale, final String s) {
         return s.substring(0, 1).toUpperCase(locale) + s.substring(1);
     }
 
@@ -49,6 +53,10 @@ public final class Text {
 
     public static String intToString(final Context context, final int i) {
         final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
+        return intToString(locale, i);
+    }
+
+    public static String intToString(final Locale locale, final int i) {
         return String.format(locale, "%d", i);
     }
 }

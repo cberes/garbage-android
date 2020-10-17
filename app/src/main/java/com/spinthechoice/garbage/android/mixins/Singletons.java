@@ -30,7 +30,7 @@ final class Singletons {
 
     static HolidayService holidayService(final Context context) {
         if (instance.holidayService == null) {
-            instance.holidayService = new HolidayService(preferencesService(), context);
+            instance.holidayService = new HolidayService(context, preferencesService());
         }
         return instance.holidayService;
     }

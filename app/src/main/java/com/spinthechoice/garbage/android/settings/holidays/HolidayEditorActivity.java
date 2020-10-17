@@ -210,7 +210,7 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
             }
         }
 
-        if (holiday.getName() == null || holiday.getName().isEmpty()) {
+        if (Text.isEmpty(holiday.getName())) {
             errorHolidayName.setVisibility(TextView.VISIBLE);
             valid = false;
         }
