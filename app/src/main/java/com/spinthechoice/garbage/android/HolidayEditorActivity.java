@@ -51,12 +51,12 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setFields();
+        findViews();
         setupForm();
         populateForm(getEditingHoliday());
     }
 
-    private void setFields() {
+    private void findViews() {
         holidayName = findViewById(R.id.edit_holiday_name);
         date = findViewById(R.id.number_holiday_date);
         dayOfWeek = findViewById(R.id.spinner_holiday_day_of_week);

@@ -35,23 +35,28 @@ public class MainActivity extends AppCompatActivity implements WithGarbageSchedu
         setSupportActionBar(toolbar);
 
         final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
-        final Garbage garbage = garbageScheduleService(this).createGarbage(prefs);
-        final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
-                garbageScheduleService(this).getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
+        setupHeader(prefs);
+        setupDates(prefs);
+        setupHelpText();
+        GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
+    }
 
+    private void setupHeader(final GarbagePreferences prefs) {
         final TextView header = findViewById(R.id.text_header);
         final Locale locale = getResources().getConfiguration().getLocales().get(0);
         final String formatted = getString(R.string.label_dates, prefs.getDayOfWeek().getDisplayName(TextStyle.FULL, locale));
         header.setText(formatted);
+    }
+
+    private void setupDates(final GarbagePreferences prefs) {
+        final Garbage garbage = garbageScheduleService(this).createGarbage(prefs);
+        final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
+                garbageScheduleService(this).getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
 
         final RecyclerView dates = findViewById(R.id.list_dates);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         dates.setLayoutManager(layoutManager);
         dates.setAdapter(datesAdapter(garbageDays));
-
-        setupHelpText();
-
-        GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
     }
 
     private RecyclerView.Adapter<?> datesAdapter(final List<GarbageDay> days) {
@@ -87,16 +92,12 @@ public class MainActivity extends AppCompatActivity implements WithGarbageSchedu
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {

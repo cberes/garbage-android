@@ -19,8 +19,8 @@ import com.spinthechoice.garbage.android.preferences.HolidayRef;
 
 import java.util.Set;
 
-public class HolidayPickerActivity extends AppCompatActivity implements WithHolidayService,
-        WithNavigationService, WithPreferencesService {
+public class HolidayPickerActivity extends AppCompatActivity
+        implements WithHolidayService, WithNavigationService, WithPreferencesService {
     private HolidayPickerAdapter adapter;
     private ActionMode actionMode;
 
@@ -32,71 +32,81 @@ public class HolidayPickerActivity extends AppCompatActivity implements WithHoli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setupHolidaysView();
+        setupHelpText();
+    }
 
-        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
-
-        final TextView header = findViewById(R.id.text_header);
-        header.setText(getString(R.string.label_holiday_picker));
-
+    private void setupHolidaysView() {
         final RecyclerView dates = findViewById(R.id.list_holiday_picker);
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        dates.setLayoutManager(layoutManager);
-        adapter = new HolidayPickerAdapter(holidayService(this),
-                new HolidayPickerItemFactory(holidayService(this), prefs.getSelectedHolidays()));
+        dates.setLayoutManager(new LinearLayoutManager(this));
+        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
+        final HolidayPickerItemFactory itemFactory =
+                new HolidayPickerItemFactory(holidayService(this), prefs.getSelectedHolidays());
+        adapter = new HolidayPickerAdapter(holidayService(this), itemFactory);
+        dates.setAdapter(adapter);
+        setupHolidayChangeListener();
+        setupHolidaySelectedListener();
+    }
+
+    private void setupHolidayChangeListener() {
         adapter.setOnChangeListener(new HolidayPickerAdapter.OnChangeListener() {
             @Override
             public void changed(final String id, final boolean postpone, final boolean cancel) {
                 updateGarbagePreferences(id, postpone, cancel);
             }
         });
+    }
+
+    private void setupHolidaySelectedListener() {
         adapter.setOnItemSelectedListener(new HolidayPickerAdapter.OnItemSelectedListener() {
             @Override
             public boolean selected(final String holidayId) {
-                actionMode = HolidayPickerActivity.this.startActionMode(new ActionMode.Callback() {
-                    @Override
-                    public boolean onCreateActionMode(final ActionMode actionMode, final Menu menu) {
-                        getMenuInflater().inflate(R.menu.holiday_picker_action, menu);
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onPrepareActionMode(final ActionMode actionMode, final Menu menu) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem item) {
-                        int id = item.getItemId();
-
-                        if (id == R.id.action_edit_holiday) {
-                            editHoliday(holidayId, holidayService(HolidayPickerActivity.this).indexOf(holidayId));
-                            finishActionMode();
-                            return true;
-                        }
-
-                        if (id == R.id.action_delete_holiday) {
-                            int index = holidayService(HolidayPickerActivity.this).deleteById(HolidayPickerActivity.this, holidayId);
-                            if (index != -1) {
-                                adapter.notifyItemRemoved(index);
-                            }
-                            finishActionMode();
-                            return true;
-                        }
-
-                        return false;
-                    }
-
-                    @Override
-                    public void onDestroyActionMode(final ActionMode actionMode) {
-                        HolidayPickerActivity.this.actionMode = null;
-                    }
-                });
+                setupActionMode(holidayId);
                 return true;
             }
         });
-        dates.setAdapter(adapter);
+    }
 
-        setupHelpText();
+    private void setupActionMode(final String holidayId) {
+        actionMode = HolidayPickerActivity.this.startActionMode(new ActionMode.Callback() {
+            @Override
+            public boolean onCreateActionMode(final ActionMode actionMode, final Menu menu) {
+                getMenuInflater().inflate(R.menu.holiday_picker_action, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(final ActionMode actionMode, final Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem item) {
+                int id = item.getItemId();
+
+                if (id == R.id.action_edit_holiday) {
+                    editHoliday(holidayId, holidayService(HolidayPickerActivity.this).indexOf(holidayId));
+                    finishActionMode();
+                    return true;
+                }
+
+                if (id == R.id.action_delete_holiday) {
+                    int index = holidayService(HolidayPickerActivity.this).deleteById(HolidayPickerActivity.this, holidayId);
+                    if (index != -1) {
+                        adapter.notifyItemRemoved(index);
+                    }
+                    finishActionMode();
+                    return true;
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(final ActionMode actionMode) {
+                HolidayPickerActivity.this.actionMode = null;
+            }
+        });
     }
 
     private void finishActionMode() {

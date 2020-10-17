@@ -26,8 +26,8 @@
             android:paddingEnd="@dimen/main_padding"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorTextPrimary"
-            android:text="@string/label_loading"
-            tools:text="@string/label_loading" />
+            android:text="@string/label_holiday_picker"
+            tools:text="@string/label_holiday_picker" />
 
         <TextView
             android:id="@+id/text_help"

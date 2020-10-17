@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.android.adapters.DayOfWeekAdapter;
+import com.spinthechoice.garbage.android.adapters.SimpleStringAdapter;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.garbage.GarbageScheduleService;
 
@@ -115,6 +115,12 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                                               GarbageScheduleService scheduleService);
     }
 
+    private TextView garbageNoChoicesText;
+    private Spinner garbageWeek;
+
+    private TextView recyclingNoChoicesText;
+    private Spinner recyclingWeek;
+
     private List<WeekOption> garbageOptions;
     private List<WeekOption> recyclingOptions;
 
@@ -126,26 +132,31 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        findViews();
         setupGarbageSettings();
+        setupHolidayPicker();
+    }
+
+    private void findViews() {
+        garbageNoChoicesText = findViewById(R.id.text_garbage_no_choices);
+        garbageWeek = findViewById(R.id.spinner_garbage_week);
+
+        recyclingNoChoicesText = findViewById(R.id.text_recycling_no_choices);
+        recyclingWeek = findViewById(R.id.spinner_recycling_week);
     }
 
     private void setupGarbageSettings() {
         final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
+        updateGarbageWeekOptions(prefs);
+        updateRecyclingWeekOptions(prefs);
+        setupDayOfWeekSpinner(prefs);
+        setupGarbageWeekSpinner();
+        setupRecyclingWeekSpinner();
+        setupGarbageFrequencySpinner(prefs);
+        setupRecyclingFrequencySpinner(prefs);
+    }
 
-        final Button holidayPicker = findViewById(R.id.button_holiday_picker);
-        holidayPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                launchHolidayPicker();
-            }
-        });
-
-        final TextView garbageNoChoicesText = findViewById(R.id.text_garbage_no_choices);
-        final Spinner garbageWeek = findViewById(R.id.spinner_garbage_week);
-
-        final TextView recyclingNoChoicesText = findViewById(R.id.text_recycling_no_choices);
-        final Spinner recyclingWeek = findViewById(R.id.spinner_recycling_week);
-
+    private void setupDayOfWeekSpinner(final GarbagePreferences prefs) {
         final List<DayOfWeek> daysOfWeek = asList(DayOfWeek.values());
         final Spinner dayOfWeek = findViewById(R.id.spinner_day_of_week);
         dayOfWeek.setAdapter(new DayOfWeekAdapter(this, daysOfWeek));
@@ -155,8 +166,8 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
                 final GarbagePreferences newPrefs =
                         updatePreferences(prefs -> prefs.setDayOfWeek(daysOfWeek.get(position)));
-                updateGarbageWeekOptions(newPrefs, garbageWeek, garbageNoChoicesText);
-                updateRecyclingWeekOptions(newPrefs, recyclingWeek, recyclingNoChoicesText);
+                updateGarbageWeekOptions(newPrefs);
+                updateRecyclingWeekOptions(newPrefs);
             }
 
             @Override
@@ -164,8 +175,9 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 // do nothing
             }
         });
+    }
 
-        updateGarbageWeekOptions(prefs, garbageWeek, garbageNoChoicesText);
+    private void setupGarbageWeekSpinner() {
         garbageWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -177,8 +189,9 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 // do nothing
             }
         });
+    }
 
-        updateRecyclingWeekOptions(prefs, recyclingWeek, recyclingNoChoicesText);
+    private void setupRecyclingWeekSpinner() {
         recyclingWeek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -190,7 +203,9 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 // do nothing
             }
         });
+    }
 
+    private void setupGarbageFrequencySpinner(final GarbagePreferences prefs) {
         final Spinner garbageWeeks = findViewById(R.id.spinner_garbage_weeks);
         ((ArrayAdapter<?>) garbageWeeks.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         garbageWeeks.setSelection(prefs.getGarbageWeeks());
@@ -205,7 +220,7 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 });
 
                 garbageWeek.setSelected(false);
-                updateGarbageWeekOptions(newPrefs, garbageWeek, garbageNoChoicesText);
+                updateGarbageWeekOptions(newPrefs);
             }
 
             @Override
@@ -213,7 +228,9 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 // do nothing
             }
         });
+    }
 
+    private void setupRecyclingFrequencySpinner(final GarbagePreferences prefs) {
         final Spinner recyclingWeeks = findViewById(R.id.spinner_recycling_weeks);
         ((ArrayAdapter<?>) recyclingWeeks.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         recyclingWeeks.setSelection(prefs.getRecyclingWeeks());
@@ -228,7 +245,7 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
                 });
 
                 recyclingWeek.setSelected(false);
-                updateRecyclingWeekOptions(newPrefs, recyclingWeek, recyclingNoChoicesText);
+                updateRecyclingWeekOptions(newPrefs);
             }
 
             @Override
@@ -238,15 +255,6 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         });
     }
 
-    private void launchHolidayPicker() {
-        final Intent holidayPicker = new Intent(this, HolidayPickerActivity.class);
-        startActivity(holidayPicker);
-    }
-
-    private SpinnerAdapter stringListAdapter(final List<String> strings) {
-        return new ArrayAdapter<>(this, R.layout.spinner_item, strings);
-    }
-
     private GarbagePreferences updatePreferences(final Consumer<GarbagePreferences> updateFunc) {
         final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
         updateFunc.accept(prefs);
@@ -254,15 +262,15 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         return prefs;
     }
 
-    private void updateGarbageWeekOptions(final GarbagePreferences prefs, final Spinner garbageWeek, final TextView noChoicesLabel) {
+    private void updateGarbageWeekOptions(final GarbagePreferences prefs) {
         garbageOptions = PickupItem.GARBAGE.weekOptions(prefs, garbageScheduleService(this));
-        updateWeekOptions(garbageWeek, noChoicesLabel,
+        updateWeekOptions(garbageWeek, garbageNoChoicesText,
                 prefs.isGarbageEnabled(), prefs.getGarbageWeekIndex(), garbageOptions);
     }
 
-    private void updateRecyclingWeekOptions(final GarbagePreferences prefs, final Spinner recyclingWeek, final TextView noChoicesLabel) {
+    private void updateRecyclingWeekOptions(final GarbagePreferences prefs) {
         recyclingOptions = PickupItem.RECYCLING.weekOptions(prefs, garbageScheduleService(this));
-        updateWeekOptions(recyclingWeek, noChoicesLabel,
+        updateWeekOptions(recyclingWeek, recyclingNoChoicesText,
                 prefs.isRecyclingEnabled(), prefs.getRecyclingWeekIndex(), recyclingOptions);
     }
 
@@ -274,7 +282,22 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         noChoicesLabel.setText(enabled ? items.get(0).toString() : getString(R.string.never));
         spinner.setVisibility(choicesAvailable ? Spinner.VISIBLE : Spinner.GONE);
         spinner.setEnabled(choicesAvailable);
-        spinner.setAdapter(stringListAdapter(items.stream().map(WeekOption::toString).collect(toList())));
+        spinner.setAdapter(new SimpleStringAdapter(this, items.stream().map(WeekOption::toString).collect(toList())));
         spinner.setSelection(range(0, items.size()).filter(i -> items.get(i).getId() == weekIndex).findFirst().orElse(0));
+    }
+
+    private void setupHolidayPicker() {
+        final Button holidayPicker = findViewById(R.id.button_holiday_picker);
+        holidayPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                launchHolidayPicker();
+            }
+        });
+    }
+
+    private void launchHolidayPicker() {
+        final Intent holidayPicker = new Intent(this, HolidayPickerActivity.class);
+        startActivity(holidayPicker);
     }
 }
