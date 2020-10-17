@@ -14,7 +14,7 @@ Thank you [Molly Beres](https://mollyillustration.com/) for the beautiful icon!
 
 ## Dependencies
 
-The garbage schedule logic is implemented in the [garbage](../garbage) library.
+The garbage schedule logic is implemented in the [garbage](//github.com/cberes/garbage) library.
 
 ## Package diagram
 
