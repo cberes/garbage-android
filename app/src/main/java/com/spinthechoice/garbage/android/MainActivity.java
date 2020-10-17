@@ -13,14 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
+import com.spinthechoice.garbage.android.adapters.TwoLineListAdapter;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
-import com.spinthechoice.garbage.android.preferences.NavigationPreferences;
-import com.spinthechoice.garbage.android.service.GarbageScheduleService;
-import com.spinthechoice.garbage.android.service.HolidayService;
-import com.spinthechoice.garbage.android.service.NavigationService;
-import com.spinthechoice.garbage.android.service.PickupItemFormatter;
-import com.spinthechoice.garbage.android.service.PreferencesService;
-import com.spinthechoice.garbage.android.util.TextUtils;
+import com.spinthechoice.garbage.android.navigation.NavigationPreferences;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -30,10 +25,8 @@ import java.util.Locale;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-public class MainActivity extends AppCompatActivity {
-    private final PreferencesService prefsService = new PreferencesService();
-    private final GarbageScheduleService scheduleService = new GarbageScheduleService();
-
+public class MainActivity extends AppCompatActivity implements WithGarbageScheduleService,
+        WithNavigationService, WithPreferencesService {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +34,10 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
-        final HolidayService holidayService = new HolidayService(prefsService, this);
-        final Garbage garbage = scheduleService.createGarbage(prefs, holidayService);
+        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
+        final Garbage garbage = garbageScheduleService(this).createGarbage(prefs);
         final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
-                scheduleService.getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
+                garbageScheduleService(this).getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
 
         final TextView header = findViewById(R.id.text_header);
         final Locale locale = getResources().getConfiguration().getLocales().get(0);
@@ -82,15 +74,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupHelpText() {
-        final NavigationService service = new NavigationService();
-        final NavigationPreferences prefs = service.readNavigationPreferences(this);
+        final NavigationPreferences prefs = navigationService().readNavigationPreferences(this);
 
         if (!prefs.hasNavigatedToSettings()) {
             final TextView help = findViewById(R.id.text_help);
             help.setVisibility(TextView.VISIBLE);
 
             prefs.setNavigatedToSettings(true);
-            service.writeNavigationPreferences(this, prefs);
+            navigationService().writeNavigationPreferences(this, prefs);
         }
     }
 

@@ -18,8 +18,6 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
-import com.spinthechoice.garbage.android.service.PreferencesService;
-import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -28,9 +26,7 @@ import java.util.function.Consumer;
 
 import static java.util.stream.Collectors.toList;
 
-public class NotificationSettingsActivity extends AppCompatActivity {
-    private final PreferencesService prefsService = new PreferencesService();
-
+public class NotificationSettingsActivity extends AppCompatActivity implements WithPreferencesService {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +39,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     }
 
     private void setupNotificationSettings() {
-        final NotificationPreferences notificationPrefs = prefsService.readNotificationPreferences(this);
+        final NotificationPreferences notificationPrefs = preferencesService().readNotificationPreferences(this);
 
         final Spinner notificationDay = findViewById(R.id.spinner_notify_time);
         notificationDay.setVisibility(notificationPrefs.isNotificationEnabled() ? Spinner.VISIBLE : Spinner.GONE);
@@ -52,7 +48,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         notificationDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final NotificationPreferences originalPrefs = prefsService.readNotificationPreferences(parent.getContext());
+                final NotificationPreferences originalPrefs = preferencesService().readNotificationPreferences(parent.getContext());
                 final LocalTime originalTime = originalPrefs.getNotificationTime();
                 final NotificationDay day = NotificationDay.fromIndex(position);
                 updateNotificationPreferences(prefs -> prefs.setOffset(day.getOffset(originalTime)));
@@ -71,7 +67,7 @@ public class NotificationSettingsActivity extends AppCompatActivity {
         notificationTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                final NotificationPreferences originalPrefs = prefsService.readNotificationPreferences(v.getContext());
+                final NotificationPreferences originalPrefs = preferencesService().readNotificationPreferences(v.getContext());
                 final LocalTime originalTime = originalPrefs.getNotificationTime();
                 final TimePickerDialog timeDialog = new TimePickerDialog(v.getContext(),
                         android.R.style.Theme_Material_Dialog_Alert, new TimePickerDialog.OnTimeSetListener() {
@@ -108,9 +104,9 @@ public class NotificationSettingsActivity extends AppCompatActivity {
     }
 
     private void updateNotificationPreferences(final Consumer<NotificationPreferences> updateFunc) {
-        final NotificationPreferences prefs = prefsService.readNotificationPreferences(this);
+        final NotificationPreferences prefs = preferencesService().readNotificationPreferences(this);
         updateFunc.accept(prefs);
-        prefsService.writeNotificationPreferences(this, prefs);
+        preferencesService().writeNotificationPreferences(this, prefs);
     }
 
     private SpinnerAdapter notificationDaysAdapter() {

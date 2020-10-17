@@ -1,9 +1,10 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.garbage;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.UserGarbageConfiguration;
+import com.spinthechoice.garbage.android.holiday.HolidayService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 
 import java.time.LocalDate;
@@ -15,7 +16,13 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 public class GarbageScheduleService {
-    public Garbage createGarbage(final GarbagePreferences prefs, final HolidayService holidayService) {
+    private final HolidayService holidayService;
+
+    public GarbageScheduleService(final HolidayService holidayService) {
+        this.holidayService = holidayService;
+    }
+
+    public Garbage createGarbage(final GarbagePreferences prefs) {
         final UserGarbageConfiguration userConfig = new UserGarbageConfiguration(
                 prefs.getDayOfWeek(), prefs.getGarbageWeekIndex(), prefs.getRecyclingWeekIndex());
         final AppGlobalGarbageConfiguration appConfig = AppGlobalGarbageConfiguration.fromPreferences(prefs);

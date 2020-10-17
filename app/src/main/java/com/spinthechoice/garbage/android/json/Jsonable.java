@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android.util;
+package com.spinthechoice.garbage.android.json;
 
 import org.json.JSONException;
 import org.json.JSONObject;

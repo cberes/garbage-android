@@ -16,11 +16,6 @@ import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
-import com.spinthechoice.garbage.android.service.GarbageScheduleService;
-import com.spinthechoice.garbage.android.service.HolidayService;
-import com.spinthechoice.garbage.android.service.PickupItemFormatter;
-import com.spinthechoice.garbage.android.service.PreferencesService;
-import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,14 +23,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-public class GarbageNotifier extends BroadcastReceiver {
+public class GarbageNotifier extends BroadcastReceiver implements WithGarbageScheduleService, WithPreferencesService {
     private static final String CHANNEL_ID = "com.spinthechoice.garbage.android.GARBAGE_REMINDER";
     private static final String ACTION_ALARM = "com.spinthechoice.garbage.android.action.NOTIFICATION_ALARM";
     private static final String ACTION_SEND = "com.spinthechoice.garbage.android.action.NOTIFICATION_SEND";
     private static final String TAG = "garbage-notify";
-
-    private final GarbageScheduleService scheduleService = new GarbageScheduleService();
-    private final PreferencesService prefsService = new PreferencesService();
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -55,7 +47,7 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private static boolean isNotificationEnabled(final Context context) {
-        return new PreferencesService().readNotificationPreferences(context).isNotificationEnabled();
+        return Singletons.preferencesService().readNotificationPreferences(context).isNotificationEnabled();
     }
 
     static void startNotificationAlarmRepeating(final Context context) {
@@ -75,16 +67,15 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private void handleGarbageCheckIntent(final Context context, final Intent intent) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context, R.raw.holidays);
+        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(context);
         final boolean sendRequested = ACTION_SEND.equals(intent.getAction());
-        final HolidayService holidays = new HolidayService(prefsService, context);
-        final Garbage garbage = scheduleService.createGarbage(prefs, holidays);
+        final Garbage garbage = garbageScheduleService(context).createGarbage(prefs);
         handleGarbageCheckIntent(context, sendRequested, garbage);
     }
 
     private void handleGarbageCheckIntent(final Context context, final boolean sendRequested,
                                           final Garbage garbage) {
-        final NotificationPreferences prefs = prefsService.readNotificationPreferences(context);
+        final NotificationPreferences prefs = preferencesService().readNotificationPreferences(context);
         Stream.iterate(LocalDate.now(), date -> date.plusDays(1))
                 .limit(3)
                 .map(garbage::compute)
@@ -165,8 +156,8 @@ public class GarbageNotifier extends BroadcastReceiver {
     }
 
     private void saveNotificationId(final Context context, final int id) {
-        final NotificationPreferences preferences = prefsService.readNotificationPreferences(context);
+        final NotificationPreferences preferences = preferencesService().readNotificationPreferences(context);
         preferences.setLastNotificationId(id);
-        prefsService.writeNotificationPreferences(context, preferences);
+        preferencesService().writeNotificationPreferences(context, preferences);
     }
 }

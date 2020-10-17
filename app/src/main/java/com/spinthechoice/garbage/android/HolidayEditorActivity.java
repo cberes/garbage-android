@@ -17,11 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.spinthechoice.garbage.Holiday;
 import com.spinthechoice.garbage.HolidayOffset;
 import com.spinthechoice.garbage.HolidayType;
-import com.spinthechoice.garbage.android.service.HolidayService;
-import com.spinthechoice.garbage.android.service.NamedHoliday;
-import com.spinthechoice.garbage.android.service.PreferencesService;
-import com.spinthechoice.garbage.android.util.AdapterUtils;
-import com.spinthechoice.garbage.android.util.TextUtils;
+import com.spinthechoice.garbage.android.adapters.DayOfWeekAdapter;
+import com.spinthechoice.garbage.android.adapters.MonthAdapter;
+import com.spinthechoice.garbage.android.preferences.NamedHoliday;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -30,9 +28,7 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
-public class HolidayEditorActivity extends AppCompatActivity {
-    private final PreferencesService prefsService = new PreferencesService();
-
+public class HolidayEditorActivity extends AppCompatActivity implements WithHolidayService{
     private EditText holidayName;
     private EditText date;
     private Spinner dayOfWeek;
@@ -76,10 +72,10 @@ public class HolidayEditorActivity extends AppCompatActivity {
 
     private void setupForm() {
         daysOfWeek = asList(DayOfWeek.values());
-        dayOfWeek.setAdapter(AdapterUtils.dayOfWeekAdapter(this, daysOfWeek));
+        dayOfWeek.setAdapter(new DayOfWeekAdapter(this, daysOfWeek));
 
         months = asList(Month.values());
-        month.setAdapter(AdapterUtils.monthAdapter(this, months));
+        month.setAdapter(new MonthAdapter(this, months));
 
         ((ArrayAdapter<?>) type.getAdapter()).setDropDownViewResource(R.layout.spinner_item);
         type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -111,9 +107,8 @@ public class HolidayEditorActivity extends AppCompatActivity {
     }
 
     private NamedHoliday getEditingHoliday() {
-        final HolidayService holidayService = new HolidayService(prefsService, this);
         return Optional.ofNullable(getHolidayId())
-                .flatMap(holidayService::findById)
+                .flatMap(holidayService(this)::findById)
                 .orElseGet(this::defaultHoliday);
     }
 
@@ -228,7 +223,6 @@ public class HolidayEditorActivity extends AppCompatActivity {
     }
 
     private void saveHoliday(final NamedHoliday holiday) {
-        final HolidayService holidayService = new HolidayService(prefsService, this);
-        holidayService.save(holiday, this);
+        holidayService(this).save(this, holiday);
     }
 }

@@ -1,8 +1,11 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.garbage;
 
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
+import com.spinthechoice.garbage.android.preferences.HolidayRef;
+import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.preferences.NamedHoliday;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
-import com.spinthechoice.garbage.android.util.Jsonable;
+import com.spinthechoice.garbage.android.json.Jsonable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,13 +68,13 @@ public class AppGlobalGarbageConfiguration implements Jsonable {
                 .setBulkDays(bulkDays)
                 .setHolidays(holidays.stream()
                         .filter(h -> !h.isLeap())
-                        .map(h -> holidayService.findHolidaySettingById(h.getId()))
+                        .map(h -> holidayService.findById(h.getId()).map(NamedHoliday::getHoliday))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(toSet()))
                 .setLeapDays(holidays.stream()
                         .filter(h -> h.isLeap())
-                        .map(h -> holidayService.findHolidaySettingById(h.getId()))
+                        .map(h -> holidayService.findById(h.getId()).map(NamedHoliday::getHoliday))
                         .filter(Optional::isPresent)
                         .map(Optional::get)
                         .collect(toSet()));

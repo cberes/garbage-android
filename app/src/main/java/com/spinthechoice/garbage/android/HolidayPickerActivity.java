@@ -14,18 +14,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
-import com.spinthechoice.garbage.android.preferences.NavigationPreferences;
-import com.spinthechoice.garbage.android.service.HolidayRef;
-import com.spinthechoice.garbage.android.service.HolidayService;
-import com.spinthechoice.garbage.android.service.NavigationService;
-import com.spinthechoice.garbage.android.service.PreferencesService;
+import com.spinthechoice.garbage.android.navigation.NavigationPreferences;
+import com.spinthechoice.garbage.android.preferences.HolidayRef;
 
 import java.util.Set;
 
-public class HolidayPickerActivity extends AppCompatActivity {
-    private final PreferencesService prefsService = new PreferencesService();
-
-    private HolidayService holidayService;
+public class HolidayPickerActivity extends AppCompatActivity implements WithHolidayService,
+        WithNavigationService, WithPreferencesService {
     private HolidayPickerAdapter adapter;
     private ActionMode actionMode;
 
@@ -38,8 +33,7 @@ public class HolidayPickerActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
-        holidayService = new HolidayService(prefsService, this);
+        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
 
         final TextView header = findViewById(R.id.text_header);
         header.setText(getString(R.string.label_holiday_picker));
@@ -47,8 +41,8 @@ public class HolidayPickerActivity extends AppCompatActivity {
         final RecyclerView dates = findViewById(R.id.list_holiday_picker);
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         dates.setLayoutManager(layoutManager);
-        adapter = new HolidayPickerAdapter(holidayService,
-                new HolidayPickerItemFactory(holidayService, prefs.getSelectedHolidays()));
+        adapter = new HolidayPickerAdapter(holidayService(this),
+                new HolidayPickerItemFactory(holidayService(this), prefs.getSelectedHolidays()));
         adapter.setOnChangeListener(new HolidayPickerAdapter.OnChangeListener() {
             @Override
             public void changed(final String id, final boolean postpone, final boolean cancel) {
@@ -75,13 +69,13 @@ public class HolidayPickerActivity extends AppCompatActivity {
                         int id = item.getItemId();
 
                         if (id == R.id.action_edit_holiday) {
-                            editHoliday(holidayId, holidayService.indexOf(holidayId));
+                            editHoliday(holidayId, holidayService(HolidayPickerActivity.this).indexOf(holidayId));
                             finishActionMode();
                             return true;
                         }
 
                         if (id == R.id.action_delete_holiday) {
-                            int index = holidayService.deleteById(holidayId, HolidayPickerActivity.this);
+                            int index = holidayService(HolidayPickerActivity.this).deleteById(HolidayPickerActivity.this, holidayId);
                             if (index != -1) {
                                 adapter.notifyItemRemoved(index);
                             }
@@ -118,26 +112,25 @@ public class HolidayPickerActivity extends AppCompatActivity {
     }
 
     private void updateGarbagePreferences(final String id, final boolean postpone, final boolean cancel) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(this, R.raw.holidays);
+        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
         final Set<HolidayRef> holidays = prefs.getSelectedHolidays();
         holidays.removeIf(holiday -> holiday.getId().equals(id));
         if (postpone || cancel) {
             holidays.add(new HolidayRef(id, postpone));
         }
         prefs.setSelectedHolidays(holidays);
-        prefsService.writeGarbagePreferences(this, prefs);
+        preferencesService().writeGarbagePreferences(this, prefs);
     }
 
     private void setupHelpText() {
-        final NavigationService service = new NavigationService();
-        final NavigationPreferences prefs = service.readNavigationPreferences(this);
+        final NavigationPreferences prefs = navigationService().readNavigationPreferences(this);
 
         if (!prefs.hasNavigatedToHolidayPicker()) {
             final TextView help = findViewById(R.id.text_help);
             help.setVisibility(TextView.VISIBLE);
 
             prefs.setNavigatedToHolidayPicker(true);
-            service.writeNavigationPreferences(this, prefs);
+            navigationService().writeNavigationPreferences(this, prefs);
         }
     }
 
@@ -173,8 +166,7 @@ public class HolidayPickerActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         if (resultCode == RESULT_OK) {
-            final int oldHolidayCount = holidayService.holidayCount();
-            holidayService.refresh(this);
+            final int oldHolidayCount = holidayService(this).holidayCount();
             if (requestCode < oldHolidayCount) {
                 adapter.notifyItemChanged(requestCode);
             } else {

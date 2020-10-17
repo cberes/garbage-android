@@ -1,11 +1,12 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.holiday;
 
 import android.content.Context;
 
 import com.spinthechoice.garbage.Holiday;
 import com.spinthechoice.garbage.Holidays;
-import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
+import com.spinthechoice.garbage.android.preferences.NamedHoliday;
+import com.spinthechoice.garbage.android.preferences.PreferencesService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import static java.util.stream.Collectors.toConcurrentMap;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 import static java.util.stream.IntStream.range;
 
@@ -28,27 +28,14 @@ public class HolidayService {
 
     public HolidayService(final PreferencesService prefsService, final Context context) {
         this.prefsService = prefsService;
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context, R.raw.holidays);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
         this.holidays = new CopyOnWriteArrayList<>(prefs.getHolidays());
         this.holidaysById = this.holidays.stream()
                 .collect(toConcurrentMap(NamedHoliday::getId, x -> x));
     }
 
-    public void refresh(final Context context) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context, R.raw.holidays);
-        this.holidays.clear();
-        this.holidays.addAll(prefs.getHolidays());
-        this.holidaysById.clear();
-        this.holidaysById.putAll(this.holidays.stream()
-                .collect(toMap(NamedHoliday::getId, x -> x)));
-    }
-
     public int holidayCount() {
         return holidays.size();
-    }
-
-    Optional<Holiday> findHolidaySettingById(final String id) {
-        return findById(id).map(NamedHoliday::getHoliday);
     }
 
     public Optional<NamedHoliday> findById(final String id) {
@@ -64,7 +51,7 @@ public class HolidayService {
         return holidayFinder.dates(year).stream().findFirst();
     }
 
-    public void save(final NamedHoliday holiday, final Context context) {
+    public void save(final Context context, final NamedHoliday holiday) {
         final NamedHoliday holidayWithId = assignId(holiday);
 
         synchronized (this) {
@@ -86,7 +73,7 @@ public class HolidayService {
         }
     }
 
-    public int deleteById(final String id, final Context context) {
+    public int deleteById(final Context context, final String id) {
         final int index;
 
         synchronized (this) {
@@ -111,7 +98,7 @@ public class HolidayService {
     }
 
     private void updatePreferences(final Context context) {
-        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context, R.raw.holidays);
+        final GarbagePreferences prefs = prefsService.readGarbagePreferences(context);
         final Set<String> allIds = holidays.stream().map(NamedHoliday::getId).collect(toSet());
         prefs.setHolidays(holidays);
         prefs.setSelectedHolidays(prefs.getSelectedHolidays().stream()

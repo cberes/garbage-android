@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android.preferences;
+package com.spinthechoice.garbage.android.navigation;
 
 public class NavigationPreferences {
     private boolean navigatedToSettings;

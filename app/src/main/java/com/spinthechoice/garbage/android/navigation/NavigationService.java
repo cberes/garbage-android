@@ -1,9 +1,7 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.navigation;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.spinthechoice.garbage.android.preferences.NavigationPreferences;
 
 public class NavigationService {
     public NavigationPreferences readNavigationPreferences(final Context context) {

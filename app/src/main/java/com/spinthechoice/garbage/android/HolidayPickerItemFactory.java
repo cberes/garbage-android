@@ -1,8 +1,8 @@
 package com.spinthechoice.garbage.android;
 
-import com.spinthechoice.garbage.android.service.HolidayRef;
-import com.spinthechoice.garbage.android.service.HolidayService;
-import com.spinthechoice.garbage.android.service.NamedHoliday;
+import com.spinthechoice.garbage.android.preferences.HolidayRef;
+import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.preferences.NamedHoliday;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

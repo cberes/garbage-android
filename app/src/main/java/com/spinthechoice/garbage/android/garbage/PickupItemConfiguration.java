@@ -1,6 +1,6 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.garbage;
 
-import com.spinthechoice.garbage.android.util.Jsonable;
+import com.spinthechoice.garbage.android.json.Jsonable;
 
 import org.json.JSONException;
 import org.json.JSONObject;

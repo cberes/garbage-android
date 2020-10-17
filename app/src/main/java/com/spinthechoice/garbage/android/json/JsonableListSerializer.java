@@ -1,6 +1,4 @@
-package com.spinthechoice.garbage.android.service;
-
-import com.spinthechoice.garbage.android.util.Jsonable;
+package com.spinthechoice.garbage.android.json;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,12 +12,12 @@ import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
-final class JsonableListSerializer {
+public final class JsonableListSerializer {
     private JsonableListSerializer() {
         throw new UnsupportedOperationException("cannot instantiate " + getClass());
     }
 
-    static JSONArray toJson(final Collection<? extends Jsonable> list) throws JSONException {
+    public static JSONArray toJson(final Collection<? extends Jsonable> list) throws JSONException {
         final JSONArray json = new JSONArray();
         if (list != null) {
             for (Jsonable elem : list) {
@@ -29,7 +27,7 @@ final class JsonableListSerializer {
         return json;
     }
 
-    static <E> List<E> fromJson(final JSONArray json, final Function<JSONObject, E> mapper) {
+    public static <E> List<E> fromJson(final JSONArray json, final Function<JSONObject, E> mapper) {
         return json == null ? emptyList() : range(0, json.length())
                 .mapToObj(json::optJSONObject)
                 .map(it -> it == null ? null : mapper.apply(it))

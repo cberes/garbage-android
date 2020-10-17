@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.adapters;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,9 +7,11 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.spinthechoice.garbage.android.R;
+
 import java.util.List;
 
-class TwoLineListAdapter extends RecyclerView.Adapter<TwoLineListAdapter.TextViewHolder> {
+public class TwoLineListAdapter extends RecyclerView.Adapter<TwoLineListAdapter.TextViewHolder> {
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -28,7 +30,7 @@ class TwoLineListAdapter extends RecyclerView.Adapter<TwoLineListAdapter.TextVie
     private final List<String[]> dataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    TwoLineListAdapter(final List<String[]> dataset) {
+    public TwoLineListAdapter(final List<String[]> dataset) {
         this.dataset = dataset;
     }
 

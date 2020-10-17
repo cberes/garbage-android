@@ -1,33 +1,32 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android;
 
 import android.content.Context;
 
 import com.spinthechoice.garbage.GarbageDay;
-import com.spinthechoice.garbage.android.util.TextUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class PickupItemFormatter {
+class PickupItemFormatter {
     private final String garbage;
     private final String bulk;
     private final String recycling;
 
-    public PickupItemFormatter(final Context context, final int garbage, final int bulk, final int recycling) {
+    PickupItemFormatter(final Context context, final int garbage, final int bulk, final int recycling) {
         this(context.getString(garbage), context.getString(bulk), context.getString(recycling));
     }
 
-    public PickupItemFormatter(final String garbage, final String bulk, final String recycling) {
+    PickupItemFormatter(final String garbage, final String bulk, final String recycling) {
         this.garbage = garbage;
         this.bulk = bulk;
         this.recycling = recycling;
     }
 
-    public String format(final GarbageDay day, final String separator) {
+    String format(final GarbageDay day, final String separator) {
         return format(day, separator, "");
     }
 
-    public String format(final GarbageDay day, final String separator, final String prefixLast) {
+    String format(final GarbageDay day, final String separator, final String prefixLast) {
         final List<String> items = getItems(day);
         if (items.isEmpty()) {
             return "";

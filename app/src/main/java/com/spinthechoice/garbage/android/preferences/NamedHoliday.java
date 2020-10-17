@@ -1,7 +1,7 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.preferences;
 
 import com.spinthechoice.garbage.Holiday;
-import com.spinthechoice.garbage.android.util.Jsonable;
+import com.spinthechoice.garbage.android.json.Jsonable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class NamedHoliday implements Jsonable {
         return json;
     }
 
-    static NamedHoliday fromJson(final JSONObject json) {
+    public static NamedHoliday fromJson(final JSONObject json) {
         return new NamedHoliday(
                 json.optString("id"),
                 json.optString("name"),

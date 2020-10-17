@@ -1,8 +1,5 @@
 package com.spinthechoice.garbage.android.preferences;
 
-import com.spinthechoice.garbage.android.service.HolidayRef;
-import com.spinthechoice.garbage.android.service.NamedHoliday;
-
 import java.time.DayOfWeek;
 import java.util.List;
 import java.util.Set;

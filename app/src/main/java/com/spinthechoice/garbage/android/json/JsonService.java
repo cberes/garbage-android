@@ -1,10 +1,9 @@
-package com.spinthechoice.garbage.android.service;
+package com.spinthechoice.garbage.android.json;
 
 import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -20,7 +19,7 @@ public class JsonService {
     public JsonService() {
     }
 
-    public static JSONObject readJsonObjectSafely(final String json) {
+    public JSONObject readJsonObjectSafely(final String json) {
         try {
             return (JSONObject) new JSONTokener(json).nextValue();
         } catch (Exception e) {
@@ -29,7 +28,7 @@ public class JsonService {
         }
     }
 
-    public static JSONObject readJsonObjectSafely(final Context context, final int res) {
+    public JSONObject readJsonObjectSafely(final Context context, final int res) {
         try {
             return (JSONObject) new JSONTokener(resource(context, res)).nextValue();
         } catch (Exception e) {
@@ -38,7 +37,7 @@ public class JsonService {
         }
     }
 
-    public static JSONArray readJsonArraySafely(final String json) {
+    public JSONArray readJsonArraySafely(final String json) {
         try {
             return (JSONArray) new JSONTokener(json).nextValue();
         } catch (Exception e) {
@@ -47,7 +46,7 @@ public class JsonService {
         }
     }
 
-    public static JSONArray readJsonArraySafely(final Context context, final int res) {
+    public JSONArray readJsonArraySafely(final Context context, final int res) {
         try {
             return (JSONArray) new JSONTokener(resource(context, res)).nextValue();
         } catch (Exception e) {
@@ -61,7 +60,7 @@ public class JsonService {
         final StringBuilder builder = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
             String line = bufferedReader.readLine();
-            while(line != null){
+            while (line != null){
                 builder.append(line);
                 line = bufferedReader.readLine();
             }
