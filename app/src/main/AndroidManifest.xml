@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -22,55 +22,55 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name=".main.AboutActivity"
             android:label="@string/action_about"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/action_settings"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".main.MainActivity" />
         </activity>
         <activity
-            android:name=".NotificationSettingsActivity"
+            android:name=".settings.notifications.NotificationSettingsActivity"
             android:label="@string/action_notification_settings"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".settings.SettingsActivity" />
         </activity>
         <activity
-            android:name=".GarbageSettingsActivity"
+            android:name=".settings.garbage.GarbageSettingsActivity"
             android:label="@string/action_garbage_settings"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SettingsActivity" />
+                android:value=".settings.SettingsActivity" />
         </activity>
         <activity
-            android:name=".HolidayPickerActivity"
+            android:name=".settings.holidays.HolidayPickerActivity"
             android:label="@string/action_holidays"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GarbageSettingsActivity" />
+                android:value=".settings.garbage.GarbageSettingsActivity" />
         </activity>
         <activity
-            android:name=".HolidayEditorActivity"
+            android:name=".settings.holidays.HolidayEditorActivity"
             android:label="@string/action_holidays"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".HolidayPickerActivity" />
+                android:value=".settings.holidays.HolidayPickerActivity" />
         </activity>
         <receiver
-            android:name=".GarbageNotifier"
+            android:name=".settings.notifications.GarbageNotifier"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

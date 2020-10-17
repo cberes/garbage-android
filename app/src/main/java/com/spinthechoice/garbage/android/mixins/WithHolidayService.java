@@ -1,10 +1,10 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.mixins;
 
 import android.content.Context;
 
 import com.spinthechoice.garbage.android.holiday.HolidayService;
 
-interface WithHolidayService {
+public interface WithHolidayService {
     default HolidayService holidayService(final Context context) {
         return Singletons.holidayService(context);
     }

@@ -1,0 +1,56 @@
+@startuml
+
+title Package Diagram
+
+package garbage {
+}
+
+package holiday {
+}
+
+package json {
+}
+
+package preferences {
+}
+
+package navigation {
+}
+
+package settings {
+}
+
+package settings.garbage {
+}
+
+package settings.holidays {
+}
+
+package settings.notifications {
+}
+
+package main {
+}
+
+garbage --> preferences
+garbage --> json
+garbage --> holiday
+holiday --> preferences
+preferences --> json
+settings.holidays --> holiday
+settings.holidays --> preferences
+settings.holidays --> navigation
+settings.garbage --> preferences
+settings.garbage --> garbage
+settings.garbage --> settings.holidays
+settings.notifications --> garbage
+settings.notifications --> preferences
+settings --> settings.garbage
+settings --> settings.notifications
+main --> garbage
+main --> preferences
+main --> navigation
+main --> settings
+
+@enduml
+

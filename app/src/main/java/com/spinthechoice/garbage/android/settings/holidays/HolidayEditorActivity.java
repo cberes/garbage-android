@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.holidays;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,9 +17,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.spinthechoice.garbage.Holiday;
 import com.spinthechoice.garbage.HolidayOffset;
 import com.spinthechoice.garbage.HolidayType;
+import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.adapters.DayOfWeekAdapter;
 import com.spinthechoice.garbage.android.adapters.MonthAdapter;
+import com.spinthechoice.garbage.android.mixins.WithHolidayService;
 import com.spinthechoice.garbage.android.preferences.NamedHoliday;
+import com.spinthechoice.garbage.android.text.Text;
 
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -28,7 +31,7 @@ import java.util.Optional;
 
 import static java.util.Arrays.asList;
 
-public class HolidayEditorActivity extends AppCompatActivity implements WithHolidayService{
+public class HolidayEditorActivity extends AppCompatActivity implements WithHolidayService {
     private EditText holidayName;
     private EditText date;
     private Spinner dayOfWeek;
@@ -126,7 +129,7 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
 
     private void populateForm(final NamedHoliday holiday) {
         holidayName.setText(holiday.getName());
-        date.setText(TextUtils.intToString(this, holiday.getHoliday().getDate()));
+        date.setText(Text.intToString(this, holiday.getHoliday().getDate()));
         dayOfWeek.setSelection(daysOfWeek.indexOf(holiday.getHoliday().getDayOfWeek()));
         month.setSelection(holiday.getHoliday().getMonth().ordinal());
         offset.setSelection(holiday.getHoliday().getOffset().ordinal());

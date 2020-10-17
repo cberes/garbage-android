@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.notifications;
 
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
@@ -14,8 +14,14 @@ import android.util.Log;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
+import com.spinthechoice.garbage.android.R;
+import com.spinthechoice.garbage.android.garbage.PickupItemFormatter;
+import com.spinthechoice.garbage.android.mixins.NotificationStatusAware;
+import com.spinthechoice.garbage.android.mixins.WithGarbageScheduleService;
+import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
+import com.spinthechoice.garbage.android.text.Text;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,7 +29,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-public class GarbageNotifier extends BroadcastReceiver implements WithGarbageScheduleService, WithPreferencesService {
+public class GarbageNotifier extends BroadcastReceiver
+        implements NotificationStatusAware, WithGarbageScheduleService, WithPreferencesService {
     private static final String CHANNEL_ID = "com.spinthechoice.garbage.android.GARBAGE_REMINDER";
     private static final String ACTION_ALARM = "com.spinthechoice.garbage.android.action.NOTIFICATION_ALARM";
     private static final String ACTION_SEND = "com.spinthechoice.garbage.android.action.NOTIFICATION_SEND";
@@ -40,17 +47,7 @@ public class GarbageNotifier extends BroadcastReceiver implements WithGarbageSch
         }
     }
 
-    static void startNotificationAlarmRepeatingIfEnabled(final Context context) {
-        if (isNotificationEnabled(context)) {
-            startNotificationAlarmRepeating(context);
-        }
-    }
-
-    private static boolean isNotificationEnabled(final Context context) {
-        return Singletons.preferencesService().readNotificationPreferences(context).isNotificationEnabled();
-    }
-
-    static void startNotificationAlarmRepeating(final Context context) {
+    public static void startNotificationAlarmRepeating(final Context context) {
         final AlarmManager alarms = context.getSystemService(AlarmManager.class);
         final Intent intent = new Intent(context, GarbageNotifier.class);
         intent.setAction(ACTION_ALARM);
@@ -138,8 +135,8 @@ public class GarbageNotifier extends BroadcastReceiver implements WithGarbageSch
 
     private static String getNotificationBody(final Context context, final GarbageDay day) {
         final String items = joinItems(context, day);
-        final String date = TextUtils.formatDate(context, day.getDate());
-        return context.getString(R.string.notification_body, TextUtils.capitalize(context, items), date);
+        final String date = Text.formatDate(context, day.getDate());
+        return context.getString(R.string.notification_body, Text.capitalize(context, items), date);
     }
 
     private static String joinItems(final Context context, final GarbageDay day) {

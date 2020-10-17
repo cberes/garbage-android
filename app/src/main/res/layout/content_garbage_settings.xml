@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SettingsActivity"
+    tools:context=".settings.SettingsActivity"
     tools:showIn="@layout/activity_garbage_settings">
 
     <ScrollView
@@ -90,8 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"
@@ -151,8 +151,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/settings_margin"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorTextPrimary"

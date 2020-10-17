@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.notifications;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -17,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
+import com.spinthechoice.garbage.android.R;
+import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
+import com.spinthechoice.garbage.android.text.Text;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -81,7 +84,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements W
     private void setupNotificationTimePicker(final NotificationPreferences notificationPrefs) {
         notificationTime.setVisibility(notificationPrefs.isNotificationEnabled() ? EditText.VISIBLE : EditText.GONE);
         final LocalDateTime notificationDateTime = notificationPrefs.getNotificationDateTime();
-        notificationTime.setText(TextUtils.formatTimeShort(this, notificationDateTime.toLocalTime()));
+        notificationTime.setText(Text.formatTimeShort(this, notificationDateTime.toLocalTime()));
         notificationTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -93,7 +96,7 @@ public class NotificationSettingsActivity extends AppCompatActivity implements W
                     public void onTimeSet(final TimePicker timePicker, final int selectedHour, final int selectedMinute) {
                         final NotificationDay day = NotificationDay.fromIndex(notificationDay.getSelectedItemPosition());
                         final LocalTime newTime = LocalTime.of(selectedHour, selectedMinute);
-                        notificationTime.setText(TextUtils.formatTimeShort(timePicker.getContext(), newTime));
+                        notificationTime.setText(Text.formatTimeShort(timePicker.getContext(), newTime));
                         updateNotificationPreferences(prefs -> prefs.setOffset(day.getOffset(newTime)));
                     }
                 }, originalTime.getHour(), originalTime.getMinute(), DateFormat.is24HourFormat(v.getContext()));

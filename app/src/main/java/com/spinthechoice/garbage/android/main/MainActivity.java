@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
+import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.adapters.TwoLineListAdapter;
+import com.spinthechoice.garbage.android.garbage.PickupItemFormatter;
+import com.spinthechoice.garbage.android.mixins.NotificationStatusAware;
+import com.spinthechoice.garbage.android.mixins.WithGarbageScheduleService;
+import com.spinthechoice.garbage.android.mixins.WithNavigationService;
+import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.navigation.NavigationPreferences;
+import com.spinthechoice.garbage.android.settings.SettingsActivity;
+import com.spinthechoice.garbage.android.settings.notifications.GarbageNotifier;
+import com.spinthechoice.garbage.android.text.Text;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -25,8 +34,8 @@ import java.util.Locale;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 
-public class MainActivity extends AppCompatActivity implements WithGarbageScheduleService,
-        WithNavigationService, WithPreferencesService {
+public class MainActivity extends AppCompatActivity implements NotificationStatusAware,
+        WithGarbageScheduleService, WithNavigationService, WithPreferencesService {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +47,9 @@ public class MainActivity extends AppCompatActivity implements WithGarbageSchedu
         setupHeader(prefs);
         setupDates(prefs);
         setupHelpText();
-        GarbageNotifier.startNotificationAlarmRepeatingIfEnabled(this);
+        if (isNotificationEnabled(this)) {
+            GarbageNotifier.startNotificationAlarmRepeating(this);
+        }
     }
 
     private void setupHeader(final GarbagePreferences prefs) {
@@ -66,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements WithGarbageSchedu
     }
 
     private String[] formatPickupDay(final GarbageDay day) {
-        return new String[] {TextUtils.formatDateMedium(this, day.getDate()), formatPickupItem(day)};
+        return new String[] {Text.formatDateMedium(this, day.getDate()), formatPickupItem(day)};
     }
 
     private String formatPickupItem(final GarbageDay day) {
@@ -75,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements WithGarbageSchedu
                 R.string.notification_item_bulk,
                 R.string.notification_item_recycling);
         final String items = formatter.format(day, ", ");
-        return TextUtils.capitalize(this, items);
+        return Text.capitalize(this, items);
     }
 
     private void setupHelpText() {

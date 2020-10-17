@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.main;
 
 import android.os.Bundle;
 import android.text.util.Linkify;
@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.spinthechoice.garbage.android.R;
 
 import java.util.regex.Pattern;
 

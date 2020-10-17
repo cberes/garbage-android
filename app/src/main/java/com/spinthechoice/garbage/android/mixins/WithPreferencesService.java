@@ -1,8 +1,8 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.mixins;
 
 import com.spinthechoice.garbage.android.preferences.PreferencesService;
 
-interface WithPreferencesService {
+public interface WithPreferencesService {
     default PreferencesService preferencesService() {
         return Singletons.preferencesService();
     }

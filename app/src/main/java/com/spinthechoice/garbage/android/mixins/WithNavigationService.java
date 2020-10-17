@@ -1,8 +1,8 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.mixins;
 
 import com.spinthechoice.garbage.android.navigation.NavigationService;
 
-interface WithNavigationService {
+public interface WithNavigationService {
     default NavigationService navigationService() {
         return Singletons.navigationService();
     }

@@ -1,6 +1,8 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.notifications;
 
 import android.content.Context;
+
+import com.spinthechoice.garbage.android.R;
 
 import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;

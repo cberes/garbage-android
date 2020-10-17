@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.garbage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,112 +9,28 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.spinthechoice.garbage.Garbage;
-import com.spinthechoice.garbage.GarbageDay;
+import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.adapters.DayOfWeekAdapter;
 import com.spinthechoice.garbage.android.adapters.SimpleStringAdapter;
+import com.spinthechoice.garbage.android.mixins.WithGarbageScheduleService;
+import com.spinthechoice.garbage.android.mixins.WithHolidayService;
+import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
-import com.spinthechoice.garbage.android.garbage.GarbageScheduleService;
+import com.spinthechoice.garbage.android.settings.holidays.HolidayPickerActivity;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.IntStream.range;
 
 public class GarbageSettingsActivity extends AppCompatActivity implements WithPreferencesService,
-        WithGarbageScheduleService, WithHolidayService{
-    private static class WeekOption {
-        private static final DateTimeFormatter FORMAT =
-                DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM);
-
-        private final int id;
-        private final LocalDate date;
-
-        WeekOption(final int id, final LocalDate date) {
-            this.id = id;
-            this.date = date;
-        }
-
-        int getId() {
-            return id;
-        }
-
-        LocalDate getDate() {
-            return date;
-        }
-
-        @NonNull
-        @Override
-        public String toString() {
-            return date.format(FORMAT);
-        }
-    }
-
-    private enum PickupItem {
-        GARBAGE {
-            @Override
-            List<WeekOption> weekOptions(final GarbagePreferences prefs,
-                                         final GarbageScheduleService scheduleService) {
-                if (prefs.isGarbageEnabled()) {
-                    final LocalDate now = LocalDate.now();
-                    final int weekIndex = prefs.getGarbageWeekIndex();
-                    final List<WeekOption> options = range(0, prefs.getGarbageWeeks())
-                            .mapToObj(week -> {
-                                prefs.setGarbageWeekIndex(week);
-                                Garbage garbage = scheduleService.createGarbage(prefs);
-                                Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isGarbageDay);
-                                return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
-                            })
-                            .sorted(Comparator.comparing(WeekOption::getDate))
-                            .collect(toList());
-                    prefs.setGarbageWeekIndex(weekIndex);
-                    return options;
-                } else {
-                    return emptyList();
-                }
-            }
-        },
-        RECYCLING {
-            @Override
-            List<WeekOption> weekOptions(final GarbagePreferences prefs,
-                                         final GarbageScheduleService scheduleService) {
-                if (prefs.isRecyclingEnabled()) {
-                    final LocalDate now = LocalDate.now();
-                    final int weekIndex = prefs.getRecyclingWeekIndex();
-                    final List<WeekOption> options = range(0, prefs.getRecyclingWeeks())
-                            .mapToObj(week -> {
-                                prefs.setRecyclingWeekIndex(week);
-                                Garbage garbage = scheduleService.createGarbage(prefs);
-                                Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isRecyclingDay);
-                                return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
-                            })
-                            .sorted(Comparator.comparing(WeekOption::getDate))
-                            .collect(toList());
-                    prefs.setRecyclingWeekIndex(weekIndex);
-                    return options;
-                } else {
-                    return emptyList();
-                }
-            }
-        };
-
-        abstract List<WeekOption> weekOptions(GarbagePreferences prefs,
-                                              GarbageScheduleService scheduleService);
-    }
-
+        WithGarbageScheduleService, WithHolidayService {
     private TextView garbageNoChoicesText;
     private Spinner garbageWeek;
 

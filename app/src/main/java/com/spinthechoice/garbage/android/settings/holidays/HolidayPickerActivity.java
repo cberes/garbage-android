@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.holidays;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.spinthechoice.garbage.android.R;
+import com.spinthechoice.garbage.android.mixins.WithHolidayService;
+import com.spinthechoice.garbage.android.mixins.WithNavigationService;
+import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.navigation.NavigationPreferences;
 import com.spinthechoice.garbage.android.preferences.HolidayRef;
@@ -49,7 +53,7 @@ public class HolidayPickerActivity extends AppCompatActivity
     }
 
     private void setupHolidayChangeListener() {
-        adapter.setOnChangeListener(new HolidayPickerAdapter.OnChangeListener() {
+        adapter.setOnChangeListener(new OnChangeListener() {
             @Override
             public void changed(final String id, final boolean postpone, final boolean cancel) {
                 updateGarbagePreferences(id, postpone, cancel);
@@ -58,7 +62,7 @@ public class HolidayPickerActivity extends AppCompatActivity
     }
 
     private void setupHolidaySelectedListener() {
-        adapter.setOnItemSelectedListener(new HolidayPickerAdapter.OnItemSelectedListener() {
+        adapter.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public boolean selected(final String holidayId) {
                 setupActionMode(holidayId);

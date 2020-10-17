@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings.holidays;
 
 import com.spinthechoice.garbage.android.preferences.HolidayRef;
 import com.spinthechoice.garbage.android.holiday.HolidayService;

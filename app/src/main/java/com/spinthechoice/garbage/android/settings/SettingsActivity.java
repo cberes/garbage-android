@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android;
+package com.spinthechoice.garbage.android.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.spinthechoice.garbage.android.settings.garbage.GarbageSettingsActivity;
+import com.spinthechoice.garbage.android.settings.notifications.NotificationSettingsActivity;
+import com.spinthechoice.garbage.android.R;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
