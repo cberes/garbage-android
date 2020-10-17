@@ -22,8 +22,7 @@ android {
         }
     }
     lintOptions { // added to satisfy the lint gods ... maybe try removing this some day
-        disable "UnsafeExperimentalUsageError",
-                "UnsafeExperimentalUsageWarning"
+        disable "ObsoleteLintCustomCheck"
     }
 }
 

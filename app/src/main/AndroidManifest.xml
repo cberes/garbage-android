@@ -63,7 +63,7 @@
         </activity>
         <activity
             android:name=".settings.holidays.HolidayEditorActivity"
-            android:label="@string/action_holidays"
+            android:label="@string/action_edit_holiday"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -53,10 +53,23 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
         setContentView(R.layout.activity_holiday_editor);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        setTitle();
         findViews();
         setupForm();
         populateForm(getEditingHoliday());
+    }
+
+    private void setTitle() {
+        if (!getHolidayId().isPresent()) {
+            setTitle(R.string.action_add_holiday);
+        }
+    }
+
+    private Optional<String> getHolidayId() {
+        return Optional.ofNullable(getIntent().getStringExtra("id"));
     }
 
     private void findViews() {
@@ -110,7 +123,7 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
     }
 
     private NamedHoliday getEditingHoliday() {
-        return Optional.ofNullable(getHolidayId())
+        return getHolidayId()
                 .flatMap(holidayService(this)::findById)
                 .orElseGet(this::defaultHoliday);
     }
@@ -138,8 +151,10 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
                 weekIndex.getCount() - 1 : holiday.getHoliday().getWeekIndex());
     }
 
-    private String getHolidayId() {
-        return getIntent().getStringExtra("id");
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        super.onBackPressed();
     }
 
     @Override
@@ -152,7 +167,7 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
     public boolean onOptionsItemSelected(final MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_cancel_holiday) {
+        if (id == android.R.id.home) {
             handleCancel();
             return true;
         }
@@ -214,7 +229,7 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
                 .setWeekIndex(weekIndex.getSelectedItemPosition() == weekIndex.getCount() - 1 ?
                         -1 : weekIndex.getSelectedItemPosition())
                 .build();
-        return new NamedHoliday(getHolidayId(), name, holiday);
+        return new NamedHoliday(getHolidayId().orElse(null), name, holiday);
     }
 
     private static int tryParseInt(final String s, final int defaultValue) {
