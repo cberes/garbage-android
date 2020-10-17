@@ -11,3 +11,7 @@ You can find the app in the [Google Play Store](https://play.google.com/store/ap
 ## Icon
 
 Thank you [Molly Beres](https://mollyillustration.com/) for the beautiful icon!
+
+## Package diagram
+
+![package diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/cberes/garbage-android/master/package-diagram.txt)

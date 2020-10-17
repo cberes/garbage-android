@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.2
+
+- Holidays can be created, edited, and deleted.
+
+## 2.1
+
+- Bug fixes.
+
 ## 2.0
 
 - Configuration can be edited within the app, supporting garbage collection anywhere.
