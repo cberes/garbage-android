@@ -61,8 +61,9 @@ public class HolidayService {
                 holidays.add(holidayWithId);
             }
             holidaysById.put(holidayWithId.getId(), holidayWithId);
-            updatePreferences(context);
         }
+
+        updatePreferences(context);
     }
 
     private NamedHoliday assignId(final NamedHoliday holiday) {
@@ -74,16 +75,12 @@ public class HolidayService {
     }
 
     public int deleteById(final Context context, final String id) {
-        final int index;
+        final int index = indexOf(id);
+        holidaysById.remove(id);
+        final boolean removed = holidays.removeIf(holiday -> holiday.getId().equals(id));
 
-        synchronized (this) {
-            index = indexOf(id);
-            holidaysById.remove(id);
-            final boolean removed = holidays.removeIf(holiday -> holiday.getId().equals(id));
-
-            if (removed) {
-                updatePreferences(context);
-            }
+        if (removed) {
+            updatePreferences(context);
         }
 
         return index;
