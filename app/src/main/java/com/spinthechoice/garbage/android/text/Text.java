@@ -24,12 +24,15 @@ public final class Text {
     }
 
     public static String capitalize(final Context context, final String s) {
-        final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
-        return capitalize(locale, s);
+        return capitalize(locale(context), s);
     }
 
     public static String capitalize(final Locale locale, final String s) {
         return s.substring(0, 1).toUpperCase(locale) + s.substring(1);
+    }
+
+    private static Locale locale(final Context context) {
+        return context.getResources().getConfiguration().getLocales().get(0);
     }
 
     public static String formatTimeShort(final Context context, final LocalTime time) {
@@ -52,8 +55,7 @@ public final class Text {
     }
 
     public static String intToString(final Context context, final int i) {
-        final Locale locale = context.getResources().getConfiguration().getLocales().get(0);
-        return intToString(locale, i);
+        return intToString(locale(context), i);
     }
 
     public static String intToString(final Locale locale, final int i) {

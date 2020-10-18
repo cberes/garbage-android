@@ -30,7 +30,7 @@ public class JsonService {
 
     public JSONObject readJsonObjectSafely(final Context context, final int res) {
         try {
-            return (JSONObject) new JSONTokener(resource(context, res)).nextValue();
+            return (JSONObject) new JSONTokener(read(context, res)).nextValue();
         } catch (Exception e) {
             Log.e(TAG, "Failed to read JSON object.", e);
             return new JSONObject();
@@ -48,15 +48,18 @@ public class JsonService {
 
     public JSONArray readJsonArraySafely(final Context context, final int res) {
         try {
-            return (JSONArray) new JSONTokener(resource(context, res)).nextValue();
+            return (JSONArray) new JSONTokener(read(context, res)).nextValue();
         } catch (Exception e) {
             Log.e(TAG, "Failed to read JSON array.", e);
             return new JSONArray();
         }
     }
 
-    private static String resource(final Context context, final int res) throws IOException {
-        final InputStream input = context.getResources().openRawResource(res);
+    private static String read(final Context context, final int res) throws IOException {
+        return read(context.getResources().openRawResource(res));
+    }
+
+    private static String read(final InputStream input) throws IOException {
         final StringBuilder builder = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(input, StandardCharsets.UTF_8))) {
             String line = bufferedReader.readLine();
