@@ -14,8 +14,8 @@ final class NotificationId {
     }
 
     static NotificationId fromDate(final LocalDate date) {
-        return new NotificationId(date.getYear() * (int) 10e3 +
-                date.getMonthValue() * (int) 100 +
+        return new NotificationId(date.getYear() * (int) 1e4 +
+                date.getMonthValue() * (int) 1e2 +
                 date.getDayOfMonth());
     }
 }
