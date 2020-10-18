@@ -22,7 +22,6 @@ android {
         }
     }
     lintOptions { // added to satisfy the lint gods ... maybe try removing this some day
-        abortOnError false
         disable "ObsoleteLintCustomCheck"
     }
 }
