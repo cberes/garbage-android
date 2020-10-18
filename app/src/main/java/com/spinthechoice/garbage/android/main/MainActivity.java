@@ -15,6 +15,7 @@ import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.adapters.TwoLineListAdapter;
+import com.spinthechoice.garbage.android.garbage.GarbageScheduleService;
 import com.spinthechoice.garbage.android.garbage.PickupItemFormatter;
 import com.spinthechoice.garbage.android.mixins.NotificationStatusAware;
 import com.spinthechoice.garbage.android.mixins.WithGarbageScheduleService;
@@ -36,6 +37,8 @@ import static java.util.stream.Collectors.toList;
 
 public class MainActivity extends AppCompatActivity implements NotificationStatusAware,
         WithGarbageScheduleService, WithNavigationService, WithPreferencesService {
+    private static final int PICKUP_DAYS_TO_SHOW = 15;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +63,23 @@ public class MainActivity extends AppCompatActivity implements NotificationStatu
     }
 
     private void setupDates(final GarbagePreferences prefs) {
-        final Garbage garbage = garbageScheduleService(this).createGarbage(prefs);
-        final List<GarbageDay> garbageDays = prefs.isGarbageEnabled() || prefs.isRecyclingEnabled() ?
-                garbageScheduleService(this).getGarbageDays(garbage, LocalDate.now(), 15) : emptyList();
-
         final RecyclerView dates = findViewById(R.id.list_dates);
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        dates.setLayoutManager(layoutManager);
-        dates.setAdapter(datesAdapter(garbageDays));
+        dates.setLayoutManager(new LinearLayoutManager(this));
+        dates.setAdapter(datesAdapter(findGarbageDaysIfEnabled(prefs)));
+    }
+
+    private List<GarbageDay> findGarbageDaysIfEnabled(final GarbagePreferences prefs) {
+        if (prefs.isGarbageEnabled() || prefs.isRecyclingEnabled()) {
+            return findGarbageDays(prefs);
+        } else {
+            return emptyList();
+        }
+    }
+
+    private List<GarbageDay> findGarbageDays(final GarbagePreferences prefs) {
+        final GarbageScheduleService service = garbageScheduleService(this);
+        final Garbage garbage = service.createGarbage(prefs);
+        return service.getGarbageDays(garbage, LocalDate.now(), PICKUP_DAYS_TO_SHOW);
     }
 
     private RecyclerView.Adapter<?> datesAdapter(final List<GarbageDay> days) {
