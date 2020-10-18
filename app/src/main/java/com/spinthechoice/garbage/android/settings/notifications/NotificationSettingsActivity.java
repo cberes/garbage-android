@@ -1,11 +1,11 @@
 package com.spinthechoice.garbage.android.settings.notifications;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -18,7 +18,9 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import com.spinthechoice.garbage.android.R;
+import com.spinthechoice.garbage.android.adapters.SimpleStringAdapter;
 import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
+import com.spinthechoice.garbage.android.preferences.NotificationDay;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
 import com.spinthechoice.garbage.android.text.Text;
 
@@ -68,10 +70,8 @@ public class NotificationSettingsActivity extends AppCompatActivity implements W
         notificationDay.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final NotificationPreferences originalPrefs = preferencesService().readNotificationPreferences(parent.getContext());
-                final LocalTime originalTime = originalPrefs.getNotificationTime();
                 final NotificationDay day = NotificationDay.fromIndex(position);
-                updateNotificationPreferences(prefs -> prefs.setOffset(day.getOffset(originalTime)));
+                updateNotificationPreferences(newPrefs -> newPrefs.updateOffset(day));
             }
 
             @Override
@@ -94,16 +94,19 @@ public class NotificationSettingsActivity extends AppCompatActivity implements W
                         android.R.style.Theme_Material_Dialog_Alert, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(final TimePicker timePicker, final int selectedHour, final int selectedMinute) {
-                        final NotificationDay day = NotificationDay.fromIndex(notificationDay.getSelectedItemPosition());
-                        final LocalTime newTime = LocalTime.of(selectedHour, selectedMinute);
-                        notificationTime.setText(Text.formatTimeShort(timePicker.getContext(), newTime));
-                        updateNotificationPreferences(prefs -> prefs.setOffset(day.getOffset(newTime)));
+                        handleTimeSet(timePicker.getContext(), LocalTime.of(selectedHour, selectedMinute));
                     }
                 }, originalTime.getHour(), originalTime.getMinute(), DateFormat.is24HourFormat(v.getContext()));
                 timeDialog.setTitle(R.string.label_notify_time);
                 timeDialog.show();
             }
         });
+    }
+
+    private void handleTimeSet(final Context context, final LocalTime newTime) {
+        final NotificationDay day = NotificationDay.fromIndex(notificationDay.getSelectedItemPosition());
+        notificationTime.setText(Text.formatTimeShort(context, newTime));
+        updateNotificationPreferences(prefs -> prefs.setOffset(day.getOffset(newTime)));
     }
 
     private void setupNotificationSwitch(final NotificationPreferences notificationPrefs) {
@@ -130,9 +133,8 @@ public class NotificationSettingsActivity extends AppCompatActivity implements W
     }
 
     private SpinnerAdapter notificationDaysAdapter() {
-        return new ArrayAdapter<>(this, R.layout.spinner_item,
-                Arrays.stream(NotificationDay.values())
-                        .map(day -> day.getText(this))
-                        .collect(toList()));
+        return new SimpleStringAdapter(this, Arrays.stream(NotificationDay.values())
+                .map(day -> day.getText(this))
+                .collect(toList()));
     }
 }

@@ -19,9 +19,6 @@ import com.spinthechoice.garbage.android.mixins.WithNavigationService;
 import com.spinthechoice.garbage.android.mixins.WithPreferencesService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.navigation.NavigationPreferences;
-import com.spinthechoice.garbage.android.preferences.HolidayRef;
-
-import java.util.Set;
 
 public class HolidayPickerActivity extends AppCompatActivity
         implements WithHolidayService, WithNavigationService, WithPreferencesService {
@@ -56,7 +53,9 @@ public class HolidayPickerActivity extends AppCompatActivity
         adapter.setOnChangeListener(new OnChangeListener() {
             @Override
             public void changed(final String id, final boolean postpone, final boolean cancel) {
-                updateGarbagePreferences(id, postpone, cancel);
+                final GarbagePreferences prefs = preferencesService().readGarbagePreferences(HolidayPickerActivity.this);
+                prefs.updateHoliday(id, postpone, cancel);
+                preferencesService().writeGarbagePreferences(HolidayPickerActivity.this, prefs);
             }
         });
     }
@@ -125,17 +124,6 @@ public class HolidayPickerActivity extends AppCompatActivity
         super.onStop();
     }
 
-    private void updateGarbagePreferences(final String id, final boolean postpone, final boolean cancel) {
-        final GarbagePreferences prefs = preferencesService().readGarbagePreferences(this);
-        final Set<HolidayRef> holidays = prefs.getSelectedHolidays();
-        holidays.removeIf(holiday -> holiday.getId().equals(id));
-        if (postpone || cancel) {
-            holidays.add(new HolidayRef(id, postpone));
-        }
-        prefs.setSelectedHolidays(holidays);
-        preferencesService().writeGarbagePreferences(this, prefs);
-    }
-
     private void setupHelpText() {
         final NavigationPreferences prefs = navigationService().readNavigationPreferences(this);
 
@@ -180,13 +168,17 @@ public class HolidayPickerActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, @Nullable final Intent data) {
         if (resultCode == RESULT_OK) {
-            final int oldHolidayCount = holidayService(this).holidayCount();
-            if (requestCode < oldHolidayCount) {
-                adapter.notifyItemChanged(requestCode);
-            } else {
-                adapter.notifyItemInserted(requestCode);
-            }
+            updateAdapterAfterEdit(requestCode);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void updateAdapterAfterEdit(final int requestCode) {
+        final int oldHolidayCount = holidayService(this).holidayCount();
+        if (requestCode < oldHolidayCount) {
+            adapter.notifyItemChanged(requestCode);
+        } else {
+            adapter.notifyItemInserted(requestCode);
+        }
     }
 }

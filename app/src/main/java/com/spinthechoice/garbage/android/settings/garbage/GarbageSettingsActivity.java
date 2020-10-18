@@ -128,12 +128,8 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         garbageWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final GarbagePreferences newPrefs = updatePreferences(prefs -> {
-                    prefs.setGarbageWeeks(position);
-                    if (prefs.getGarbageWeekIndex() >= position) {
-                        prefs.setGarbageWeekIndex(0);
-                    }
-                });
+                final GarbagePreferences newPrefs = updatePreferences(
+                        prefs -> PickupItem.GARBAGE.setFrequency(prefs, position));
 
                 garbageWeek.setSelected(false);
                 updateGarbageWeekOptions(newPrefs);
@@ -153,12 +149,8 @@ public class GarbageSettingsActivity extends AppCompatActivity implements WithPr
         recyclingWeeks.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(final AdapterView<?> parent, final View view, final int position, final long id) {
-                final GarbagePreferences newPrefs = updatePreferences(prefs -> {
-                    prefs.setRecyclingWeeks(position);
-                    if (prefs.getRecyclingWeekIndex() >= position) {
-                        prefs.setRecyclingWeekIndex(0);
-                    }
-                });
+                final GarbagePreferences newPrefs = updatePreferences(
+                        prefs -> PickupItem.RECYCLING.setFrequency(prefs, position));
 
                 recyclingWeek.setSelected(false);
                 updateRecyclingWeekOptions(newPrefs);

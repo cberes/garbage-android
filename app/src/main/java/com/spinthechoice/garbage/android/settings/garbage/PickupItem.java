@@ -17,51 +17,108 @@ import static java.util.stream.IntStream.range;
 enum PickupItem {
     GARBAGE {
         @Override
-        List<WeekOption> weekOptions(final GarbagePreferences prefs,
-                                     final GarbageScheduleService scheduleService) {
-            if (prefs.isGarbageEnabled()) {
-                final LocalDate now = LocalDate.now();
-                final int weekIndex = prefs.getGarbageWeekIndex();
-                final List<WeekOption> options = range(0, prefs.getGarbageWeeks())
-                        .mapToObj(week -> {
-                            prefs.setGarbageWeekIndex(week);
-                            Garbage garbage = scheduleService.createGarbage(prefs);
-                            Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isGarbageDay);
-                            return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
-                        })
-                        .sorted(Comparator.comparing(WeekOption::getDate))
-                        .collect(toList());
-                prefs.setGarbageWeekIndex(weekIndex);
-                return options;
-            } else {
-                return emptyList();
+        protected boolean isEnabled(final GarbagePreferences prefs) {
+            return prefs.isGarbageEnabled();
+        }
+
+        @Override
+        protected boolean isRelevant(final GarbageDay day) {
+            return day.isGarbageDay();
+        }
+
+        @Override
+        protected void setWeekIndex(final GarbagePreferences prefs, final int weekIndex) {
+            prefs.setGarbageWeekIndex(weekIndex);
+        }
+
+        @Override
+        protected int weekIndex(final GarbagePreferences prefs) {
+            return prefs.getGarbageWeekIndex();
+        }
+
+        @Override
+        protected int frequency(final GarbagePreferences prefs) {
+            return prefs.getGarbageWeeks();
+        }
+
+        @Override
+        void setFrequency(final GarbagePreferences prefs, final int weeks) {
+            prefs.setGarbageWeeks(weeks);
+            if (prefs.getGarbageWeekIndex() >= weeks) {
+                prefs.setGarbageWeekIndex(0);
             }
         }
     },
     RECYCLING {
         @Override
-        List<WeekOption> weekOptions(final GarbagePreferences prefs,
-                                     final GarbageScheduleService scheduleService) {
-            if (prefs.isRecyclingEnabled()) {
-                final LocalDate now = LocalDate.now();
-                final int weekIndex = prefs.getRecyclingWeekIndex();
-                final List<WeekOption> options = range(0, prefs.getRecyclingWeeks())
-                        .mapToObj(week -> {
-                            prefs.setRecyclingWeekIndex(week);
-                            Garbage garbage = scheduleService.createGarbage(prefs);
-                            Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, GarbageDay::isRecyclingDay);
-                            return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
-                        })
-                        .sorted(Comparator.comparing(WeekOption::getDate))
-                        .collect(toList());
-                prefs.setRecyclingWeekIndex(weekIndex);
-                return options;
-            } else {
-                return emptyList();
+        protected boolean isEnabled(final GarbagePreferences prefs) {
+            return prefs.isRecyclingEnabled();
+        }
+
+        @Override
+        protected boolean isRelevant(final GarbageDay day) {
+            return day.isRecyclingDay();
+        }
+
+        @Override
+        protected void setWeekIndex(final GarbagePreferences prefs, final int weekIndex) {
+            prefs.setRecyclingWeekIndex(weekIndex);
+        }
+
+        @Override
+        protected int weekIndex(final GarbagePreferences prefs) {
+            return prefs.getRecyclingWeekIndex();
+        }
+
+        @Override
+        protected int frequency(final GarbagePreferences prefs) {
+            return prefs.getRecyclingWeeks();
+        }
+
+        @Override
+        void setFrequency(final GarbagePreferences prefs, final int weeks) {
+            prefs.setRecyclingWeeks(weeks);
+            if (prefs.getRecyclingWeekIndex() >= weeks) {
+                prefs.setRecyclingWeekIndex(0);
             }
         }
     };
 
-    abstract List<WeekOption> weekOptions(GarbagePreferences prefs,
-                                          GarbageScheduleService scheduleService);
+    List<WeekOption> weekOptions(final GarbagePreferences prefs,
+                                 final GarbageScheduleService scheduleService) {
+        return weekOptions(prefs, scheduleService, LocalDate.now());
+    }
+
+    List<WeekOption> weekOptions(final GarbagePreferences prefs,
+                                 final GarbageScheduleService scheduleService,
+                                 final LocalDate now) {
+        if (isEnabled(prefs)) {
+            final int weekIndex = weekIndex(prefs);
+            final List<WeekOption> options = range(0, frequency(prefs))
+                    .mapToObj(week -> {
+                        setWeekIndex(prefs, week);
+                        Garbage garbage = scheduleService.createGarbage(prefs);
+                        Optional<GarbageDay> day = scheduleService.nextPickup(garbage, now, this::isRelevant);
+                        return new WeekOption(week, day.map(GarbageDay::getDate).orElse(now));
+                    })
+                    .sorted(Comparator.comparing(WeekOption::getDate))
+                    .collect(toList());
+            setWeekIndex(prefs, weekIndex);
+            return options;
+        } else {
+            return emptyList();
+        }
+    }
+
+    protected abstract boolean isEnabled(GarbagePreferences prefs);
+
+    protected abstract int weekIndex(GarbagePreferences prefs);
+
+    protected abstract int frequency(GarbagePreferences prefs);
+
+    protected abstract boolean isRelevant(GarbageDay day);
+
+    protected abstract void setWeekIndex(GarbagePreferences prefs, int weekIndex);
+
+    abstract void setFrequency(GarbagePreferences prefs, int weeks);
 }

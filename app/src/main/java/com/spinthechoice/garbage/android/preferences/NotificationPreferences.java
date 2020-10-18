@@ -40,4 +40,13 @@ public class NotificationPreferences {
     public void setLastNotificationId(final int lastNotificationId) {
         this.lastNotificationId = lastNotificationId;
     }
+
+    public LocalDateTime getNotificationTime(final LocalDate date) {
+        return date.atStartOfDay().plusSeconds(offset);
+    }
+
+    public void updateOffset(final NotificationDay day) {
+        final LocalTime originalTime = getNotificationTime();
+        this.offset = day.getOffset(originalTime);
+    }
 }

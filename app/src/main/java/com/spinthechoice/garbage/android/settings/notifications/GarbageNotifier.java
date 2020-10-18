@@ -23,11 +23,11 @@ import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.NotificationPreferences;
 import com.spinthechoice.garbage.android.text.Text;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
+
+import static com.spinthechoice.garbage.android.settings.notifications.NotificationUtils.*;
 
 public class GarbageNotifier extends BroadcastReceiver
         implements NotificationStatusAware, WithGarbageScheduleService, WithPreferencesService {
@@ -73,13 +73,9 @@ public class GarbageNotifier extends BroadcastReceiver
     private void handleGarbageCheckIntent(final Context context, final boolean sendRequested,
                                           final Garbage garbage) {
         final NotificationPreferences prefs = preferencesService().readNotificationPreferences(context);
-        Stream.iterate(LocalDate.now(), date -> date.plusDays(1))
-                .limit(3)
-                .map(garbage::compute)
-                .filter(day -> day.isGarbageDay() || day.isRecyclingDay())
-                .filter(day -> getNotificationId(day) != prefs.getLastNotificationId())
+        notificationDays(garbage, prefs.getLastNotificationId())
                 .forEachOrdered(day -> {
-                    final LocalDateTime notificationTime = getNotificationTime(day, prefs);
+                    final LocalDateTime notificationTime = prefs.getNotificationTime(day.getDate());
 
                     if (sendRequested || isWithinSendThreshold(notificationTime)) {
                         sendNotification(context, day);
@@ -87,15 +83,6 @@ public class GarbageNotifier extends BroadcastReceiver
                         startNotificationAlarm(context, ChronoUnit.MILLIS.between(LocalDateTime.now(), notificationTime));
                     }
                 });
-    }
-
-    private static LocalDateTime getNotificationTime(final GarbageDay day, final NotificationPreferences prefs) {
-        return day.getDate().atStartOfDay().plusSeconds(prefs.getOffset());
-    }
-
-    private static boolean isWithinSendThreshold(final LocalDateTime time) {
-        final LocalDateTime now = LocalDateTime.now();
-        return time.isAfter(now.minusHours(2L)) && time.isBefore(now.plusHours(1L));
     }
 
     private void sendNotification(final Context context, final GarbageDay garbageDay) {
@@ -123,7 +110,7 @@ public class GarbageNotifier extends BroadcastReceiver
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        final int notificationId = getNotificationId(garbageDay);
+        final int notificationId = NotificationId.fromDate(garbageDay.getDate()).asInt();
         notificationManager.notify(notificationId, builder.build());
         return notificationId;
     }
@@ -145,11 +132,6 @@ public class GarbageNotifier extends BroadcastReceiver
                 R.string.notification_item_bulk,
                 R.string.notification_item_recycling);
         return formatter.format(day, ", ", "& ");
-    }
-
-    private static int getNotificationId(final GarbageDay day) {
-        final LocalDate date = day.getDate();
-        return date.getYear() * (int) 10e4 + date.getMonthValue() * (int) 10e2 + date.getDayOfMonth();
     }
 
     private void saveNotificationId(final Context context, final int id) {

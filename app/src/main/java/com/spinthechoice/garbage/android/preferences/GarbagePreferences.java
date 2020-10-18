@@ -76,4 +76,11 @@ public class GarbagePreferences {
     public void setHolidays(final List<NamedHoliday> holidays) {
         this.holidays = holidays;
     }
+
+    public void updateHoliday(final String id, final boolean postpone, final boolean cancel) {
+        selectedHolidays.removeIf(holiday -> holiday.getId().equals(id));
+        if (postpone || cancel) {
+            selectedHolidays.add(new HolidayRef(id, postpone));
+        }
+    }
 }

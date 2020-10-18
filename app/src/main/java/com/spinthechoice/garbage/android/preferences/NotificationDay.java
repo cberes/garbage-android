@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android.settings.notifications;
+package com.spinthechoice.garbage.android.preferences;
 
 import android.content.Context;
 
@@ -7,16 +7,16 @@ import com.spinthechoice.garbage.android.R;
 import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 
-enum NotificationDay {
+public enum NotificationDay {
     DAY_OF(R.string.notify_option_day_of, 1) {
         @Override
-        int getOffset(final LocalTime time) {
+        public int getOffset(final LocalTime time) {
             return time.toSecondOfDay();
         }
     },
     DAY_PRIOR(R.string.notify_option_day_prior, -1) {
         @Override
-        int getOffset(final LocalTime time) {
+        public int getOffset(final LocalTime time) {
             return time.toSecondOfDay() - (int) TimeUnit.DAYS.toSeconds(1);
         }
     };
@@ -29,7 +29,7 @@ enum NotificationDay {
         this.multiplier = multiplier;
     }
 
-    String getText(final Context context) {
+    public String getText(final Context context) {
         return context.getString(resId);
     }
 
@@ -37,13 +37,13 @@ enum NotificationDay {
         return multiplier * Math.abs(offset);
     }
 
-    abstract int getOffset(final LocalTime time);
+    public abstract int getOffset(final LocalTime time);
 
-    static NotificationDay fromNotificationOffset(final int offset) {
+    public static NotificationDay fromNotificationOffset(final int offset) {
         return offset >= 0 ? DAY_OF : DAY_PRIOR;
     }
 
-    static NotificationDay fromIndex(final int index) {
+    public static NotificationDay fromIndex(final int index) {
         return values()[index];
     }
 }
