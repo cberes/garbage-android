@@ -4,7 +4,7 @@ import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
 import com.spinthechoice.garbage.GlobalGarbageConfiguration;
 import com.spinthechoice.garbage.UserGarbageConfiguration;
-import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.holidays.HolidayService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 
 import java.time.LocalDate;

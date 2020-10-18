@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.spinthechoice.garbage.android.R;
-import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.holidays.HolidayService;
 
 class HolidayPickerAdapter extends RecyclerView.Adapter<ItemViewHolder> {
     private final HolidayService holidayService;

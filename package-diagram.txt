@@ -5,7 +5,7 @@ title Package Diagram
 package garbage {
 }
 
-package holiday {
+package holidays {
 }
 
 package json {
@@ -34,10 +34,10 @@ package main {
 
 garbage --> preferences
 garbage --> json
-garbage --> holiday
-holiday --> preferences
+garbage --> holidays
+holidays --> preferences
 preferences --> json
-settings.holidays --> holiday
+settings.holidays --> holidays
 settings.holidays --> preferences
 settings.holidays --> navigation
 settings.garbage --> preferences

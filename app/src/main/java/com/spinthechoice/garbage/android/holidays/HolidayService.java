@@ -1,4 +1,4 @@
-package com.spinthechoice.garbage.android.holiday;
+package com.spinthechoice.garbage.android.holidays;
 
 import android.content.Context;
 

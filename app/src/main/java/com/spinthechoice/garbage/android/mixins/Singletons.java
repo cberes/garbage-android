@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.spinthechoice.garbage.android.R;
 import com.spinthechoice.garbage.android.garbage.GarbageScheduleService;
-import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.holidays.HolidayService;
 import com.spinthechoice.garbage.android.json.JsonService;
 import com.spinthechoice.garbage.android.navigation.NavigationService;
 import com.spinthechoice.garbage.android.preferences.PreferencesService;

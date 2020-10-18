@@ -2,7 +2,7 @@ package com.spinthechoice.garbage.android.garbage;
 
 import com.spinthechoice.garbage.Garbage;
 import com.spinthechoice.garbage.GarbageDay;
-import com.spinthechoice.garbage.android.holiday.HolidayService;
+import com.spinthechoice.garbage.android.holidays.HolidayService;
 import com.spinthechoice.garbage.android.preferences.GarbagePreferences;
 import com.spinthechoice.garbage.android.preferences.HolidayRef;
 import com.spinthechoice.garbage.android.preferences.NamedHoliday;

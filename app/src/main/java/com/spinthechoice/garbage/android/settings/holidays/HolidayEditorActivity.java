@@ -201,21 +201,17 @@ public class HolidayEditorActivity extends AppCompatActivity implements WithHoli
     }
 
     private boolean validate(final NamedHoliday holiday) {
-        boolean valid = true;
+        final Validations valid = new Validations(holiday);
 
-        if (holiday.getHoliday().getType() == HolidayType.STATIC_DATE) {
-            if (holiday.getHoliday().getDate() < 1 || holiday.getHoliday().getDate() > 31) {
-                errorHolidayDate.setVisibility(TextView.VISIBLE);
-                valid = false;
-            }
+        if (!valid.isDateValid()) {
+            errorHolidayDate.setVisibility(TextView.VISIBLE);
         }
 
-        if (Text.isEmpty(holiday.getName())) {
+        if (!valid.isNameValid()) {
             errorHolidayName.setVisibility(TextView.VISIBLE);
-            valid = false;
         }
 
-        return valid;
+        return valid.isValid();
     }
 
     private NamedHoliday buildHoliday() {
