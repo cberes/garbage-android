@@ -8,7 +8,5 @@ android:
     - sys-img-x86-android-29
 jdk:
   - oraclejdk8
-install:
-  - android-wait-for-emulator
 after_success:
   - ./gradlew createDebugCoverageReport coveralls
