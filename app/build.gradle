@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.kt3k.coveralls'
 
 android {
     compileSdkVersion 29
@@ -20,6 +21,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            testCoverageEnabled true
+        }
     }
     lintOptions { // added to satisfy the lint gods ... maybe try removing this some day
         abortOnError false
@@ -38,4 +42,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:3.5.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+coveralls {
+    jacocoReportPath "$buildDir/reports/coverage/debug/report.xml"
 }
