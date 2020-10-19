@@ -5,7 +5,8 @@ android:
   components:
     - tools
 install:
-  - echo y | sdkmanager "platform-tools" >/dev/null
+  - echo 'count=0' > /home/travis/.android/repositories.cfg # every step yields this meaningless error message
+  - echo y | sdkmanager "platform-tools" >/dev/null # discard output or else the build will fail
   - echo y | sdkmanager "tools" >/dev/null
   - echo y | sdkmanager "build-tools;29.0.2" >/dev/null
   - echo y | sdkmanager "platforms;android-29" >/dev/null
