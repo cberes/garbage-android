@@ -5,12 +5,12 @@ android:
   components:
     - tools
 install:
-  - echo y | sdkmanager "platform-tools"
-  - echo y | sdkmanager "tools"
-  - echo y | sdkmanager "build-tools;29.0.2"
-  - echo y | sdkmanager "platforms;android-29"
-  - echo y | sdkmanager "emulator"
-  - echo y | sdkmanager "system-images;android-29;default;x86_64"
+  - echo y | sdkmanager "platform-tools" >/dev/null
+  - echo y | sdkmanager "tools" >/dev/null
+  - echo y | sdkmanager "build-tools;29.0.2" >/dev/null
+  - echo y | sdkmanager "platforms;android-29" >/dev/null
+  - echo y | sdkmanager "emulator" >/dev/null
+  - echo y | sdkmanager "system-images;android-29;default;x86_64" >/dev/null
   - echo no | avdmanager create avd --force -n test -k "system-images;android-29;default;x86_64" -c 10M
   - emulator -verbose -avd test -no-accel -no-snapshot -no-window -no-audio -camera-back none -camera-front none -selinux permissive -qemu -m 2048 &
   - android-wait-for-emulator
