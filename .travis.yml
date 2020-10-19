@@ -5,8 +5,10 @@ android:
     - platform-tools
     - build-tools-29.0.2
     - android-29
-    - sys-img-x86-android-26
+    - sys-img-x86-android-29
 jdk:
   - oraclejdk8
+install:
+  - android-wait-for-emulator
 after_success:
   - ./gradlew createDebugCoverageReport coveralls
