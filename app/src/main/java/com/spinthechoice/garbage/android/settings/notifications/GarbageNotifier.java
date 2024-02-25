@@ -1,5 +1,6 @@
 package com.spinthechoice.garbage.android.settings.notifications;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,9 +8,12 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.pm.PackageManager;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
 import android.util.Log;
 
 import com.spinthechoice.garbage.Garbage;
@@ -40,7 +44,8 @@ public class GarbageNotifier extends BroadcastReceiver
     public void onReceive(final Context context, final Intent intent) {
         if (!isNotificationEnabled(context)) {
             Log.d(TAG, "Notification is disabled. Doing nothing in broadcast receiver.");
-        } if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+        }
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             startNotificationAlarmRepeating(context);
         } else {
             handleGarbageCheckIntent(context, intent);
@@ -51,7 +56,7 @@ public class GarbageNotifier extends BroadcastReceiver
         final AlarmManager alarms = context.getSystemService(AlarmManager.class);
         final Intent intent = new Intent(context, GarbageNotifier.class);
         intent.setAction(ACTION_ALARM);
-        final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         alarms.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), TimeUnit.DAYS.toMillis(1), pendingIntent);
     }
 
@@ -59,7 +64,7 @@ public class GarbageNotifier extends BroadcastReceiver
         final AlarmManager alarms = context.getSystemService(AlarmManager.class);
         final Intent intent = new Intent(context, GarbageNotifier.class);
         intent.setAction(ACTION_SEND);
-        final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        final PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
         alarms.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + delayMillis, pendingIntent);
     }
 
@@ -93,13 +98,11 @@ public class GarbageNotifier extends BroadcastReceiver
     }
 
     private void createNotificationChannel(final Context context, final NotificationManager notifications) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            final String name = context.getString(R.string.channel_name);
-            final String description = context.getString(R.string.channel_description);
-            final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription(description);
-            notifications.createNotificationChannel(channel);
-        }
+        final String name = context.getString(R.string.channel_name);
+        final String description = context.getString(R.string.channel_description);
+        final NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(description);
+        notifications.createNotificationChannel(channel);
     }
 
     private int createNotification(final Context context, final GarbageDay garbageDay) {
@@ -111,7 +114,10 @@ public class GarbageNotifier extends BroadcastReceiver
 
         final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         final int notificationId = NotificationId.fromDate(garbageDay.getDate()).asInt();
-        notificationManager.notify(notificationId, builder.build());
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED) {
+            notificationManager.notify(notificationId, builder.build());
+        }
         return notificationId;
     }
 

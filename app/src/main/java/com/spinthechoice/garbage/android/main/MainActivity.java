@@ -1,6 +1,9 @@
 package com.spinthechoice.garbage.android.main;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NotificationStatu
         setupDates(prefs);
         setupHelpText();
         if (isNotificationEnabled(this)) {
+            requestNotificationPermission();
             GarbageNotifier.startNotificationAlarmRepeating(this);
         }
     }
@@ -111,6 +116,21 @@ public class MainActivity extends AppCompatActivity implements NotificationStatu
             prefs.setNavigatedToSettings(true);
             navigationService().writeNavigationPreferences(this, prefs);
         }
+    }
+
+    private void requestNotificationPermission() {
+        if (isTiramisuOrLater() && !isNotificationPermissionGranted()) {
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.POST_NOTIFICATIONS }, 1);
+        }
+    }
+
+    private boolean isTiramisuOrLater() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU;
+    }
+
+    private boolean isNotificationPermissionGranted() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override
