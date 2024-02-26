@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2.3
+
+- Update Android version
+
 ## 2.2
 
 - Holidays can be created, edited, and deleted.
