@@ -4,9 +4,15 @@ Never forget trash day again! Garbo Clock reminds you when it's garbage day.
 Configure your garbage and recycling schedule and when you wish to receive notifications.
 Then Garbo Clock will notify you at your desired time when trash day arrives.
 
+## Project moved
+
+The project has moved to [Codeberg](https://codeberg.org/cberes/garbage).
+
 ## Get the app
 
-You can find the app in the [Google Play Store](https://play.google.com/store/apps/details?id=com.spinthechoice.garbage.android).
+<a href="https://codeberg.org/cberes/garbage/releases">
+    <img alt="Get it on Codeberg" src="https://get-it-on.codeberg.org/get-it-on-white-on-black.png" height="60">
+</a>
 
 ## Icon
 
